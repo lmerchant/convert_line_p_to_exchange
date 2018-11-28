@@ -203,20 +203,6 @@ def insert_flag_colums(df):
     return df
 
 
-def get_data_columns(df):
-
-    df = df[[
-            'CTDPRS', 'CTDPRS_FLAG_W', 
-            'CTDTMP', 'CTDTMP_FLAG_W',
-            'CTDSAL', 'CTDSAL_FLAG_W',
-            'CTDOXY', 'CTDOXY_FLAG_W',
-            'CTDXMISS', 'CTDXMISS_FLAG_W',
-            'CTDFLUOR', 'CTDFLUOR_FLAG_W'
-            ]].copy()
-
-    return df
-
-
 def reformat_date_column(df):
 
     # Reformat DATE column from dd-mm-yy to yyyymmdd
@@ -347,12 +333,25 @@ def get_data_row_sets(df, unique_station_castno_df):
         df_subset = df.loc[df['STATION_CASTNO'] == station_castno]
 
         # Keep only data columns
-        df_subset = get_data_columns(df_subset)
+        #df_subset = get_data_columns(df_subset)
 
         data_row_sets.append(df_subset)
 
     return data_row_sets
 
+
+def get_data_columns(df):
+
+    df = df[[
+            'CTDPRS', 'CTDPRS_FLAG_W', 
+            'CTDTMP', 'CTDTMP_FLAG_W',
+            'CTDSAL', 'CTDSAL_FLAG_W',
+            'CTDOXY', 'CTDOXY_FLAG_W',
+            'CTDXMISS', 'CTDXMISS_FLAG_W',
+            'CTDFLUOR', 'CTDFLUOR_FLAG_W'
+            ]].copy()
+
+    return df
 
 
 def get_metadata_columns(df):
@@ -367,6 +366,7 @@ def get_metadata_columns(df):
     # EXPOCODE
     # STNBR
     # CASTNO
+
 
     pass
 
@@ -621,8 +621,6 @@ def main():
         # Create column and data units lines
         name_row, units_row = create_column_headers()
 
-        print(name_row)
-
 
         # Get metadata columns from dataframe for data row sets
 
@@ -634,6 +632,15 @@ def main():
         # Write data sets to file
 
         # Loop over unique row sets (STATION and CASTNO)
+
+        #for data_set in data_row_sets:
+
+
+            # Get metadata columns
+
+
+            # Get data columns
+
 
             # Get output file top line
             # top_line = create_top_line(expocode)
