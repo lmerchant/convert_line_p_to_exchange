@@ -322,6 +322,39 @@ def insert_station_castno_column(df):
     return df
 
 
+def get_unique_station_castno(df):
+
+    # Get unique values of STATION_CASTNO column
+    station_castno_df = df['STATION_CASTNO']
+    unique_station_castno_df = station_castno_df.drop_duplicates()
+
+    return unique_station_castno_df
+
+
+def get_data_row_sets(df, unique_station_castno_df):
+
+    data_row_sets = []
+
+    # Get list of unique dataframes
+    unique_station_castno_list = unique_station_castno_df.tolist()
+
+    # Convert unique_station_castno_df to a list
+    # For each number in list, get subset of df
+    # and append to data_row_sets
+
+    for station_castno in unique_station_castno_list:
+
+        df_subset = df.loc[df['STATION_CASTNO'] == station_castno]
+
+        # Keep only data columns
+        df_subset = get_data_columns(df_subset)
+
+        data_row_sets.append(df_subset)
+
+    return data_row_sets
+
+
+
 def get_metadata_columns(df):
 
     # DATE 
@@ -378,76 +411,41 @@ def get_data_units():
 
     data_units = {}
     data_units['CTDPRS'] = 'DBAR'
-    data_units['CTDTMP'] = 'ITS-90'
-    data_units['CTDSAL'] = 'PSS-78'
-    data_units['CTDOXY'] = 'UMOL/KG'
-    data_units['CTDXMISS'] = '*/M'
-    data_units['CTDFLUOR'] = 'MG/M^3'
-
     data_units['CTDPRS_FLAG_W'] = ''
+    data_units['CTDTMP'] = 'ITS-90'
     data_units['CTDTMP_FLAG_W'] = ''
+    data_units['CTDSAL'] = 'PSS-78'
     data_units['CTDSAL_FLAG_W'] = ''
+    data_units['CTDOXY'] = 'UMOL/KG'
     data_units['CTDOXY_FLAG_W'] = ''
+    data_units['CTDXMISS'] = '*/M'
     data_units['CTDXMISS_FLAG_W'] = ''
+    data_units['CTDFLUOR'] = 'MG/M^3'   
     data_units['CTDFLUOR_FLAG_W'] = ''
 
     return data_units
 
 
+def create_column_headers():
+
+    # Get data units from all columns
+    # At the moment, it is hard coded in
+    data_units = get_data_units()
 
 
-# def get_unique_stnbr_castno(df):
+    column_name_row = []
+    column_units_row = []
 
-#     # Get unique values of STNBR_CASTNO column
-#     stnbr_castno_df = df['STNBR_CASTNO']
-#     unique_stnbr_castno_df = stnbr_castno_df.drop_duplicates()
+    for key, value in data_units.items():
 
-#     return unique_stnbr_castno_df
+        column_name_row.append(key)
+        column_units_row.append(value)
 
+    # Join rows with a comma
+    name_row = ','.join(column_name_row)
+    units_row = ','.join(column_units_row)
 
-def get_unique_station_castno(df):
-
-    # Get unique values of STATION_CASTNO column
-    station_castno_df = df['STATION_CASTNO']
-    unique_station_castno_df = station_castno_df.drop_duplicates()
-
-    return unique_station_castno_df
-
-
-def get_data_row_sets(df, unique_station_castno_df):
-
-    data_row_sets = []
-
-    # Get list of unique dataframes
-    unique_station_castno_list = unique_station_castno_df.tolist()
-
-    # Convert unique_station_castno_df to a list
-    # For each number in list, get subset of df
-    # and append to data_row_sets
-
-    for station_castno in unique_station_castno_list:
-
-        df_subset = df.loc[df['STATION_CASTNO'] == station_castno]
-
-        # Keep only data columns
-        df_subset = get_data_columns(df_subset)
-
-        data_row_sets.append(df_subset)
-
-    return data_row_sets
-
-
-def create_header_lines(df, data_units):
-
-    data_headers = []
-
-    # Get columns from df
-    # Make string from columns in order
-    # Make string from data_units in column order
-
-
-
-    return data_headers
+    return name_row, units_row
 
 
 
@@ -620,16 +618,10 @@ def main():
         # Get data row sets from dataframe for unique station and castno
         data_row_sets = get_data_row_sets(df, unique_station_castno_df)
 
-        print(data_row_sets[1])
-
-        # Get data units from all columns
-        # At the moment, it is hard coded in
-        #data_units = get_data_units()
-
-       
         # Create column and data units lines
-        #data_headers = create_header_lines(df, data_units)
+        name_row, units_row = create_column_headers()
 
+        print(name_row)
 
 
         # Get metadata columns from dataframe for data row sets
