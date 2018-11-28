@@ -102,7 +102,7 @@ I'm not sure what formatting error it is
 
 """
 
-
+import os
 import pandas as pd
 import numpy as np
 from urllib.request import urlopen
@@ -301,9 +301,7 @@ def insert_castno_column(df):
 def insert_station_castno_column(df):
 
     # Create STATION_CAST column
-
     df['STATION_CASTNO'] = df['STATION'].apply(str) + '_' + df['CASTNO'].apply(str)
-
 
     return df
 
@@ -331,9 +329,6 @@ def get_data_row_sets(df, unique_station_castno_df):
     for station_castno in unique_station_castno_list:
 
         df_subset = df.loc[df['STATION_CASTNO'] == station_castno]
-
-        # Keep only data columns
-        #df_subset = get_data_columns(df_subset)
 
         data_row_sets.append(df_subset)
 
@@ -466,7 +461,7 @@ def get_ctd_filename(data_set):
     stnbr = first_row['STATION']
     castno = first_row['CASTNO']
 
-    ctd_filename = './line_p/' + expocode + '_' + str(stnbr) + '_' + str(castno) + '_ct1.csv'
+    ctd_filename = './line_p/' + expocode + '_ct1/' + expocode + '_' + str(stnbr) + '_' + str(castno) + '_ct1.csv'
 
     return ctd_filename
 
@@ -474,6 +469,17 @@ def get_ctd_filename(data_set):
 def write_data_to_file(data_row_sets):
 
     # Write data sets to file
+
+    # Get expocode to make directory for files
+    first_row = data_row_sets[0].iloc[0]
+    expocode = first_row['EXPOCODE']
+
+    # Make sub directory in './line_p'
+    directory = './line_p/' + expocode + '_ct1'
+
+    if not os.path.exists(directory):
+        os.makedirs(directory)
+
 
     # Get file start and end lines
     start_line, end_line = create_start_end_lines(data_row_sets[0]) 
@@ -624,8 +630,7 @@ def main():
 
         # Insert station_castno column to get unique CTD files
         df = insert_station_castno_column(df)
-
-        
+    
         # Get unique station_castno sets
         unique_station_castno_df = get_unique_station_castno(df)
 
