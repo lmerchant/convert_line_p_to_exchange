@@ -594,40 +594,24 @@ def main():
             # Get filename
             ctd_filename = get_ctd_filename(data_set)
 
-            print(ctd_filename)
-
             # Get data columns
-            #data_columns_df = get_data_columns(df)
+            data_columns_df = get_data_columns(data_set)
 
+            # Write file
 
-            # Write top line
-            # Write metadata
+                # Write start line
+                # Write metadata
 
-            # Write header file which is the following:
-            # Write column names
-            # Write data units
-            
-            # Write data
-            # Only write data with columns in column_names
+                # Write header file which is the following:
+                # Write column names
+                # Write data units
+                
+                # Write data
 
-            # Write end line
-
-
+                # Write end line
 
 
 
-        # As an example, extract out P1 and P26 to dataframes
-        #df_1 = get_station_1(df)
-        #df_26 = get_station_26(df)
-
-        # Save dataframe values to file in directory line_p
-        #df1_file = './line_p/cruise-' +cruise[0] + '-' + cruise[1] +'-station-1.csv'
-        #df26_file = './line_p/cruise-' +cruise[0] + '-' + cruise[1] +'-station-26.csv'
-        
-        #df_1.to_csv(df1_file,index=False)
-        #df_26.to_csv(df26_file,index=False)
-
-   
 
 
 
