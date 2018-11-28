@@ -383,7 +383,7 @@ def create_metadata_headers(data_set):
     metadata_headers.append('LATITUDE = ' + str(first_row['LATITUDE']))
     metadata_headers.append('LONGITUDE = ' + str(first_row['LONGITUDE']))
 
-    number_headers = len(metadata_headers)
+    number_headers = len(metadata_headers) + 1
     number_headers_line = 'NUMBER_HEADERS = ' + str(number_headers)
 
     metadata_headers.insert(0, number_headers_line)
@@ -421,6 +421,8 @@ def get_data_units():
 
 def create_column_headers():
 
+    column_headers = []
+
     # Get data units from all columns
     # At the moment, it is hard coded in
     data_units = get_data_units()
@@ -437,7 +439,10 @@ def create_column_headers():
     name_row = ','.join(column_name_row)
     units_row = ','.join(column_units_row)
 
-    return name_row, units_row
+    column_headers.append(name_row)
+    column_headers.append(units_row)
+
+    return column_headers
 
 
 def create_start_end_lines(data_set):
@@ -461,7 +466,7 @@ def get_ctd_filename(data_set):
     stnbr = first_row['STATION']
     castno = first_row['CASTNO']
 
-    ctd_filename = './line_p/' + expocode +'/' + expocode + '_' + str(stnbr) + '_' + str(castno) + '_ct1.csv'
+    ctd_filename = './line_p/' + expocode + '_' + str(stnbr) + '_' + str(castno) + '_ct1.csv'
 
     return ctd_filename
 
@@ -569,20 +574,19 @@ def main():
         # Get unique station_castno sets
         unique_station_castno_df = get_unique_station_castno(df)
 
-
         # Get data sets from dataframe for unique station and castno
         data_row_sets = get_data_row_sets(df, unique_station_castno_df)
 
-        # Create column and data units lines
-        name_row, units_row = create_column_headers()
+
+        # Get file start and end lines
+        start_line, end_line = create_start_end_lines(data_row_sets[0]) 
 
         # Create metadata headers
         # Since all the same, use first data set
         metadata_headers = create_metadata_headers(data_row_sets[0])
 
-        # Get file start and end lines
-        start_line, end_line = create_start_end_lines(data_row_sets[0]) 
-
+        # Create column and data units lines
+        column_headers = create_column_headers()
 
 
         # Write data sets to file
@@ -597,20 +601,34 @@ def main():
             # Get data columns
             data_columns_df = get_data_columns(data_set)
 
+
             # Write file
 
-                # Write start line
-                # Write metadata
+            data_columns_df.to_csv(ctd_filename, sep=',', header=False, encoding='utf-8')
 
-                # Write header file which is the following:
-                # Write column names
-                # Write data units
-                
-                # Write data
+            with open(ctd_filename, 'r') as original: data = original.read()
 
-                # Write end line
+            # Create string to prepend
+            prepend_string = ''
+            metadata_header_string = ''
+            column_header_string = ''
 
+            start_line_str = start_line + '\n'
 
+            for header in metadata_headers:
+                metadata_header_string = metadata_header_string + header + '\n'   
+
+            for header in column_headers:
+                column_header_string = column_header_string + header + '\n' 
+
+            prepend_string = start_line_str + metadata_header_string + column_header_string
+
+            # Prepend ctd file
+            with open(ctd_filename, 'w') as modified: modified.write(prepend_string + data)
+
+            # Append ctd file
+            with open(ctd_filename, 'a') as f:
+                f.write("{}\n".format(end_line))
 
 
 
