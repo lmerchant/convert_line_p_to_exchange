@@ -471,6 +471,61 @@ def get_ctd_filename(data_set):
     return ctd_filename
 
 
+def write_data_to_file(data_row_sets):
+
+    # Write data sets to file
+
+    # Get file start and end lines
+    start_line, end_line = create_start_end_lines(data_row_sets[0]) 
+
+    # Create metadata headers
+    # Since all the same, use first data set
+    metadata_headers = create_metadata_headers(data_row_sets[0])
+
+    # Create column and data units lines
+    column_headers = create_column_headers()
+
+
+    # Loop over unique row sets (STATION and CASTNO)
+
+    for data_set in data_row_sets:
+
+        # Get filename
+        ctd_filename = get_ctd_filename(data_set)
+
+        # Get data columns
+        data_columns_df = get_data_columns(data_set)
+
+
+        # Write file
+
+        data_columns_df.to_csv(ctd_filename, sep=',', header=False, encoding='utf-8')
+
+        with open(ctd_filename, 'r') as original: data = original.read()
+
+        # Create string to prepend
+        prepend_string = ''
+        metadata_header_string = ''
+        column_header_string = ''
+
+        start_line_str = start_line + '\n'
+
+        for header in metadata_headers:
+            metadata_header_string = metadata_header_string + header + '\n'   
+
+        for header in column_headers:
+            column_header_string = column_header_string + header + '\n' 
+
+        prepend_string = start_line_str + metadata_header_string + column_header_string
+
+        # Prepend ctd file
+        with open(ctd_filename, 'w') as modified: modified.write(prepend_string + data)
+
+        # Append ctd file
+        with open(ctd_filename, 'a') as f:
+            f.write("{}\n".format(end_line))
+
+
 
 
 
@@ -577,59 +632,7 @@ def main():
         # Get data sets from dataframe for unique station and castno
         data_row_sets = get_data_row_sets(df, unique_station_castno_df)
 
-
-        # Get file start and end lines
-        start_line, end_line = create_start_end_lines(data_row_sets[0]) 
-
-        # Create metadata headers
-        # Since all the same, use first data set
-        metadata_headers = create_metadata_headers(data_row_sets[0])
-
-        # Create column and data units lines
-        column_headers = create_column_headers()
-
-
-        # Write data sets to file
-
-        # Loop over unique row sets (STATION and CASTNO)
-
-        for data_set in data_row_sets:
-
-            # Get filename
-            ctd_filename = get_ctd_filename(data_set)
-
-            # Get data columns
-            data_columns_df = get_data_columns(data_set)
-
-
-            # Write file
-
-            data_columns_df.to_csv(ctd_filename, sep=',', header=False, encoding='utf-8')
-
-            with open(ctd_filename, 'r') as original: data = original.read()
-
-            # Create string to prepend
-            prepend_string = ''
-            metadata_header_string = ''
-            column_header_string = ''
-
-            start_line_str = start_line + '\n'
-
-            for header in metadata_headers:
-                metadata_header_string = metadata_header_string + header + '\n'   
-
-            for header in column_headers:
-                column_header_string = column_header_string + header + '\n' 
-
-            prepend_string = start_line_str + metadata_header_string + column_header_string
-
-            # Prepend ctd file
-            with open(ctd_filename, 'w') as modified: modified.write(prepend_string + data)
-
-            # Append ctd file
-            with open(ctd_filename, 'a') as f:
-                f.write("{}\n".format(end_line))
-
+        write_data_to_file(data_row_sets)
 
 
 
