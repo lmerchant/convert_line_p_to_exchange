@@ -173,7 +173,7 @@ def load_p_line_cruise(url):
 
 def rename_pline_columns(df):
 
-    df.rename(columns={'FIL:START TIME YYYY/MM/DD' : 'DATE', 'HH:MM': 'TIME', 'LOC:EVENT_NUMBER':'EVENT', 'LOC:STATION': 'STATION', 'LOC:LATITUDE':'LATITUDE', 'LOC:LONGITUDE':'LONGITUDE','Pressure:CTD [dbar]':'CTDPRS','Temperature:CTD [deg_C_(ITS90)]':'CTDTMP', 'Salinity:CTD [PSS-78]': 'CTDSAL', 'Transmissivity:CTD [*/m]': 'CTDXMISS', 'Oxygen:Dissolved:CTD:Mass [µmol/kg]': 'CTDOXY', 'Fluorescence:CTD:Seapoint [mg/m^3]':'CTDFLUOR'}, inplace=True)
+    df.rename(columns={'FIL:START TIME YYYY/MM/DD' : 'DATE', ' HH:MM': 'TIME', 'LOC:EVENT_NUMBER':'EVENT', 'LOC:STATION': 'STATION', 'LOC:LATITUDE':'LATITUDE', 'LOC:LONGITUDE':'LONGITUDE','Pressure:CTD [dbar]':'CTDPRS','Temperature:CTD [deg_C_(ITS90)]':'CTDTMP', 'Salinity:CTD [PSS-78]': 'CTDSAL', 'Transmissivity:CTD [*/m]': 'CTDXMISS', 'Oxygen:Dissolved:CTD:Mass [µmol/kg]': 'CTDOXY', 'Fluorescence:CTD:Seapoint [mg/m^3]':'CTDFLUOR'}, inplace=True)
 
     return df
 
@@ -356,46 +356,39 @@ def get_data_columns(df):
 
 def get_metadata_columns(df):
 
-    # DATE 
-    # TIME
-    # EVENT
-    # LATITUDE
-    # LONGITUDE
-    # STATION
+    df = df[[
+            'EXPOCODE',
+            'STATION',
+            'CASTNO',
+            'DATE',
+            'TIME',
+            'LATITUDE',
+            'LONGITUDE'
+         ]].copy()
 
-    # EXPOCODE
-    # STNBR
-    # CASTNO
-
-
-    pass
+    return df
 
 
-def get_metadata_row(df):
+def create_metadata_headers(data_set):
 
-    pass
+    metadata_headers = []
 
+    first_row = data_set.iloc[0]
 
-def create_metadata_dict(df):
+    metadata_headers.append('EXPOCODE = ' + first_row['EXPOCODE'])
+    metadata_headers.append('STNBR = ' + first_row['STATION'])
+    metadata_headers.append('CASTNO = ' + str(first_row['CASTNO']))
+    metadata_headers.append('DATE = ' + first_row['DATE'])
+    metadata_headers.append('TIME = ' + first_row['TIME'])
+    metadata_headers.append('LATITUDE = ' + str(first_row['LATITUDE']))
+    metadata_headers.append('LONGITUDE = ' + str(first_row['LONGITUDE']))
 
-    # create dict from metadata row
-    # metadata_row = get_metadata_row(df)
+    number_headers = len(metadata_headers)
+    number_headers_line = 'NUMBER_HEADERS = ' + str(number_headers)
 
-    # include NUMBER_HEADERS to dict
+    metadata_headers.insert(0, number_headers_line)
 
-    pass
-
-
-def create_top_line(expocode):
-
-    # create line CTD,expocode
-
-    pass
-
-
-def create_end_line():
-
-    return 'END_DATA'
+    return metadata_headers
 
 
 def get_data_units():
@@ -432,7 +425,6 @@ def create_column_headers():
     # At the moment, it is hard coded in
     data_units = get_data_units()
 
-
     column_name_row = []
     column_units_row = []
 
@@ -447,6 +439,18 @@ def create_column_headers():
 
     return name_row, units_row
 
+
+def create_start_end_lines(data_set):
+
+    first_row = data_set.iloc[0]
+
+    expocode = first_row['EXPOCODE']
+
+    start_line = 'CTD,' + expocode
+
+    end_line = 'END_DATA'
+
+    return start_line, end_line
 
 
 
@@ -615,18 +619,21 @@ def main():
         unique_station_castno_df = get_unique_station_castno(df)
 
 
-        # Get data row sets from dataframe for unique station and castno
+        # Get data sets from dataframe for unique station and castno
         data_row_sets = get_data_row_sets(df, unique_station_castno_df)
 
         # Create column and data units lines
         name_row, units_row = create_column_headers()
 
+        # Create metadata headers
+        # Since all the same, use first data set
+        metadata_headers = create_metadata_headers(data_row_sets[0])
 
-        # Get metadata columns from dataframe for data row sets
+        # Get file start and end lines
+        start_line, end_line = create_start_end_lines(data_row_sets[0]) 
 
-        # Create metadata dictionary for each row set
-        # create_metadata_dict(metadata_df)
-
+        print(start_line)
+        print(end_line)       
 
 
         # Write data sets to file
@@ -635,17 +642,14 @@ def main():
 
         #for data_set in data_row_sets:
 
+            # Get metadata headers
 
-            # Get metadata columns
-
+            # Get column headers
 
             # Get data columns
+            #data_columns_df = get_data_columns(df)
 
-
-            # Get output file top line
-            # top_line = create_top_line(expocode)
-
-            # Get output file end line
+            # Get file end line
             # end_line = create_end_line()        
 
 
