@@ -453,68 +453,19 @@ def create_start_end_lines(data_set):
     return start_line, end_line
 
 
+def get_ctd_filename(data_set):
 
-# def get_data_row_sets(df, unique_stnbr_castno_df):
+    first_row = data_set.iloc[0]
 
-#     data_row_sets = []
+    expocode = first_row['EXPOCODE']
+    stnbr = first_row['STATION']
+    castno = first_row['CASTNO']
 
-#     # Get list of unique dataframes
-#     # dfList = df['one'].tolist()
-#     unique_stnbr_castno_list = unique_stnbr_castno_df.tolist()
+    ctd_filename = './line_p/' + expocode +'/' + expocode + '_' + str(stnbr) + '_' + str(castno) + '_ct1.csv'
 
-#     # Convert unique_stnbr_castno_df to a list
-#     # For each number in list, get subset of df
-#     # and append to data_row_sets
-
-#     for stnbr_castno in unique_stnbr_castno_list:
-
-#         df_subset = df.loc[df['STNBR_CASTNO'] == stnbr_castno]
-
-#         data_row_sets.append(df_subset)
-
-#     return data_row_sets
+    return ctd_filename
 
 
-
-
-
-
-# def get_station_26(df):
-
-#     try:
-#         df = df[df['station'] == 'P26']
-#     except:
-#         df = df[df['LOC:STATION'] == 'P26']
-    
-#     df.reset_index(drop=True,inplace=True)
-    
-#     return df
-
-
-# def get_station_1(df):
-
-#     try:
-#         df = df[df['station'] == 'P1']
-#     except:
-#         df = df[df['LOC:STATION'] == 'P1']
-
-#     df.reset_index(drop=True,inplace=True)
-    
-#     return df
-
-
-# def get_station(df,station):
-
-#     stn = 'P' + station
-    
-#     try:
-#         df = df[df['station'] == stn]
-#     except:
-#         df = df[df['LOC:STATION'] == stn]
-    
-#     df.reset_index(drop=True,inplace=True)
-    
-#     return df
 
 
 
@@ -632,41 +583,30 @@ def main():
         # Get file start and end lines
         start_line, end_line = create_start_end_lines(data_row_sets[0]) 
 
-        print(start_line)
-        print(end_line)       
 
 
         # Write data sets to file
 
         # Loop over unique row sets (STATION and CASTNO)
 
-        #for data_set in data_row_sets:
+        for data_set in data_row_sets:
 
-            # Get metadata headers
+            # Get filename
+            ctd_filename = get_ctd_filename(data_set)
 
-            # Get column headers
+            print(ctd_filename)
 
             # Get data columns
             #data_columns_df = get_data_columns(df)
 
-            # Get file end line
-            # end_line = create_end_line()        
-
-
-            # Create filename
-
-            # format stnbr and castno for filename
-
-            # ctd_file = './line_p/expocode/' + expocode + '_' + stnbr_formatted + '_' + castno_formatted + '_ct1.csv'
 
             # Write top line
             # Write metadata
 
-            # Write out header file which is the following:
+            # Write header file which is the following:
             # Write column names
             # Write data units
             
-
             # Write data
             # Only write data with columns in column_names
 
