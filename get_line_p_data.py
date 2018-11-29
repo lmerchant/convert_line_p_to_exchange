@@ -35,31 +35,94 @@ PAR:CTD [µE/m^2/sec]
 
 
 Read in all data lines into a data frame, then filter P line and sort.
-Then group rows by P line and it's sequential event number
+Then group rows by P line and it's sequential event number to find castno
+
+For cruise list, need to have corresponding expocodes in corresponding order
 
 
-Cruises to get data for
+# Formatting error, so not run with this program
+# Run for one cruise
+cruise_list =[ 
+    ('2009', '03')
+]    
 
-2018 001,
-2017 01 06 08,
-2016 01 06 08,
-2015 01 09 10,
-2014 01 18 19,
-2013 01 17 18,
-2012 01 12 13,
-2011 01 26 27,
-2010 01 13 14,
-2009 03 09 10,
-2008 01 26 27,
-2007 01 13 15
+expocode_list = [
+    '18DD20090818'
+]
 
-Also need corresponding expocodes
+---------------------------------
+
+Instructions:
+-------------
+
+Setup:
+------
+Folder structure required. In folder of script, mkdir line_p 
+
+The line_p folder is where every expocode ctd file sets are stored
 
 
-#2009 03 is omitted due to formatting error
-# Have to process this separately
+To Run:
+-------
 
-I'm not sure what formatting error it is
+First, determine which cruises to get data for by setting them
+in cruise_list and expocode_list
+
+To run script, in virtual environment, type:
+python get_line_p_data.py
+
+
+Script Limits:
+--------------
+Currently, script not capable of noticing when data variable missing such 
+as for cruise 2009-03 so this cruise can not be created as this script
+is written.
+
+
+Testing:
+--------
+To test the script, comment/uncomment the following lines in load_p_line_cruise 
+
+    Comment this group reading from url ->
+    # Read in csv file and split text on returns to get a list of lines
+    txt = urlopen(url).read()
+    decode_txt = txt.decode('windows-1252')
+    raw_csv = decode_txt.split('\r\n')
+
+    Uncomment this group reading from a test file ->
+    # # For testing
+    # text_file = open("./2017_test_file2.csv", "r")
+    # txt = text_file.read()
+    # raw_csv = txt.split('\n')
+
+
+Renaming Variable Columns:
+--------------------------
+Make changes in 3 places since code is still hard coded in
+
+rename_pline_columns, get_data_columns, and get_data_units
+
+
+Removing Variable Columns without flag columns:
+-----------------------------------------------
+Make changes in 3 places:
+rename_pline_columns, get_data_columns, and get_data_units
+
+-> Important, keep order same in get_data_columns, and get_data_units
+
+
+Removing Variable Columns with flag columns:
+-----------------------------------------------
+Make changes in 4 places:
+rename_pline_columns, insert_flag_colums, get_data_columns, and get_data_units
+
+-> Important, keep order same in get_data_columns, and get_data_units
+-> Important, remove variable column and flag column lines together
+   in insert_flag_colums
+
+
+
+
 
 """
 
@@ -530,12 +593,13 @@ def write_data_to_file(station_castno_df_sets, comment_header):
 
 
 
-
-
 def main():
 
     # ('2009', '03') omitted because format is different. There is no CTDSAL column
     # and this program doesn't take that into account    
+
+    # -> 33 cruises in order given on cruise menu url 
+    #https://waterproperties.ca/linep/cruises.php#cruises
 
     # cruise_list =[ 
     #     ('2018','001'),
@@ -553,46 +617,49 @@ def main():
     # ]
 
 
-# TODO
-# Not including ('2009', '03') above, so no corresponding expocode for it used 18DD20090818
+# Not including ('2009', '03') in cruise_list, so 
+# no corresponding expocode for it, 18DD20090818
+
+
+    # -> 33 corresponding expocodes
 
     # expocode_list = [
-    #     18LU20180218,
-    #     18DD20170205,
-    #     18DD20170604,
-    #     18DD20170815,
-    #     18DD20160208,
-    #     18DD20160605,
-    #     18DD20160816,
-    #     18DD20150210,
-    #     18DD20150607,
-    #     18DD20150818,
-    #     18DD20140210,
-    #     18DD20140608,
-    #     18DD20140819,
-    #     18DD20130205,
-    #     18DD20130607,
-    #     18DD20130820,
-    #     18DD20120206,
-    #     18DD20120522,
-    #     18DD20120814,
-    #     18DD20110208,
-    #     18DD20110603,
-    #     18DD20110816,
-    #     18DD20100202,
-    #     18DD20100605,
-    #     18DD20100803,
-    #     18DD20090127,
-    #     18DD20090606,
-    #     18DD20080129,
-    #     18DD20080528,
-    #     18DD20070207,
-    #     18DD20070530,
-    #     18DD20070814
+        # 18LU20180218
+        # 18DD20170205
+        # 18DD20170604
+        # 18DD20170815
+        # 18DD20160208
+        # 18DD20160605
+        # 18DD20160816
+        # 18DD20150210
+        # 18DD20150607
+        # 18DD20150818
+        # 18DD20140210
+        # 18DD20140608
+        # 18DD20140819
+        # 18DD20130205
+        # 18DD20130607
+        # 18DD20130820
+        # 18DD20120206
+        # 18DD20120522
+        # 18DD20120814
+        # 18DD20110208
+        # 18DD20110603
+        # 18DD20110816
+        # 18DD20100202
+        # 18DD20100605
+        # 18DD20100803
+        # 18DD20090127
+        # 18DD20090606
+        # 18DD20080129
+        # 18DD20080528
+        # 18DD20070207
+        # 18DD20070530
+        # 18DD20070814
     # ]
 
 
-    # # Formatting error, so not run with this program
+    # # Formatting error, so can't run with this program as is
     # # Run for one cruise
     # cruise_list =[ 
     #     ('2009', '03')
@@ -609,7 +676,7 @@ def main():
     ]    
 
     expocode_list = [
-        '18DD20170205'
+        '18DD20070207'
     ]
 
 
