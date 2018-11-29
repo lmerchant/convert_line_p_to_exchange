@@ -95,7 +95,7 @@ def load_p_line_cruise(url):
 
 
     # # For testing
-    # text_file = open("./2017_test_file3.csv", "r")
+    # text_file = open("./2017_test_file2.csv", "r")
     # txt = text_file.read()
     # raw_csv = txt.split('\n')
 
@@ -232,18 +232,17 @@ def insert_castno_column(df):
     df.sort_values(by=['STATION','EVENT'],inplace=True)
     df.reset_index(drop=True,inplace=True)
 
+
     # Get unique values of STATION column
-    station_df = df['STATION']
+    station_df = df['STATION'].copy()
     unique_station_df = station_df.drop_duplicates()
 
     # Get list of unique stations
     unique_station_list = unique_station_df.tolist() 
 
     # For each station in list, get subset of main df
-    # Save each station df by appending to station_df_sets
-    # Basically creating a df for each station
-
-    station_df_sets = []
+    # Find unique events, increment index of events found
+    # then set that event in main df to castno calcuated
 
     for station in unique_station_list:
 
@@ -267,15 +266,8 @@ def insert_castno_column(df):
         # Events were sorted, so increasing castno corresponding to increasing event #
         for index, event in enumerate(unique_event_list):
             # index of unique event list gives the increasing # indicating a castno
-            # Then for each event in the station df, set CASTNO value
-            df_subset.loc[df.EVENT == event, 'CASTNO'] = index + 1
-
-        # Add subset to row sets list
-        station_df_sets.append(df_subset)
-
-    # Combine all the data sets back into one dataframe
-    df = pd.concat(station_df_sets)
-    df.reset_index(drop=True,inplace=True)
+            # Then for each event in df, set CASTNO value
+            df.loc[df.EVENT == event, 'CASTNO'] = index + 1
 
     return df
 
@@ -485,7 +477,6 @@ def write_data_to_file(station_castno_df_sets, comment_header):
     # Get file start and end lines
     start_line, end_line = create_start_end_lines(station_castno_df_sets[0]) 
 
-
     # Create column and data units lines
     column_headers = create_column_headers()
 
@@ -505,7 +496,7 @@ def write_data_to_file(station_castno_df_sets, comment_header):
         data_columns_df = get_data_columns(data_set)
 
 
-        # Write file
+        # Write to file
 
         data_columns_df.to_csv(ctd_filename, sep=',', index=False,header=False, encoding='utf-8')
 
@@ -657,10 +648,10 @@ def main():
         df = insert_station_castno_column(df)
     
         # Get unique station_castno sets
-        unique_station_castno_df = get_unique_station_castno(df)
+        unique_station_castno_sets = get_unique_station_castno(df)
 
         # Get data sets from dataframe for unique station and castno
-        station_castno_df_sets = get_station_castno_df_sets(df, unique_station_castno_df)
+        station_castno_df_sets = get_station_castno_df_sets(df, unique_station_castno_sets)
 
         write_data_to_file(station_castno_df_sets, comment_header)
 
