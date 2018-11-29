@@ -93,6 +93,12 @@ def load_p_line_cruise(url):
     decode_txt = txt.decode('windows-1252')
     raw_csv = decode_txt.split('\r\n')
 
+
+    # # For testing
+    # text_file = open("./2017_test_file3.csv", "r")
+    # txt = text_file.read()
+    # raw_csv = txt.split('\n')
+
     # Find header and lines containing values from ctd files
 
     comment_header = []
@@ -126,6 +132,7 @@ def load_p_line_cruise(url):
     # Get P-Line Stations only
 
     # drop any rows with NaN value in Pressure:CTD column
+    # Do this because data sets separated by empty rows
     df.dropna(subset=['Pressure:CTD [dbar]'], inplace=True)
 
     # Find rows starting with P in the LOC:STATION column
@@ -242,10 +249,14 @@ def insert_castno_column(df):
 
         # Get dataframe subset for station
         df_subset = df.loc[df['STATION'] == station].copy()
+        df_subset.reset_index(drop=True,inplace=True)
 
         # Get unique events in for this station subset
         event_df = df_subset['EVENT'].copy()
+        event_df.reset_index(drop=True,inplace=True)
+
         unique_event_df = event_df.drop_duplicates()
+        unique_event_df.reset_index(drop=True,inplace=True)
 
         # Get list of unique events for station
         unique_event_list = unique_event_df.tolist() 
@@ -264,6 +275,7 @@ def insert_castno_column(df):
 
     # Combine all the data sets back into one dataframe
     df = pd.concat(station_df_sets)
+    df.reset_index(drop=True,inplace=True)
 
     return df
 
@@ -283,6 +295,7 @@ def get_unique_station_castno(df):
     # Get unique values of STATION_CASTNO column
     station_castno_df = df['STATION_CASTNO'].copy()
     unique_station_castno_df = station_castno_df.drop_duplicates()
+    unique_station_castno_df.reset_index(drop=True,inplace=True)
 
     return unique_station_castno_df
 
@@ -301,6 +314,7 @@ def get_station_castno_df_sets(df, unique_station_castno_df):
     for station_castno in unique_station_castno_list:
 
         df_subset = df.loc[df['STATION_CASTNO'] == station_castno].copy()
+        df_subset.reset_index(drop=True,inplace=True)
 
         station_df_sets.append(df_subset)
 
@@ -343,6 +357,7 @@ def create_metadata_header(data_set):
     metadata_header = []
 
     first_row = data_set.iloc[0]
+
 
     metadata_header.append('EXPOCODE = ' + first_row['EXPOCODE'])
     metadata_header.append('STNBR = ' + first_row['STATION'])
@@ -470,9 +485,6 @@ def write_data_to_file(station_castno_df_sets, comment_header):
     # Get file start and end lines
     start_line, end_line = create_start_end_lines(station_castno_df_sets[0]) 
 
-    # Create metadata headers
-    # Since all the same, use first data set
-    metadata_header = create_metadata_header(station_castno_df_sets[0])
 
     # Create column and data units lines
     column_headers = create_column_headers()
@@ -485,13 +497,17 @@ def write_data_to_file(station_castno_df_sets, comment_header):
         # Get filename
         ctd_filename = get_ctd_filename(data_set)
 
+        # Create metadata headers
+        # Since all the same, use first data set
+        metadata_header = create_metadata_header(data_set)        
+
         # Get data columns
         data_columns_df = get_data_columns(data_set)
 
 
         # Write file
 
-        data_columns_df.to_csv(ctd_filename, sep=',', header=False, encoding='utf-8')
+        data_columns_df.to_csv(ctd_filename, sep=',', index=False,header=False, encoding='utf-8')
 
         with open(ctd_filename, 'r') as original: data = original.read()
 
