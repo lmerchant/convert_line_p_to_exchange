@@ -527,6 +527,9 @@ def write_data_to_file(station_castno_df_sets, comment_header):
 
 def main():
 
+    # ('2009', '03') omitted because format is different. There is no CTDSAL column
+    # and this program doesn't take that into account    
+
     # cruise_list =[ 
     #     ('2018','001'),
     #     ('2017', '01'), ('2017','06'), ('2017','08'),
@@ -537,14 +540,14 @@ def main():
     #     ('2012', '01'), ('2012', '12'), ('2012', '13'),
     #     ('2011', '01'), ('2011', '26'), ('2011', '27'),
     #     ('2010', '01'), ('2010', '13'), ('2010', '14'),
-    #     ('2009', '09'), ('2009', '10'), #2009 03 is omitted due to formatting error
+    #     ('2009', '09'), ('2009', '10'),
     #     ('2008', '01'), ('2008', '26'), ('2008', '27'),
     #     ('2007', '01'), ('2007', '13'), ('2007', '15'),
     # ]
 
 
 # TODO
-# If not including ('2009', '03') above, remove it's expocode below 18DD20090818
+# Not including ('2009', '03') above, so no corresponding expocode for it used 18DD20090818
 
     # expocode_list = [
     #     18LU20180218,
@@ -574,7 +577,6 @@ def main():
     #     18DD20100803,
     #     18DD20090127,
     #     18DD20090606,
-    #     18DD20090818,
     #     18DD20080129,
     #     18DD20080528,
     #     18DD20070207,
@@ -582,6 +584,16 @@ def main():
     #     18DD20070814
     # ]
 
+
+    # # Formatting error, so not run with this program
+    # # Run for one cruise
+    # cruise_list =[ 
+    #     ('2009', '03')
+    # ]    
+
+    # expocode_list = [
+    #     '18DD20090818'
+    # ]
 
 
     # Run for one cruise
@@ -592,6 +604,9 @@ def main():
     expocode_list = [
         '18DD20170205'
     ]
+
+
+
 
     # Get index of loop to find corresponding expocode
     #for cruise in cruise_list:
