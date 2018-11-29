@@ -102,8 +102,8 @@ def load_p_line_cruise(url):
         if '.ctd' not in line:
             # then line is a comment header
             # prepend a # sign
-            line = '#' + line
-            comment_header.append(line)
+            line_comment = '#' + line
+            comment_header.append(line_comment)
             count = count+1
         else:
             # Found ctd data line
@@ -143,7 +143,7 @@ def load_p_line_cruise(url):
 
 def rename_pline_columns(df):
 
-    df.rename(columns={'FIL:START TIME YYYY/MM/DD' : 'DATE', ' HH:MM': 'TIME', 'LOC:EVENT_NUMBER':'EVENT', 'LOC:STATION': 'STATION', 'LOC:LATITUDE':'LATITUDE', 'LOC:LONGITUDE':'LONGITUDE','Pressure:CTD [dbar]':'CTDPRS','Temperature:CTD [deg_C_(ITS90)]':'CTDTMP', 'Salinity:CTD [PSS-78]': 'CTDSAL', 'Transmissivity:CTD [*/m]': 'CTDXMISS', 'Oxygen:Dissolved:CTD:Mass [µmol/kg]': 'CTDOXY', 'Fluorescence:CTD:Seapoint [mg/m^3]':'CTDFLUOR'}, inplace=True)
+    df.rename(columns={'FIL:START TIME YYYY/MM/DD' : 'DATE', ' HH:MM': 'TIME', 'LOC:EVENT_NUMBER':'EVENT', 'LOC:STATION': 'STATION', 'LOC:LATITUDE':'LATITUDE', 'LOC:LONGITUDE':'LONGITUDE','Pressure:CTD [dbar]':'CTDPRS','Temperature:CTD [deg_C_(ITS90)]':'CTDTMP', 'Salinity:CTD [PSS-78]': 'CTDSAL', 'Transmissivity:CTD [*/m]': 'CTDXMISS', 'Oxygen:Dissolved:CTD:Mass [µmol/kg]': 'CTDOXY', 'Fluorescence:CTD:Seapoint [mg/m^3]':'CTDFLUOR', 'Sigma-t:CTD [kg/m^3]': 'Sigma-t:CTD', 'Oxygen:Dissolved:CTD:Volume [ml/l]': 'Oxygen:Dissolved:CTD:Volume', 'Fluorescence:CTD:Wetlabs [mg/m^3]': 'Fluorescence:CTD:Wetlabs', 'PAR:CTD [µE/m^2/sec]': 'PAR:CTD'}, inplace=True)
 
     return df
 
@@ -300,8 +300,7 @@ def get_station_castno_df_sets(df, unique_station_castno_df):
 
     for station_castno in unique_station_castno_list:
 
-        # TODO should this be a copy()???
-        df_subset = df.loc[df['STATION_CASTNO'] == station_castno]
+        df_subset = df.loc[df['STATION_CASTNO'] == station_castno].copy()
 
         station_df_sets.append(df_subset)
 
@@ -316,7 +315,9 @@ def get_data_columns(df):
             'CTDSAL', 'CTDSAL_FLAG_W',
             'CTDOXY', 'CTDOXY_FLAG_W',
             'CTDXMISS', 'CTDXMISS_FLAG_W',
-            'CTDFLUOR', 'CTDFLUOR_FLAG_W'
+            'CTDFLUOR', 'CTDFLUOR_FLAG_W',
+            'Sigma-t:CTD', 'Oxygen:Dissolved:CTD:Volume',
+            'Fluorescence:CTD:Wetlabs', 'PAR:CTD'
             ]].copy()
 
     return df
@@ -337,38 +338,44 @@ def get_metadata_columns(df):
     return df
 
 
-def create_metadata_headers(data_set):
+def create_metadata_header(data_set):
 
-    metadata_headers = []
+    metadata_header = []
 
     first_row = data_set.iloc[0]
 
-    metadata_headers.append('EXPOCODE = ' + first_row['EXPOCODE'])
-    metadata_headers.append('STNBR = ' + first_row['STATION'])
-    metadata_headers.append('CASTNO = ' + str(first_row['CASTNO']))
-    metadata_headers.append('DATE = ' + first_row['DATE'])
-    metadata_headers.append('TIME = ' + first_row['TIME'])
-    metadata_headers.append('LATITUDE = ' + str(first_row['LATITUDE']))
-    metadata_headers.append('LONGITUDE = ' + str(first_row['LONGITUDE']))
+    metadata_header.append('EXPOCODE = ' + first_row['EXPOCODE'])
+    metadata_header.append('STNBR = ' + first_row['STATION'])
+    metadata_header.append('CASTNO = ' + str(first_row['CASTNO']))
+    metadata_header.append('DATE = ' + first_row['DATE'])
+    metadata_header.append('TIME = ' + first_row['TIME'])
+    metadata_header.append('LATITUDE = ' + str(first_row['LATITUDE']))
+    metadata_header.append('LONGITUDE = ' + str(first_row['LONGITUDE']))
 
-    number_headers = len(metadata_headers) + 1
+    number_headers = len(metadata_header) + 1
     number_headers_line = 'NUMBER_HEADERS = ' + str(number_headers)
 
-    metadata_headers.insert(0, number_headers_line)
+    metadata_header.insert(0, number_headers_line)
 
-    return metadata_headers
+    return metadata_header
 
 
 def get_data_units():
 
     # In column names, units are in []
 
-    # Pressure:CTD [dbar],
-    # Temperature:CTD [deg_C_(ITS90)],
-    # Salinity:CTD [PSS-78],,
-    # Transmissivity:CTD [*/m],
-    # Oxygen:Dissolved:CTD:Mass [µmol/kg],
-    # Fluorescence:CTD:Seapoint [mg/m^3],
+    # Pressure:CTD [dbar]
+    # Temperature:CTD [deg_C_(ITS90)]
+    # Salinity:CTD [PSS-78]
+    # Transmissivity:CTD [*/m]
+    # Oxygen:Dissolved:CTD:Mass [µmol/kg]
+    # Fluorescence:CTD:Seapoint [mg/m^3]
+
+    # Sigma-t:CTD [kg/m^3],
+    # Oxygen:Dissolved:CTD:Volume [ml/l]
+    # Fluorescence:CTD:Wetlabs [mg/m^3],
+    # PAR:CTD [µE/m^2/sec]
+
 
     data_units = {}
     data_units['CTDPRS'] = 'DBAR'
@@ -384,6 +391,11 @@ def get_data_units():
     data_units['CTDFLUOR'] = 'MG/M^3'   
     data_units['CTDFLUOR_FLAG_W'] = ''
 
+    data_units['Sigma-t:CTD'] = 'kg/m^3'
+    data_units['Oxygen:Dissolved:CTD:Volume'] = 'ml/l'
+    data_units['Fluorescence:CTD:Wetlabs'] = 'mg/m^3'
+    data_units['PAR:CTD'] = 'µE/m^2/sec'
+
     return data_units
 
 
@@ -392,7 +404,8 @@ def create_column_headers():
     column_headers = []
 
     # Get data units from all columns
-    # At the moment, it is hard coded in
+    # At the moment, it is hard coded in and in correct order as
+    # data columns pulled in through get_data_columns
     data_units = get_data_units()
 
     column_name_row = []
@@ -439,12 +452,12 @@ def get_ctd_filename(data_set):
     return ctd_filename
 
 
-def write_data_to_file(station_df_sets):
+def write_data_to_file(station_castno_df_sets, comment_header):
 
     # Write data sets to file
 
     # Get expocode to make directory for files
-    first_row = station_df_sets[0].iloc[0]
+    first_row = station_castno_df_sets[0].iloc[0]
     expocode = first_row['EXPOCODE']
 
     # Make sub directory in './line_p'
@@ -455,11 +468,11 @@ def write_data_to_file(station_df_sets):
 
 
     # Get file start and end lines
-    start_line, end_line = create_start_end_lines(station_df_sets[0]) 
+    start_line, end_line = create_start_end_lines(station_castno_df_sets[0]) 
 
     # Create metadata headers
     # Since all the same, use first data set
-    metadata_headers = create_metadata_headers(station_df_sets[0])
+    metadata_header = create_metadata_header(station_castno_df_sets[0])
 
     # Create column and data units lines
     column_headers = create_column_headers()
@@ -467,7 +480,7 @@ def write_data_to_file(station_df_sets):
 
     # Loop over unique row sets (STATION and CASTNO)
 
-    for data_set in station_df_sets:
+    for data_set in station_castno_df_sets:
 
         # Get filename
         ctd_filename = get_ctd_filename(data_set)
@@ -484,18 +497,22 @@ def write_data_to_file(station_df_sets):
 
         # Create string to prepend
         prepend_string = ''
+        comment_header_string = ''
         metadata_header_string = ''
         column_header_string = ''
 
         start_line_str = start_line + '\n'
 
-        for header in metadata_headers:
+        for header in comment_header:
+            comment_header_string = comment_header_string + header + '\n' 
+
+        for header in metadata_header:
             metadata_header_string = metadata_header_string + header + '\n'   
 
         for header in column_headers:
             column_header_string = column_header_string + header + '\n' 
 
-        prepend_string = start_line_str + metadata_header_string + column_header_string
+        prepend_string = start_line_str + comment_header_string + metadata_header_string + column_header_string
 
         # Prepend ctd file
         with open(ctd_filename, 'w') as modified: modified.write(prepend_string + data)
@@ -612,9 +629,9 @@ def main():
         unique_station_castno_df = get_unique_station_castno(df)
 
         # Get data sets from dataframe for unique station and castno
-        station_df_sets = get_station_castno_df_sets(df, unique_station_castno_df)
+        station_castno_df_sets = get_station_castno_df_sets(df, unique_station_castno_df)
 
-        write_data_to_file(station_df_sets)
+        write_data_to_file(station_castno_df_sets, comment_header)
 
 
 
