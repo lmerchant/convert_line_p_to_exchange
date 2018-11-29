@@ -34,51 +34,10 @@ PAR:CTD [µE/m^2/sec]
 
 
 
-
-TODO:
-Looks like file https://www.waterproperties.ca/linep/2017-01/donneesctddata/2017-01-ctd-doc.csv,
-contains just the P line data 
+Read in all data lines into a data frame, then filter P line and sort.
+Then group rows by P line and it's sequential event number
 
 
-Step 2,
-Read in all data lines into a data frame, then filter, sort, and extract on P line,
-Save each extracted data frame to a file
-
-
-TODO:
-
-For each cruise, expand to extract data frames for all lines P1 to P26 
-
-The data lines list the name of the file on each line, metadata, and data
-
-So can create new column for cast # and station #
-
-For composing cast # and station #, 
-
-A cast # is the concatenation of the Event # and the P line. e.g. 16P3,
-A station # is the P line, so for P3, it would be 3
-
-Currently, dataframes are split on P line #. Could split on cast #
-
-
-Event #
-Filename: 2017-01-0001.ctd where the 0001 portion represents Event 1 as,
-seen in the table on the cruise page https://waterproperties.ca/linep/2017-01/index.php
-
-The event number is also listed in the column: LOC:EVENT_NUMBER
-
-
-TODO:
-
-Would have to extract metadata to create an exchange header, then take remaining dataframe,
-columns and save as the data section with renamed columns. Would also need to count,
-the header lines and add end data line to bottom
-
-
-"""
-
-
-"""
 Cruises to get data for
 
 2018 001,
@@ -93,6 +52,8 @@ Cruises to get data for
 2009 03 09 10,
 2008 01 26 27,
 2007 01 13 15
+
+Also need corresponding expocodes
 
 
 #2009 03 is omitted due to formatting error
@@ -133,14 +94,23 @@ def load_p_line_cruise(url):
     raw_csv = decode_txt.split('\r\n')
 
     # Find header and lines containing values from ctd files
+
+    comment_header = []
+
     count = 0
     for line in raw_csv:
         if '.ctd' not in line:
+            # then line is a comment header
+            # prepend a # sign
+            line = '#' + line
+            comment_header.append(line)
             count = count+1
         else:
+            # Found ctd data line
             break
 
     # clean_csv contains all the data lines
+    # Get data column header above comma separation line
     header = raw_csv[count-2].split(',')
     clean_csv = raw_csv[count:]
 
@@ -168,7 +138,7 @@ def load_p_line_cruise(url):
     df.sort_values(by=['LOC:STATION','Pressure:CTD [dbar]'],inplace=True)
     df.reset_index(drop=True,inplace=True)
 
-    return df
+    return df, comment_header
 
 
 def rename_pline_columns(df):
@@ -235,19 +205,18 @@ def insert_expocode_column(df, expocode):
 
 def insert_castno_column(df):
 
-    # Create CASTNO column and fill with dummy value
+    # Create CASTNO column and fill with dummy value first
     # Insert after STATION column    
     STATION_LOC = df.columns.get_loc('STATION')
     df.insert(STATION_LOC + 1, 'CASTNO', 0)
 
     # castno is sequential number of indiv events at a single station
-
     # combine station and event #, get unique of this combination while including Station and Event columns
-
-    # Now need to count events in station subsets
+    # count events in station subsets
 
     # Unique subset of station and event
 
+    # castno station event#
     # 1 P20  event 18
     # 2 P20  event 19
     # 3 P20  event 26
@@ -258,49 +227,52 @@ def insert_castno_column(df):
 
     # Get unique values of STATION column
     station_df = df['STATION']
-
     unique_station_df = station_df.drop_duplicates()
 
-    # Get list of unique dataframes
+    # Get list of unique stations
     unique_station_list = unique_station_df.tolist() 
 
+    # For each station in list, get subset of main df
+    # Save each station df by appending to station_df_sets
+    # Basically creating a df for each station
 
-    data_row_sets = []
-
-    # For each number in list, get subset of df
-    # and append to data_row_sets
+    station_df_sets = []
 
     for station in unique_station_list:
 
+        # Get dataframe subset for station
         df_subset = df.loc[df['STATION'] == station].copy()
 
-        # Get unique events in this subset
+        # Get unique events in for this station subset
         event_df = df_subset['EVENT'].copy()
-
         unique_event_df = event_df.drop_duplicates()
 
-        # Get list of unique dataframes
+        # Get list of unique events for station
         unique_event_list = unique_event_df.tolist() 
 
         # Use index of unique event list to creat CASTNO
+        # since df was sorted on Event#
 
+        # Events were sorted, so increasing castno corresponding to increasing event #
         for index, event in enumerate(unique_event_list):
-            # For event in main df, set CASTNO at that event
-
+            # index of unique event list gives the increasing # indicating a castno
+            # Then for each event in the station df, set CASTNO value
             df_subset.loc[df.EVENT == event, 'CASTNO'] = index + 1
 
         # Add subset to row sets list
-        data_row_sets.append(df_subset)
+        station_df_sets.append(df_subset)
 
-    # Expand all the data sets back into one dataframe
-    df = pd.concat(data_row_sets)
+    # Combine all the data sets back into one dataframe
+    df = pd.concat(station_df_sets)
 
     return df
 
 
 def insert_station_castno_column(df):
 
-    # Create STATION_CAST column
+    # Create STATION_CAST column which is a combo of station and castno to 
+    # make it easy to sort and group on this value for each station to save
+    # each to a file
     df['STATION_CASTNO'] = df['STATION'].apply(str) + '_' + df['CASTNO'].apply(str)
 
     return df
@@ -309,30 +281,31 @@ def insert_station_castno_column(df):
 def get_unique_station_castno(df):
 
     # Get unique values of STATION_CASTNO column
-    station_castno_df = df['STATION_CASTNO']
+    station_castno_df = df['STATION_CASTNO'].copy()
     unique_station_castno_df = station_castno_df.drop_duplicates()
 
     return unique_station_castno_df
 
 
-def get_data_row_sets(df, unique_station_castno_df):
+def get_station_castno_df_sets(df, unique_station_castno_df):
 
-    data_row_sets = []
+    station_df_sets = []
 
-    # Get list of unique dataframes
+    # Get list of unique station castno dataframes
     unique_station_castno_list = unique_station_castno_df.tolist()
 
     # Convert unique_station_castno_df to a list
     # For each number in list, get subset of df
-    # and append to data_row_sets
+    # and append to station_df_sets
 
     for station_castno in unique_station_castno_list:
 
+        # TODO should this be a copy()???
         df_subset = df.loc[df['STATION_CASTNO'] == station_castno]
 
-        data_row_sets.append(df_subset)
+        station_df_sets.append(df_subset)
 
-    return data_row_sets
+    return station_df_sets
 
 
 def get_data_columns(df):
@@ -466,12 +439,12 @@ def get_ctd_filename(data_set):
     return ctd_filename
 
 
-def write_data_to_file(data_row_sets):
+def write_data_to_file(station_df_sets):
 
     # Write data sets to file
 
     # Get expocode to make directory for files
-    first_row = data_row_sets[0].iloc[0]
+    first_row = station_df_sets[0].iloc[0]
     expocode = first_row['EXPOCODE']
 
     # Make sub directory in './line_p'
@@ -482,11 +455,11 @@ def write_data_to_file(data_row_sets):
 
 
     # Get file start and end lines
-    start_line, end_line = create_start_end_lines(data_row_sets[0]) 
+    start_line, end_line = create_start_end_lines(station_df_sets[0]) 
 
     # Create metadata headers
     # Since all the same, use first data set
-    metadata_headers = create_metadata_headers(data_row_sets[0])
+    metadata_headers = create_metadata_headers(station_df_sets[0])
 
     # Create column and data units lines
     column_headers = create_column_headers()
@@ -494,7 +467,7 @@ def write_data_to_file(data_row_sets):
 
     # Loop over unique row sets (STATION and CASTNO)
 
-    for data_set in data_row_sets:
+    for data_set in station_df_sets:
 
         # Get filename
         ctd_filename = get_ctd_filename(data_set)
@@ -552,6 +525,10 @@ def main():
     #     ('2007', '01'), ('2007', '13'), ('2007', '15'),
     # ]
 
+
+# TODO
+# If not including ('2009', '03') above, remove it's expocode below 18DD20090818
+
     # expocode_list = [
     #     18LU20180218,
     #     18DD20170205,
@@ -608,7 +585,7 @@ def main():
         url = build_url(cruise[0],cruise[1])
 
         # Get dataframe holding all Station P data lines
-        df = load_p_line_cruise(url)
+        df, comment_header = load_p_line_cruise(url)
 
         # Rename all data columns 
         df = rename_pline_columns(df)
@@ -635,9 +612,9 @@ def main():
         unique_station_castno_df = get_unique_station_castno(df)
 
         # Get data sets from dataframe for unique station and castno
-        data_row_sets = get_data_row_sets(df, unique_station_castno_df)
+        station_df_sets = get_station_castno_df_sets(df, unique_station_castno_df)
 
-        write_data_to_file(data_row_sets)
+        write_data_to_file(station_df_sets)
 
 
 
