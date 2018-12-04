@@ -151,16 +151,16 @@ def load_p_line_cruise(url):
     #2017-01-0001.ctd,UTC,06-02-17, 23:58,1,48.65883,-123.49934,SI,Mid-ship,1.1,6.6845,28.1863,22.1205,,,,1.186,,12.6  
 
 
-    # Read in csv file and split text on returns to get a list of lines
-    txt = urlopen(url).read()
-    decode_txt = txt.decode('windows-1252')
-    raw_csv = decode_txt.split('\r\n')
+    # # Read in csv file and split text on returns to get a list of lines
+    # txt = urlopen(url).read()
+    # decode_txt = txt.decode('windows-1252')
+    # raw_csv = decode_txt.split('\r\n')
 
 
-    # # For testing
-    # text_file = open("./2017_test_file2.csv", "r")
-    # txt = text_file.read()
-    # raw_csv = txt.split('\n')
+    # For testing
+    text_file = open("./2017_test_file2.csv", "r")
+    txt = text_file.read()
+    raw_csv = txt.split('\n')
 
     # Find header and lines containing values from ctd files
 
@@ -211,9 +211,46 @@ def load_p_line_cruise(url):
     return df, comment_header
 
 
-def rename_pline_columns(df):
+def get_params():
+    
+    params =[
+    {'whpname' : 'DATE' , 'longname':'FIL:START TIME YYYY/MM/DD', 'units' : ''},                       
+    {'whpname' : 'TIME' , 'longname':' HH:MM', 'units' : ''},
+    {'whpname' : 'EVENT' , 'longname' : 'LOC:EVENT_NUMBER', 'units' : ''},                              
+    {'whpname' : 'STATION' , 'longname':'LOC:STATION', 'units' : ''},                                  
+    {'whpname' : 'LATITUDE' , 'longname':'LOC:LATITUDE', 'units' : ''},                               
+    {'whpname' : 'LONGITUDE' , 'longname':'LOC:LONGITUDE', 'units' : ''},                             
+    {'whpname' : 'CTDPRS' , 'longname':'Pressure:CTD [dbar]', 'units' : 'DBAR'},                          
+    {'whpname' : 'CTDTMP' , 'longname':'Temperature:CTD [deg_C_(ITS90)]', 'units' : 'ITS-90'},
+    {'whpname' : 'CTDSAL' , 'longname':'Salinity:CTD [PSS-78]', 'units' : 'PSS-78'},
+    {'whpname' : 'CTDXMISS' , 'longname':'Transmissivity:CTD [*/m]', 'units' : ''},
+    {'whpname' : 'CTDOXY' , 'longname':'Oxygen:Dissolved:CTD:Mass [µmol/kg]', 'units' : 'UMOL/KG'},
+    {'whpname' : 'CTDFLUOR' , 'longname':'Fluorescence:CTD:Seapoint [mg/m^3]', 'units' : 'MG/M^3'},   
+    {'whpname' : 'CTDFLUOR_TSG' , 'longname':'Fluorescence:CTD:Wetlabs [mg/m^3]', 'units' : 'MG/M^3'},
+    {'whpname' : 'PAR' , 'longname':'PAR:CTD [µE/m^2/sec]', 'units' : 'UE/m^2/sec'}   
+    ]     
 
-    df.rename(columns={'FIL:START TIME YYYY/MM/DD' : 'DATE', ' HH:MM': 'TIME', 'LOC:EVENT_NUMBER':'EVENT', 'LOC:STATION': 'STATION', 'LOC:LATITUDE':'LATITUDE', 'LOC:LONGITUDE':'LONGITUDE','Pressure:CTD [dbar]':'CTDPRS','Temperature:CTD [deg_C_(ITS90)]':'CTDTMP', 'Salinity:CTD [PSS-78]': 'CTDSAL', 'Transmissivity:CTD [*/m]': 'CTDXMISS', 'Oxygen:Dissolved:CTD:Mass [µmol/kg]': 'CTDOXY', 'Fluorescence:CTD:Seapoint [mg/m^3]':'CTDFLUOR', 'Sigma-t:CTD [kg/m^3]': 'Sigma-t:CTD', 'Oxygen:Dissolved:CTD:Volume [ml/l]': 'Oxygen:Dissolved:CTD:Volume', 'Fluorescence:CTD:Wetlabs [mg/m^3]': 'Fluorescence:CTD:Wetlabs', 'PAR:CTD [µE/m^2/sec]': 'PAR:CTD'}, inplace=True)
+    return params
+
+
+def rename_pline_columns(df, params):
+
+    #{df.rename(columns={param['longname']: param['whpname']}, inplace=True) for param in params}
+
+    param_dict = {}
+
+    for param in params:
+        param_dict[param['longname']] = param['whpname']
+
+    print(param_dict)
+
+    df.rename(columns=param_dict, inplace=True)
+
+    print(df.head())
+
+
+
+    #df.rename(columns={'FIL:START TIME YYYY/MM/DD' : 'DATE', ' HH:MM': 'TIME', 'LOC:EVENT_NUMBER':'EVENT', 'LOC:STATION': 'STATION', 'LOC:LATITUDE':'LATITUDE', 'LOC:LONGITUDE':'LONGITUDE','Pressure:CTD [dbar]':'CTDPRS','Temperature:CTD [deg_C_(ITS90)]':'CTDTMP', 'Salinity:CTD [PSS-78]': 'CTDSAL', 'Transmissivity:CTD [*/m]': 'CTDXMISS', 'Oxygen:Dissolved:CTD:Mass [µmol/kg]': 'CTDOXY', 'Fluorescence:CTD:Seapoint [mg/m^3]':'CTDFLUOR', 'Sigma-t:CTD [kg/m^3]': 'Sigma-t:CTD', 'Oxygen:Dissolved:CTD:Volume [ml/l]': 'Oxygen:Dissolved:CTD:Volume', 'Fluorescence:CTD:Wetlabs [mg/m^3]': 'Fluorescence:CTD:Wetlabs', 'PAR:CTD [µE/m^2/sec]': 'PAR:CTD'}, inplace=True)
 
     return df
 
@@ -239,6 +276,21 @@ def insert_flag_colums(df):
     
     CTDFLUOR_LOC = df.columns.get_loc('CTDFLUOR')
     df.insert(CTDFLUOR_LOC + 1, 'CTDFLUOR_FLAG_W', 2)
+
+    return df
+
+
+def insert_flag_colums_at_end(df):
+
+    # Add flag columns to end of df
+    # Insert flag column with value of 2
+
+    df = df.assign(CTDPRS_FLAG_W = 2)
+    df = df.assign(CTDTMP_FLAG_W = 2)   
+    df = df.assign(CTDSAL_FLAG_W = 2)
+    df = df.assign(CTDOXY_FLAG_W = 2) 
+    df = df.assign(CTDXMISS_FLAG_W = 2)
+    df = df.assign(CTDFLUOR_FLAG_W = 2)   
 
     return df
 
@@ -378,15 +430,24 @@ def get_station_castno_df_sets(df, unique_station_castno_df):
 
 def get_data_columns(df):
 
+    # df = df[[
+    #         'CTDPRS', 'CTDPRS_FLAG_W', 
+    #         'CTDTMP', 'CTDTMP_FLAG_W',
+    #         'CTDSAL', 'CTDSAL_FLAG_W',
+    #         'CTDOXY', 'CTDOXY_FLAG_W',
+    #         'CTDXMISS', 'CTDXMISS_FLAG_W',
+    #         'CTDFLUOR', 'CTDFLUOR_FLAG_W',
+    #         'Sigma-t:CTD', 'Oxygen:Dissolved:CTD:Volume',
+    #         'Fluorescence:CTD:Wetlabs', 'PAR:CTD'
+    #         ]].copy()
+
     df = df[[
             'CTDPRS', 'CTDPRS_FLAG_W', 
             'CTDTMP', 'CTDTMP_FLAG_W',
             'CTDSAL', 'CTDSAL_FLAG_W',
             'CTDOXY', 'CTDOXY_FLAG_W',
             'CTDXMISS', 'CTDXMISS_FLAG_W',
-            'CTDFLUOR', 'CTDFLUOR_FLAG_W',
-            'Sigma-t:CTD', 'Oxygen:Dissolved:CTD:Volume',
-            'Fluorescence:CTD:Wetlabs', 'PAR:CTD'
+            'CTDFLUOR', 'CTDFLUOR_FLAG_W'
             ]].copy()
 
     return df
@@ -430,7 +491,7 @@ def create_metadata_header(data_set):
     return metadata_header
 
 
-def get_data_units():
+def get_data_units(params):
 
     # In column names, units are in []
 
@@ -448,6 +509,7 @@ def get_data_units():
 
 
     data_units = {}
+
     data_units['CTDPRS'] = 'DBAR'
     data_units['CTDPRS_FLAG_W'] = ''
     data_units['CTDTMP'] = 'ITS-90'
@@ -457,26 +519,62 @@ def get_data_units():
     data_units['CTDOXY'] = 'UMOL/KG'
     data_units['CTDOXY_FLAG_W'] = ''
     data_units['CTDXMISS'] = '*/M'
-    data_units['CTDXMISS_FLAG_W'] = ''
+    data_units['CTDXMISS_FLAG_W'] = '' 
     data_units['CTDFLUOR'] = 'MG/M^3'   
     data_units['CTDFLUOR_FLAG_W'] = ''
 
-    data_units['Sigma-t:CTD'] = 'kg/m^3'
-    data_units['Oxygen:Dissolved:CTD:Volume'] = 'ml/l'
-    data_units['Fluorescence:CTD:Wetlabs'] = 'mg/m^3'
-    data_units['PAR:CTD'] = 'µE/m^2/sec'
-
-    return data_units
+    # data_units['Sigma-t:CTD'] = 'kg/m^3'
+    # data_units['Oxygen:Dissolved:CTD:Volume'] = 'ml/l'
+    # data_units['Fluorescence:CTD:Wetlabs'] = 'mg/m^3'
+    # data_units['PAR:CTD'] = 'µE/m^2/sec'
 
 
-def create_column_headers():
+    # print(data_units)
+
+    # put params into a dictionary
+    # {'CTDPRS': 'DBAR', 'CTDTMP': 'ITS-90', 'CTDSAL': 'PSS-78', 'CTDXMISS': '*/M', 'CTDFLUOR': 'MG/M^3', 'CTDPRS_FLAG_W': '', 'CTDTMP_FLAG_W': '', 'CTDSAL_FLAG_W': '', 'CTDOXY_FLAG_W': '', 'CTDXMISS_FLAG_W': '', 'CTDFLUOR_FLAG_W': ''}
+
+    params_to_exclude = [
+    'DATE',
+    'TIME',
+    'EVENT',
+    'STATION',
+    'LATITUDE',
+    'LONGITUDE'
+    ]
+
+    flags_to_include = [
+    'CTDPRS_FLAG_W',
+    'CTDTMP_FLAG_W',
+    'CTDSAL_FLAG_W',
+    'CTDOXY_FLAG_W',
+    'CTDXMISS_FLAG_W',
+    'CTDFLUOR_FLAG_W'
+    ]
+
+    data_units_dict = {}
+
+    for param in params:
+        if param['whpname'] not in params_to_exclude:
+            data_units_dict[param['whpname']] = param['units']
+
+    for flag in flags_to_include:
+        data_units_dict[flag] = ''
+
+    print(data_units_dict)   
+
+
+    return data_units, data_units_dict
+
+
+def create_column_headers(params):
 
     column_headers = []
 
     # Get data units from all columns
     # At the moment, it is hard coded in and in correct order as
     # data columns pulled in through get_data_columns
-    data_units = get_data_units()
+    data_units, data_units_dict = get_data_units(params)   
 
     column_name_row = []
     column_units_row = []
@@ -522,7 +620,7 @@ def get_ctd_filename(data_set):
     return ctd_filename
 
 
-def write_data_to_file(station_castno_df_sets, comment_header):
+def write_data_to_file(station_castno_df_sets, comment_header, params):
 
     # Write data sets to file
 
@@ -541,7 +639,7 @@ def write_data_to_file(station_castno_df_sets, comment_header):
     start_line, end_line = create_start_end_lines(station_castno_df_sets[0]) 
 
     # Create column and data units lines
-    column_headers = create_column_headers()
+    column_headers = create_column_headers(params)
 
 
     # Loop over unique row sets (STATION and CASTNO)
@@ -693,11 +791,17 @@ def main():
         # Get dataframe holding all Station P data lines
         df, comment_header = load_p_line_cruise(url)
 
+        # Get params
+        params = get_params()
+
         # Rename all data columns 
-        df = rename_pline_columns(df)
+        df = rename_pline_columns(df, params)
 
         # Insert flag columns
         df = insert_flag_colums(df)
+
+        df1 = df.copy()
+        df1 = insert_flag_colums_at_end(df1)
 
         # Reformat date column
         df = reformat_date_column(df)
@@ -720,7 +824,7 @@ def main():
         # Get data sets from dataframe for unique station and castno
         station_castno_df_sets = get_station_castno_df_sets(df, unique_station_castno_sets)
 
-        write_data_to_file(station_castno_df_sets, comment_header)
+        write_data_to_file(station_castno_df_sets, comment_header, params)
 
 
 
