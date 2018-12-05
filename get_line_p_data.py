@@ -211,7 +211,7 @@ def load_p_line_cruise(url):
     return df, comment_header
 
 
-def get_params():
+def get_meta_params():
     
     params =[
     {'whpname' : 'DATE' , 'longname':'FIL:START TIME YYYY/MM/DD', 'units' : ''},                       
@@ -220,6 +220,14 @@ def get_params():
     {'whpname' : 'STATION' , 'longname':'LOC:STATION', 'units' : ''},                                  
     {'whpname' : 'LATITUDE' , 'longname':'LOC:LATITUDE', 'units' : ''},                               
     {'whpname' : 'LONGITUDE' , 'longname':'LOC:LONGITUDE', 'units' : ''},                             
+    ]     
+
+    return params
+
+
+def get_data_params():
+    
+    params =[                             
     {'whpname' : 'CTDPRS' , 'longname':'Pressure:CTD [dbar]', 'units' : 'DBAR'},                          
     {'whpname' : 'CTDTMP' , 'longname':'Temperature:CTD [deg_C_(ITS90)]', 'units' : 'ITS-90'},
     {'whpname' : 'CTDSAL' , 'longname':'Salinity:CTD [PSS-78]', 'units' : 'PSS-78'},
@@ -230,24 +238,40 @@ def get_params():
     {'whpname' : 'PAR' , 'longname':'PAR:CTD [µE/m^2/sec]', 'units' : 'UE/m^2/sec'}   
     ]     
 
+    # params =[
+    # {'whpname' : 'DATE' , 'longname':'FIL:START TIME YYYY/MM/DD', 'units' : ''},                       
+    # {'whpname' : 'TIME' , 'longname':' HH:MM', 'units' : ''},
+    # {'whpname' : 'EVENT' , 'longname' : 'LOC:EVENT_NUMBER', 'units' : ''},                              
+    # {'whpname' : 'STATION' , 'longname':'LOC:STATION', 'units' : ''},                                  
+    # {'whpname' : 'LATITUDE' , 'longname':'LOC:LATITUDE', 'units' : ''},                               
+    # {'whpname' : 'LONGITUDE' , 'longname':'LOC:LONGITUDE', 'units' : ''},                             
+    # {'whpname' : 'CTDPRS' , 'longname':'Pressure:CTD [dbar]', 'units' : 'DBAR'},                          
+    # {'whpname' : 'CTDTMP' , 'longname':'Temperature:CTD [deg_C_(ITS90)]', 'units' : 'ITS-90'},
+    # {'whpname' : 'CTDSAL' , 'longname':'Salinity:CTD [PSS-78]', 'units' : 'PSS-78'},
+    # {'whpname' : 'CTDXMISS' , 'longname':'Transmissivity:CTD [*/m]', 'units' : ''},
+    # {'whpname' : 'CTDOXY' , 'longname':'Oxygen:Dissolved:CTD:Mass [µmol/kg]', 'units' : 'UMOL/KG'},
+    # {'whpname' : 'CTDFLUOR' , 'longname':'Fluorescence:CTD:Seapoint [mg/m^3]', 'units' : 'MG/M^3'},   
+    # {'whpname' : 'CTDFLUOR_TSG' , 'longname':'Fluorescence:CTD:Wetlabs [mg/m^3]', 'units' : 'MG/M^3'},
+    # {'whpname' : 'PAR' , 'longname':'PAR:CTD [µE/m^2/sec]', 'units' : 'UE/m^2/sec'}   
+    # ]      
+
     return params
 
 
-def rename_pline_columns(df, params):
+def rename_pline_columns(df, meta_params, data_params):
 
-    #{df.rename(columns={param['longname']: param['whpname']}, inplace=True) for param in params}
+    #{df.rename(columns={param['longname']: param['whpname']}, inplace=True) for param in data_params}
 
     param_dict = {}
 
-    for param in params:
+    for param in meta_params:
+        param_dict[param['longname']] = param['whpname']    
+
+    for param in data_params:
         param_dict[param['longname']] = param['whpname']
 
-    print(param_dict)
 
     df.rename(columns=param_dict, inplace=True)
-
-    print(df.head())
-
 
 
     #df.rename(columns={'FIL:START TIME YYYY/MM/DD' : 'DATE', ' HH:MM': 'TIME', 'LOC:EVENT_NUMBER':'EVENT', 'LOC:STATION': 'STATION', 'LOC:LATITUDE':'LATITUDE', 'LOC:LONGITUDE':'LONGITUDE','Pressure:CTD [dbar]':'CTDPRS','Temperature:CTD [deg_C_(ITS90)]':'CTDTMP', 'Salinity:CTD [PSS-78]': 'CTDSAL', 'Transmissivity:CTD [*/m]': 'CTDXMISS', 'Oxygen:Dissolved:CTD:Mass [µmol/kg]': 'CTDOXY', 'Fluorescence:CTD:Seapoint [mg/m^3]':'CTDFLUOR', 'Sigma-t:CTD [kg/m^3]': 'Sigma-t:CTD', 'Oxygen:Dissolved:CTD:Volume [ml/l]': 'Oxygen:Dissolved:CTD:Volume', 'Fluorescence:CTD:Wetlabs [mg/m^3]': 'Fluorescence:CTD:Wetlabs', 'PAR:CTD [µE/m^2/sec]': 'PAR:CTD'}, inplace=True)
@@ -255,44 +279,56 @@ def rename_pline_columns(df, params):
     return df
 
 
-def insert_flag_colums(df):
+# def insert_flag_colums(df):
+
+#     # Get location of column to insert flag column after
+#     # Insert flag column with value of 2
+#     CTDPRS_LOC = df.columns.get_loc('CTDPRS')
+#     df.insert(CTDPRS_LOC + 1, 'CTDPRS_FLAG_W', 2)
+    
+#     CTDTMP_LOC = df.columns.get_loc('CTDTMP')
+#     df.insert(CTDTMP_LOC + 1, 'CTDTMP_FLAG_W', 2)
+    
+#     CTDSAL_LOC = df.columns.get_loc('CTDSAL')
+#     df.insert(CTDSAL_LOC + 1, 'CTDSAL_FLAG_W', 2)
+    
+#     CTDOXY_LOC = df.columns.get_loc('CTDOXY')
+#     df.insert(CTDOXY_LOC + 1, 'CTDOXY_FLAG_W', 2)
+    
+#     CTDXMISS_LOC = df.columns.get_loc('CTDXMISS')
+#     df.insert(CTDXMISS_LOC + 1, 'CTDXMISS_FLAG_W', 2)
+    
+#     CTDFLUOR_LOC = df.columns.get_loc('CTDFLUOR')
+#     df.insert(CTDFLUOR_LOC + 1, 'CTDFLUOR_FLAG_W', 2)
+
+#     return df
+
+
+def insert_flag_colums(df, data_params):
+
+    new_params = []
 
     # Get location of column to insert flag column after
     # Insert flag column with value of 2
-    CTDPRS_LOC = df.columns.get_loc('CTDPRS')
-    df.insert(CTDPRS_LOC + 1, 'CTDPRS_FLAG_W', 2)
-    
-    CTDTMP_LOC = df.columns.get_loc('CTDTMP')
-    df.insert(CTDTMP_LOC + 1, 'CTDTMP_FLAG_W', 2)
-    
-    CTDSAL_LOC = df.columns.get_loc('CTDSAL')
-    df.insert(CTDSAL_LOC + 1, 'CTDSAL_FLAG_W', 2)
-    
-    CTDOXY_LOC = df.columns.get_loc('CTDOXY')
-    df.insert(CTDOXY_LOC + 1, 'CTDOXY_FLAG_W', 2)
-    
-    CTDXMISS_LOC = df.columns.get_loc('CTDXMISS')
-    df.insert(CTDXMISS_LOC + 1, 'CTDXMISS_FLAG_W', 2)
-    
-    CTDFLUOR_LOC = df.columns.get_loc('CTDFLUOR')
-    df.insert(CTDFLUOR_LOC + 1, 'CTDFLUOR_FLAG_W', 2)
+    for param in data_params:
 
-    return df
+        param_name = param['whpname']
+        param_loc = df.columns.get_loc(param_name)
+        flag_name = '{}_FLAG_W'.format(param_name)
 
+        df.insert(param_loc + 1, flag_name, 2)
 
-def insert_flag_colums_at_end(df):
+        # Insert flag param dict into data_params list
+        # {'whpname': 'CTDPRS', 'longname': 'Pressure:CTD [dbar]', 'units': 'DBAR'}
+        param_insert = {}
+        param_insert['whpname'] = flag_name
+        param_insert['longname'] = flag_name
+        param_insert['units'] = ''
 
-    # Add flag columns to end of df
-    # Insert flag column with value of 2
+        new_params.append(param)
+        new_params.append(param_insert)
 
-    df = df.assign(CTDPRS_FLAG_W = 2)
-    df = df.assign(CTDTMP_FLAG_W = 2)   
-    df = df.assign(CTDSAL_FLAG_W = 2)
-    df = df.assign(CTDOXY_FLAG_W = 2) 
-    df = df.assign(CTDXMISS_FLAG_W = 2)
-    df = df.assign(CTDFLUOR_FLAG_W = 2)   
-
-    return df
+    return df, new_params
 
 
 def reformat_date_column(df):
@@ -491,7 +527,7 @@ def create_metadata_header(data_set):
     return metadata_header
 
 
-def get_data_units(params):
+def get_data_units(data_params):
 
     # In column names, units are in []
 
@@ -508,20 +544,20 @@ def get_data_units(params):
     # PAR:CTD [µE/m^2/sec]
 
 
-    data_units = {}
+    # data_units = {}
 
-    data_units['CTDPRS'] = 'DBAR'
-    data_units['CTDPRS_FLAG_W'] = ''
-    data_units['CTDTMP'] = 'ITS-90'
-    data_units['CTDTMP_FLAG_W'] = ''
-    data_units['CTDSAL'] = 'PSS-78'
-    data_units['CTDSAL_FLAG_W'] = ''
-    data_units['CTDOXY'] = 'UMOL/KG'
-    data_units['CTDOXY_FLAG_W'] = ''
-    data_units['CTDXMISS'] = '*/M'
-    data_units['CTDXMISS_FLAG_W'] = '' 
-    data_units['CTDFLUOR'] = 'MG/M^3'   
-    data_units['CTDFLUOR_FLAG_W'] = ''
+    # data_units['CTDPRS'] = 'DBAR'
+    # data_units['CTDPRS_FLAG_W'] = ''
+    # data_units['CTDTMP'] = 'ITS-90'
+    # data_units['CTDTMP_FLAG_W'] = ''
+    # data_units['CTDSAL'] = 'PSS-78'
+    # data_units['CTDSAL_FLAG_W'] = ''
+    # data_units['CTDOXY'] = 'UMOL/KG'
+    # data_units['CTDOXY_FLAG_W'] = ''
+    # data_units['CTDXMISS'] = '*/M'
+    # data_units['CTDXMISS_FLAG_W'] = '' 
+    # data_units['CTDFLUOR'] = 'MG/M^3'   
+    # data_units['CTDFLUOR_FLAG_W'] = ''
 
     # data_units['Sigma-t:CTD'] = 'kg/m^3'
     # data_units['Oxygen:Dissolved:CTD:Volume'] = 'ml/l'
@@ -534,52 +570,56 @@ def get_data_units(params):
     # put params into a dictionary
     # {'CTDPRS': 'DBAR', 'CTDTMP': 'ITS-90', 'CTDSAL': 'PSS-78', 'CTDXMISS': '*/M', 'CTDFLUOR': 'MG/M^3', 'CTDPRS_FLAG_W': '', 'CTDTMP_FLAG_W': '', 'CTDSAL_FLAG_W': '', 'CTDOXY_FLAG_W': '', 'CTDXMISS_FLAG_W': '', 'CTDFLUOR_FLAG_W': ''}
 
-    params_to_exclude = [
-    'DATE',
-    'TIME',
-    'EVENT',
-    'STATION',
-    'LATITUDE',
-    'LONGITUDE'
-    ]
+    # params_to_exclude = [
+    # 'DATE',
+    # 'TIME',
+    # 'EVENT',
+    # 'STATION',
+    # 'LATITUDE',
+    # 'LONGITUDE'
+    # ]
 
-    flags_to_include = [
-    'CTDPRS_FLAG_W',
-    'CTDTMP_FLAG_W',
-    'CTDSAL_FLAG_W',
-    'CTDOXY_FLAG_W',
-    'CTDXMISS_FLAG_W',
-    'CTDFLUOR_FLAG_W'
-    ]
+    # flags_to_include = [
+    # 'CTDPRS_FLAG_W',
+    # 'CTDTMP_FLAG_W',
+    # 'CTDSAL_FLAG_W',
+    # 'CTDOXY_FLAG_W',
+    # 'CTDXMISS_FLAG_W',
+    # 'CTDFLUOR_FLAG_W'
+    # ]
 
     data_units_dict = {}
 
-    for param in params:
-        if param['whpname'] not in params_to_exclude:
-            data_units_dict[param['whpname']] = param['units']
+    # for param in data_params:
+    #     if param['whpname'] not in params_to_exclude:
+    #         data_units_dict[param['whpname']] = param['units']
 
-    for flag in flags_to_include:
-        data_units_dict[flag] = ''
+    # for flag in flags_to_include:
+    #     data_units_dict[flag] = ''
 
-    print(data_units_dict)   
+    for param in data_params:
+        data_units_dict[param['whpname']] = param['units']
+
+    return data_units_dict
 
 
-    return data_units, data_units_dict
-
-
-def create_column_headers(params):
+def create_column_headers(data_params):
 
     column_headers = []
 
     # Get data units from all columns
     # At the moment, it is hard coded in and in correct order as
     # data columns pulled in through get_data_columns
-    data_units, data_units_dict = get_data_units(params)   
+    data_units_dict = get_data_units(data_params)
+
+    #print(data_units_dict)
+
+    # Really want data_params with flag columns included
 
     column_name_row = []
     column_units_row = []
 
-    for key, value in data_units.items():
+    for key, value in data_units_dict.items():
 
         column_name_row.append(key)
         column_units_row.append(value)
@@ -590,6 +630,9 @@ def create_column_headers(params):
 
     column_headers.append(name_row)
     column_headers.append(units_row)
+
+    print(name_row)
+    print(units_row)
 
     return column_headers
 
@@ -620,7 +663,7 @@ def get_ctd_filename(data_set):
     return ctd_filename
 
 
-def write_data_to_file(station_castno_df_sets, comment_header, params):
+def write_data_to_file(station_castno_df_sets, comment_header, meta_params, data_params):
 
     # Write data sets to file
 
@@ -639,7 +682,7 @@ def write_data_to_file(station_castno_df_sets, comment_header, params):
     start_line, end_line = create_start_end_lines(station_castno_df_sets[0]) 
 
     # Create column and data units lines
-    column_headers = create_column_headers(params)
+    column_headers = create_column_headers(data_params)
 
 
     # Loop over unique row sets (STATION and CASTNO)
@@ -792,16 +835,14 @@ def main():
         df, comment_header = load_p_line_cruise(url)
 
         # Get params
-        params = get_params()
+        meta_params = get_meta_params()
+        data_params = get_data_params()
 
         # Rename all data columns 
-        df = rename_pline_columns(df, params)
+        df = rename_pline_columns(df, meta_params, data_params)
 
         # Insert flag columns
-        df = insert_flag_colums(df)
-
-        df1 = df.copy()
-        df1 = insert_flag_colums_at_end(df1)
+        df, data_params = insert_flag_colums(df, data_params)
 
         # Reformat date column
         df = reformat_date_column(df)
@@ -824,7 +865,7 @@ def main():
         # Get data sets from dataframe for unique station and castno
         station_castno_df_sets = get_station_castno_df_sets(df, unique_station_castno_sets)
 
-        write_data_to_file(station_castno_df_sets, comment_header, params)
+        write_data_to_file(station_castno_df_sets, comment_header, meta_params, data_params)
 
 
 
