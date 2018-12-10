@@ -259,7 +259,6 @@ def get_data_params(df):
     return column_params
 
 
-
 def rename_pline_columns(df, meta_params, data_params):
 
     param_dict = {}
@@ -312,11 +311,11 @@ def reformat_date_column(df):
     return df
 
 
-def get_expocode(index, expocode_list):
+# def get_expocode(index, cruise_list):
 
-    expocode = expocode_list[index]
+#     expocode = cruise_list[2]
 
-    return expocode
+#     return expocode
 
 
 def insert_expocode_column(df, expocode):
@@ -606,71 +605,49 @@ def write_data_to_file(station_castno_df_sets, comment_header, meta_params, data
 
 def main():
 
-    # ('2009', '03') omitted because format is different. There is no CTDSAL column
-    # and this program doesn't take that into account    
-
-    # -> 33 cruises in order given on cruise menu url 
-    #https://waterproperties.ca/linep/cruises.php#cruises
-
-    # cruise_list =[ 
-    #     ('2018','001'),
-    #     ('2017', '01'), ('2017','06'), ('2017','08'),
-    #     ('2016', '01'), ('2016','06'), ('2016','08'),
-    #     ('2015', '01'), ('2015', '09'), ('2015', '10'),
-    #     ('2014', '01'), ('2014', '18'), ('2014', '19'),
-    #     ('2013', '01'), ('2013', '17'), ('2013', '18'),
-    #     ('2012', '01'), ('2012', '12'), ('2012', '13'),
-    #     ('2011', '01'), ('2011', '26'), ('2011', '27'),
-    #     ('2010', '01'), ('2010', '13'), ('2010', '14'),
-    #     ('2009', '09'), ('2009', '10'),
-    #     ('2008', '01'), ('2008', '26'), ('2008', '27'),
-    #     ('2007', '01'), ('2007', '13'), ('2007', '15'),
+    # cruise_list = [
+    #     ('2018', '001', '18LU20180218'),
+    #     ('2018', '026', '18DD20180605'),
+    #     ('2017', '01', '18DD20170205'),
+    #     ('2017', '06', '18DD20170604'),
+    #     ('2017', '08', '18DD20170815'),
+    #     ('2016', '01', '18DD20160208'),
+    #     ('2016', '06', '18DD20160605'),
+    #     ('2016', '08', '18DD20160816'),
+    #     ('2015', '01', '18DD20150210'),
+    #     ('2015', '09', '18DD20150607'),
+    #     ('2015', '10', '18DD20150818'),
+    #     ('2014', '01', '18DD20140210'),
+    #     ('2014', '18', '18DD20140608'),
+    #     ('2014', '19', '18DD20140819'),
+    #     ('2013', '01', '18DD20130205'),
+    #     ('2013', '17', '18DD20130607'),
+    #     ('2013', '18', '18DD20130820'),
+    #     ('2012', '01', '18DD20120206'),
+    #     ('2012', '12', '18DD20120522'),
+    #     ('2012', '13', '18DD20120814'),
+    #     ('2011', '01', '18DD20110208'),
+    #     ('2011', '26', '18DD20110603'),
+    #     ('2011', '27', '18DD20110816'),
+    #     ('2010', '01', '18DD20100202'),
+    #     ('2010', '13', '18DD20100605'),
+    #     ('2010', '14', '18DD20100803'),
+    #     ('2009', '09', '18DD20090127'),
+    #     ('2009', '10', '18DD20090606'),
+    #     ('2009', '01', '18DD20090818'),
+    #     ('2008', '01', '18DD20080129'),
+    #     ('2008', '26', '18DD20080528'),
+    #     ('2008', '27', '18DD20080812'),
+    #     ('2007', '01', '18DD20070207'),
+    #     ('2007', '13', '18DD20070530'),
+    #     ('2007', '15', '18DD20070814')
     # ]
 
 
-# Not including ('2009', '03') in cruise_list, so 
-# no corresponding expocode for it, 18DD20090818
+# Look at ('2009', '03') in cruise_list, had different columns than rest
 
 
-    # -> 33 corresponding expocodes
-
-    # expocode_list = [
-        # 18LU20180218
-        # 18DD20170205
-        # 18DD20170604
-        # 18DD20170815
-        # 18DD20160208
-        # 18DD20160605
-        # 18DD20160816
-        # 18DD20150210
-        # 18DD20150607
-        # 18DD20150818
-        # 18DD20140210
-        # 18DD20140608
-        # 18DD20140819
-        # 18DD20130205
-        # 18DD20130607
-        # 18DD20130820
-        # 18DD20120206
-        # 18DD20120522
-        # 18DD20120814
-        # 18DD20110208
-        # 18DD20110603
-        # 18DD20110816
-        # 18DD20100202
-        # 18DD20100605
-        # 18DD20100803
-        # 18DD20090127
-        # 18DD20090606
-        # 18DD20080129
-        # 18DD20080528
-        # 18DD20070207
-        # 18DD20070530
-        # 18DD20070814
-    # ]
-
-
-    # # Formatting error, so can't run with this program as is
+    # # Formatting error (missing col I think), so can't run with this program as is
     # # Run for one cruise
     # cruise_list =[ 
     #     ('2009', '03')
@@ -683,19 +660,17 @@ def main():
 
     # Run for one cruise
     cruise_list =[ 
-        ('2017', '01')
+        ('2017', '01', '18DD20170205')
     ]    
 
-    expocode_list = [
-        '18DD20070207'
-    ]
+    # expocode_list = [
+    #     '18DD20070207'
+    # ]
 
 
 
 
-    # Get index of loop to find corresponding expocode
-    #for cruise in cruise_list:
-    for index, cruise in enumerate(cruise_list):
+    for cruise in cruise_list:
 
         # Get URL of cruise information
         # url: https://www.waterproperties.ca/linep/2017-01/donneesctddata/2017-01-ctd-cruise.csv
@@ -718,7 +693,7 @@ def main():
         df = reformat_date_column(df)
 
         # Get expocode
-        expocode = get_expocode(index, expocode_list)
+        expocode = cruise[2]
 
         # Insert expocode column
         df = insert_expocode_column(df, expocode)
