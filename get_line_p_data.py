@@ -225,7 +225,7 @@ def get_meta_params():
     return params
 
 
-def get_data_params():
+def get_all_data_params():
     
     params =[                             
     {'whpname' : 'CTDPRS' , 'longname':'Pressure:CTD [dbar]', 'units' : 'DBAR'},                          
@@ -235,10 +235,29 @@ def get_data_params():
     {'whpname' : 'CTDOXY' , 'longname':'Oxygen:Dissolved:CTD:Mass [µmol/kg]', 'units' : 'UMOL/KG'},
     {'whpname' : 'CTDFLUOR' , 'longname':'Fluorescence:CTD:Seapoint [mg/m^3]', 'units' : 'MG/M^3'},   
     {'whpname' : 'CTDFLUOR_TSG' , 'longname':'Fluorescence:CTD:Wetlabs [mg/m^3]', 'units' : 'MG/M^3'},
-    {'whpname' : 'PAR' , 'longname':'PAR:CTD [µE/m^2/sec]', 'units' : 'UE/m^2/sec'}   
+    {'whpname' : 'PAR' , 'longname':'PAR:CTD [µE/m^2/sec]', 'units' : 'UE/m^2/sec'},
+    {'whpname' : 'CTDFLUOR', 'longname': 'Fluorescence:CTD:Seapoint', 'units' : 'MG/M^3'},
+    {'whpname' : 'CTDSAL' , 'longname':'Salinity:Practical:CTD [PSS-78]', 'units' : 'PSS-78'}  
     ]        
 
     return params
+
+
+def get_data_params(df):
+
+    column_params = []
+    
+    all_params = get_all_data_params()       
+
+    for param in all_params:
+
+        param_name = param['longname']
+
+        if param_name in df.columns:
+            column_params.append(param)
+
+    return column_params
+
 
 
 def rename_pline_columns(df, meta_params, data_params):
@@ -687,7 +706,7 @@ def main():
 
         # Get params
         meta_params = get_meta_params()
-        data_params = get_data_params()
+        data_params = get_data_params(df)
 
         # Rename all data columns 
         df = rename_pline_columns(df, meta_params, data_params)
