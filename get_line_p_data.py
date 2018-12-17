@@ -151,16 +151,17 @@ def load_p_line_cruise(url):
     #2017-01-0001.ctd,UTC,06-02-17, 23:58,1,48.65883,-123.49934,SI,Mid-ship,1.1,6.6845,28.1863,22.1205,,,,1.186,,12.6  
 
 
-    # # Read in csv file and split text on returns to get a list of lines
-    # txt = urlopen(url).read()
-    # decode_txt = txt.decode('windows-1252')
-    # raw_csv = decode_txt.split('\r\n')
+    # Read in csv file and split text on returns to get a list of lines
+    txt = urlopen(url).read()
+    decode_txt = txt.decode('windows-1252')
+    raw_csv = decode_txt.split('\r\n')
 
 
-    # For testing
-    text_file = open("./2017_test_file2.csv", "r")
-    txt = text_file.read()
-    raw_csv = txt.split('\n')
+    # # For testing
+    # text_file = open("./2017_test_file2.csv", "r")
+    # txt = text_file.read()
+    # raw_csv = txt.split('\n')
+
 
     # Find header and lines containing values from ctd files
 
@@ -527,7 +528,15 @@ def get_ctd_filename(data_set):
     stnbr = first_row['STATION']
     castno = first_row['CASTNO']
 
-    ctd_filename = './line_p/' + expocode + '_ct1/' + expocode + '_' + str(stnbr) + '_' + str(castno) + '_ct1.csv'
+    str_stnbr = str(stnbr)
+    str_castno = str(castno)
+
+    # if stnbr has a slash in name, replace with a dash
+    if '/' in str_stnbr:
+        str_stnbr = str_stnbr.replace('/', '-')
+
+
+    ctd_filename = './line_p/' + expocode + '_ct1/' + expocode + '_' + str_stnbr + '_' + str_castno + '_ct1.csv'
 
     return ctd_filename
 
@@ -605,69 +614,43 @@ def write_data_to_file(station_castno_df_sets, comment_header, meta_params, data
 
 def main():
 
-    # cruise_list = [
-    #     ('2018', '001', '18LU20180218'),
-    #     ('2018', '026', '18DD20180605'),
-    #     ('2017', '01', '18DD20170205'),
-    #     ('2017', '06', '18DD20170604'),
-    #     ('2017', '08', '18DD20170815'),
-    #     ('2016', '01', '18DD20160208'),
-    #     ('2016', '06', '18DD20160605'),
-    #     ('2016', '08', '18DD20160816'),
-    #     ('2015', '01', '18DD20150210'),
-    #     ('2015', '09', '18DD20150607'),
-    #     ('2015', '10', '18DD20150818'),
-    #     ('2014', '01', '18DD20140210'),
-    #     ('2014', '18', '18DD20140608'),
-    #     ('2014', '19', '18DD20140819'),
-    #     ('2013', '01', '18DD20130205'),
-    #     ('2013', '17', '18DD20130607'),
-    #     ('2013', '18', '18DD20130820'),
-    #     ('2012', '01', '18DD20120206'),
-    #     ('2012', '12', '18DD20120522'),
-    #     ('2012', '13', '18DD20120814'),
-    #     ('2011', '01', '18DD20110208'),
-    #     ('2011', '26', '18DD20110603'),
-    #     ('2011', '27', '18DD20110816'),
-    #     ('2010', '01', '18DD20100202'),
-    #     ('2010', '13', '18DD20100605'),
-    #     ('2010', '14', '18DD20100803'),
-    #     ('2009', '09', '18DD20090127'),
-    #     ('2009', '10', '18DD20090606'),
-    #     ('2009', '01', '18DD20090818'),
-    #     ('2008', '01', '18DD20080129'),
-    #     ('2008', '26', '18DD20080528'),
-    #     ('2008', '27', '18DD20080812'),
-    #     ('2007', '01', '18DD20070207'),
-    #     ('2007', '13', '18DD20070530'),
-    #     ('2007', '15', '18DD20070814')
-    # ]
-
-
-# Look at ('2009', '03') in cruise_list, had different columns than rest
-
-
-    # # Formatting error (missing col I think), so can't run with this program as is
-    # # Run for one cruise
-    # cruise_list =[ 
-    #     ('2009', '03')
-    # ]    
-
-    # expocode_list = [
-    #     '18DD20090818'
-    # ]
-
-
-    # Run for one cruise
-    cruise_list =[ 
-        ('2017', '01', '18DD20170205')
-    ]    
-
-    # expocode_list = [
-    #     '18DD20070207'
-    # ]
-
-
+    cruise_list = [
+        ('2018', '001', '18LU20180218'),
+        ('2018', '026', '18DD20180605'),
+        ('2017', '01', '18DD20170205'),
+        ('2017', '06', '18DD20170604'),
+        ('2017', '08', '18DD20170815'),
+        ('2016', '01', '18DD20160208'),
+        ('2016', '06', '18DD20160605'),
+        ('2016', '08', '18DD20160816'),
+        ('2015', '01', '18DD20150210'),
+        ('2015', '09', '18DD20150607'),
+        ('2015', '10', '18DD20150818'),
+        ('2014', '01', '18DD20140210'),
+        ('2014', '18', '18DD20140608'),
+        ('2014', '19', '18DD20140819'),
+        ('2013', '01', '18DD20130205'),
+        ('2013', '17', '18DD20130607'),
+        ('2013', '18', '18DD20130820'),
+        ('2012', '01', '18DD20120206'),
+        ('2012', '12', '18DD20120522'),
+        ('2012', '13', '18DD20120814'),
+        ('2011', '01', '18DD20110208'),
+        ('2011', '26', '18DD20110603'),
+        ('2011', '27', '18DD20110816'),
+        ('2010', '01', '18DD20100202'),
+        ('2010', '13', '18DD20100605'),
+        ('2010', '14', '18DD20100803'),
+        ('2009', '03', '18DD20090127'),
+        ('2009', '09', '18DD20090606'),
+        ('2009', '10', '18DD20090818'),
+        ('2008', '01', '18DD20080129'),
+        ('2008', '26', '18DD20080528'),
+        ('2008', '27', '18DD20080812'),
+        ('2007', '01', '18DD20070207'),
+        ('2007', '13', '18DD20070530'),
+        ('2007', '15', '18DD20070814')
+    ]
 
 
     for cruise in cruise_list:
