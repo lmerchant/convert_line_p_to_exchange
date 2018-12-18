@@ -640,7 +640,7 @@ def main():
         ('2011', '27', '18DD20110816'),
         ('2010', '01', '18DD20100202'),
         ('2010', '13', '18DD20100605'),
-        ('2010', '14', '18DD20100803'),
+        ('2010', '14', '18DD20100817'),
         ('2009', '03', '18DD20090127'),
         ('2009', '09', '18DD20090606'),
         ('2009', '10', '18DD20090818'),
@@ -694,6 +694,8 @@ def main():
         station_castno_df_sets = get_station_castno_df_sets(df, unique_station_castno_sets)
 
         write_data_to_file(station_castno_df_sets, comment_header, meta_params, data_params)
+
+        print("Completed " + expocode)
 
 
 
