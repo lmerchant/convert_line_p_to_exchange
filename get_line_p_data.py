@@ -130,6 +130,7 @@ import os
 import pandas as pd
 import numpy as np
 from urllib.request import urlopen
+import datetime
 
 
 def build_url(year,month):
@@ -508,17 +509,26 @@ def create_column_headers(data_params):
     return column_headers
 
 
-def create_start_end_lines(data_set):
+def create_start_end_lines():
 
-    first_row = data_set.iloc[0]
+    # first_row = data_set.iloc[0]
+    # expocode = first_row['EXPOCODE']
+    # start_line = 'CTD,' + expocode
+    # end_line = 'END_DATA'
+    # return start_line, end_line
 
-    expocode = first_row['EXPOCODE']
+    now = datetime.datetime.now()
 
-    start_line = 'CTD,' + expocode
+    year = now.strftime('%Y')
+    month = now.strftime('%m')
+    day = now.strftime('%d')
+
+    start_line = "CTD,{}{}{}CCHSIOLMM".format(year,month,day)
 
     end_line = 'END_DATA'
 
     return start_line, end_line
+
 
 
 def get_ctd_filename(data_set):
@@ -558,7 +568,8 @@ def write_data_to_file(station_castno_df_sets, comment_header, meta_params, data
 
 
     # Get file start and end lines
-    start_line, end_line = create_start_end_lines(station_castno_df_sets[0]) 
+    #start_line, end_line = create_start_end_lines(station_castno_df_sets[0])
+    start_line, end_line = create_start_end_lines() 
 
     # Create column and data units lines
     column_headers = create_column_headers(data_params)
