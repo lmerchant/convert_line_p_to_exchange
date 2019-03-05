@@ -547,7 +547,7 @@ def get_ctd_filename(data_set):
         str_stnbr = str_stnbr.replace('/', '-')
 
 
-    ctd_filename = './line_p/' + expocode + '_ct1/' + expocode + '_' + str_stnbr + '_' + str_castno + '_ct1.csv'
+    ctd_filename = './exchange_line_p_data/' + expocode + '_ct1/' + expocode + '_' + str_stnbr + '_' + str_castno + '_ct1.csv'
 
     return ctd_filename
 
@@ -560,8 +560,8 @@ def write_data_to_file(station_castno_df_sets, comment_header, meta_params, data
     first_row = station_castno_df_sets[0].iloc[0]
     expocode = first_row['EXPOCODE']
 
-    # Make sub directory in './line_p'
-    directory = './line_p/' + expocode + '_ct1'
+    # Make sub directory in './exchange_line_p_data'
+    directory = './exchange_line_p_data/' + expocode + '_ct1'
 
     if not os.path.exists(directory):
         os.makedirs(directory)
