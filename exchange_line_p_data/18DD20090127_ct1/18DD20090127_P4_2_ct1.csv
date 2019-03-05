@@ -1,0 +1,109 @@
+CTD,20190304CCHSIOLMM
+#-----------------------------------------------------------------------------------------------------------,,,,,,,,,,,,,,,,,
+#Transmissivity Fluorescence and PAR are nominal and unedited except that some records were removed in editing temperature and salinity.,,,,,,,,,,,,,,,,,
+#,,,,,,,,,,,,,,,,,
+#COMMENTS FOR FILES 0001 TO 0040:,,,,,,,,,,,,,,,,,
+#The Oxygen:Dissolved:CTD data for this cruise were recalibrated in three steps.,,,,,,,,,,,,,,,,,
+#The first correction was applied to data from above 1400 dbar and to all of cast 0040.,,,,,,,,,,,,,,,,,
+#The second was applied to data below 1400 dbar from casts 0015 to 0038.,,,,,,,,,,,,,,,,,
+#The final correction was applied to all data. ,,,,,,,,,,,,,,,,,
+#,,,,,,,,,,,,,,,,,
+#Oxygen:Dissolved:CTD data below 1400 dbar are very noisy and are considered less reliable because of the noisy signal; the limitations in the calibration; and because it was impossible to fine-tune the configuration parameters to get the best possible deep data; so there may be some hysteresis.,,,,,,,,,,,,,,,,,
+#,,,,,,,,,,,,,,,,,
+#The Oxygen:Dissolved:CTD data should be considered:,,,,,,,,,,,,,,,,,
+#      • ±0.4 ml/l from 0 to 200 dbar,,,,,,,,,,,,,,,,,
+#      • ±0.1 ml/l from 200 to 500 dbar,,,,,,,,,,,,,,,,,
+#      • ±0.04 ml/l from 500 to 1500 dbar,,,,,,,,,,,,,,,,,
+#      • ±0.2 ml/l below 1500 dbar,,,,,,,,,,,,,,,,,
+#,,,,,,,,,,,,,,,,,
+#COMMENTS FOR FILES 0046 TO 0060:,,,,,,,,,,,,,,,,,
+#There were no bottle samples available to recalibrate the dissolved oxygen sensor used for this cast. ,,,,,,,,,,,,,,,,,
+#Recalibration was based only on an inter-comparison of repeat casts at station P26; one with sensor #0997 (used for casts 0001 to 0040) and two with sensor #1119 (used for casts 0046 to 0060). ,,,,,,,,,,,,,,,,,
+#The casts were separated in time by 4 to 6 hours.,,,,,,,,,,,,,,,,,
+#Temporal variations were found to be very large between 100 and 700 dbar during repeat casts using a single sensor so the inter-comparison of sensors was limited to the mixed layer from 0 to 100 dbar and below 700 dbar. ,,,,,,,,,,,,,,,,,
+#This limits the range included in the fit to high and low values.,,,,,,,,,,,,,,,,,
+#A final calibration applied was based on studies of sensor #0997.,,,,,,,,,,,,,,,,,
+#,,,,,,,,,,,,,,,,,
+#The comparisons in areas of low Oxygen:Dissolved gradients suggest that this sensor performed well. ,,,,,,,,,,,,,,,,,
+#A rough estimate suggests that the data is likely to be within:,,,,,,,,,,,,,,,,,
+#      • ±0.4 ml/l from 0 to 200 dbar,,,,,,,,,,,,,,,,,
+#      • ±0.2 ml/l below 200 dbar,,,,,,,,,,,,,,,,,
+#,,,,,,,,,,,,,,,,,
+#Transmissometer #1005DR was calibrated in March 2008 and drifted significantly but steadily until July 2009. ,,,,,,,,,,,,,,,,,
+#Then a sudden shift occurred so that maximum values between September 2009 and July 2010 were very low by about 25 %/m. ,,,,,,,,,,,,,,,,,
+#In August 2010 a study was made of transmissivity that led to a decision to apply post-processing corrections to all cruises between March 2008 and June 2010.,,,,,,,,,,,,,,,,,
+#,,,,,,,,,,,,,,,,,
+#Transmissivity data from this cruise were corrected by multiplying the original values by a correction factor which was based on assumptions that deep offshore transmissivity from a June 2009 cruise should be about 62 %/m and that drift was linear with time between March 2008 and July 2009. ,,,,,,,,,,,,,,,,,
+#The corrections produced reasonable results for all cruises in that time period. ,,,,,,,,,,,,,,,,,
+#,,,,,,,,,,,,,,,,,
+#For details on the transmissometer post-processing see: Transmissometer_1005DR_Corrections.pdf.,,,,,,,,,,,,,,,,,
+#,,,,,,,,,,,,,,,,,
+#These data should still be considered nominal.,,,,,,,,,,,,,,,,,
+#---------------------------------------------------------------------------------------------------,,,,,,,,,,,,,,,,,
+#For details on the processing see file 2009-03-proc.pdf.,,,,,,,,,,,,,,,,,
+#---------------------------------------------------------------------------------------------------,,,,,,,,,,,,,,,,,
+#,,,,,,,,,,,,,,,,,
+#File Name,Zone,FIL:START TIME YYYY/MM/DD, HH:MM,LOC:EVENT_NUMBER,LOC:LATITUDE,LOC:LONGITUDE,LOC:STATION,Pressure:CTD [dbar],Temperature:CTD [deg_C_(ITS90)],Salinity:Practical:CTD [PSS-78],Sigma-t:CTD [kg/m^3],Transmissivity:CTD [*/m],Oxygen:Dissolved:CTD:Volume [ml/l],Oxygen:Dissolved:CTD:Mass [µmol/kg],Fluorescence:CTD [mg/m^3],PAR:CTD [µE/m^2/sec],
+#,,,,,,,,,,,,,,,,,
+NUMBER_HEADERS = 8
+EXPOCODE = 18DD20090127
+STNBR = P4
+CASTNO = 2
+DATE = 29/01/2009
+TIME =  21:57
+LATITUDE = 48.6505
+LONGITUDE = -126.66683
+CTDPRS,CTDPRS_FLAG_W,CTDTMP,CTDTMP_FLAG_W,CTDSAL,CTDSAL_FLAG_W,CTDOXY,CTDOXY_FLAG_W,CTDXMISS,CTDXMISS_FLAG_W,CTDFLUOR,CTDFLUOR_FLAG_W,PAR,PAR_FLAG_W
+DBAR,,ITS-90,,PSS-78,,UMOL/KG,,,,MG/M^3,,UE/m^2/sec,
+P4,2,2.4,2,7.5267,2,6.65,2,24.7559,2,289.9,2,0.9790000000000001,2
+P4,2,4.1,2,7.515,2,6.65,2,24.7589,2,289.7,2,1.073,2
+P4,2,5.0,2,7.5131,2,6.66,2,24.7592,2,290.2,2,1.079,2
+P4,2,6.0,2,7.511,2,6.66,2,24.7596,2,289.9,2,1.095,2
+P4,2,7.0,2,7.5106,2,6.65,2,24.7596,2,289.7,2,1.1,2
+P4,2,8.0,2,7.5089999999999995,2,6.64,2,24.7598,2,289.2,2,1.1059999999999999,2
+P4,2,8.9,2,7.505,2,6.63,2,24.7607,2,288.9,2,1.12,2
+P4,2,10.0,2,7.5029,2,6.64,2,24.7618,2,289.2,2,1.0859999999999999,2
+P4,2,11.0,2,7.5036,2,6.65,2,24.7636,2,289.7,2,1.101,2
+P4,2,12.1,2,7.504,2,6.63,2,24.7645,2,288.8,2,1.143,2
+P4,2,13.0,2,7.5353,2,6.61,2,24.8223,2,287.8,2,1.069,2
+P4,2,14.0,2,7.553,2,6.59,2,24.8589,2,286.9,2,1.041,2
+P4,2,15.0,2,7.5745,2,6.59,2,24.8902,2,286.9,2,1.045,2
+P4,2,16.0,2,7.5912,2,6.59,2,24.9128,2,286.9,2,0.986,2
+P4,2,17.1,2,7.6106,2,6.57,2,24.9299,2,286.1,2,0.998,2
+P4,2,17.9,2,7.6128,2,6.58,2,24.934,2,286.4,2,1.01,2
+P4,2,19.0,2,7.6178,2,6.55,2,24.9422,2,285.5,2,0.8909999999999999,2
+P4,2,20.0,2,7.6563,2,6.48,2,24.967,2,282.4,2,0.858,2
+P4,2,21.0,2,7.7702,2,6.44,2,25.0201,2,280.4,2,0.799,2
+P4,2,22.0,2,7.8545,2,6.42,2,25.0719,2,279.5,2,0.7240000000000001,2
+P4,2,22.9,2,7.9429,2,6.42,2,25.1494,2,279.7,2,0.7140000000000001,2
+P4,2,24.0,2,7.8412,2,6.58,2,25.1968,2,286.4,2,0.652,2
+P4,2,25.0,2,7.6888,2,6.68,2,25.2431,2,291.0,2,0.603,2
+P4,2,26.0,2,7.6546,2,6.73,2,25.2622,2,292.9,2,0.591,2
+P4,2,27.0,2,7.6318,2,6.74,2,25.2754,2,293.3,2,0.603,2
+P4,2,28.1,2,7.6253,2,6.72,2,25.2791,2,292.8,2,0.57,2
+P4,2,29.0,2,7.6193,2,6.71,2,25.2834,2,292.3,2,0.551,2
+P4,2,30.0,2,7.6119,2,6.71,2,25.2887,2,292.1,2,0.574,2
+P4,2,31.0,2,7.607,2,6.7,2,25.2928,2,291.5,2,0.5770000000000001,2
+P4,2,32.0,2,7.6048,2,6.7,2,25.2947,2,291.6,2,0.539,2
+P4,2,33.0,2,7.6007,2,6.7,2,25.2988,2,291.6,2,0.518,2
+P4,2,34.0,2,7.5964,2,6.7,2,25.303,2,291.6,2,0.52,2
+P4,2,35.0,2,7.5925,2,6.71,2,25.3061,2,292.3,2,0.52,2
+P4,2,36.0,2,7.5908,2,6.73,2,25.3077,2,292.9,2,0.529,2
+P4,2,36.9,2,7.5899,2,6.71,2,25.3085,2,292.2,2,0.527,2
+P4,2,38.0,2,7.5893,2,6.69,2,25.3103,2,291.3,2,0.509,2
+P4,2,39.0,2,7.5906,2,6.7,2,25.311999999999998,2,291.7,2,0.49700000000000005,2
+P4,2,40.0,2,7.5906,2,6.69,2,25.313000000000002,2,291.4,2,0.502,2
+P4,2,41.0,2,7.5895,2,6.69,2,25.3139,2,291.4,2,0.511,2
+P4,2,42.1,2,7.5889,2,6.71,2,25.314,2,292.1,2,0.526,2
+P4,2,43.0,2,7.5884,2,6.7,2,25.3144,2,291.9,2,0.508,2
+P4,2,44.0,2,7.5885,2,6.71,2,25.3149,2,292.1,2,0.488,2
+P4,2,45.0,2,7.5891,2,6.72,2,25.315,2,292.5,2,0.488,2
+P4,2,46.0,2,7.5891,2,6.73,2,25.3151,2,292.9,2,0.5529999999999999,2
+P4,2,47.0,2,7.5883,2,6.73,2,25.3153,2,293.0,2,0.544,2
+P4,2,48.0,2,7.5875,2,6.72,2,25.3154,2,292.6,2,0.523,2
+P4,2,49.0,2,7.5876,2,6.71,2,25.3154,2,292.3,2,0.501,2
+P4,2,50.0,2,7.5873,2,6.71,2,25.3157,2,292.2,2,0.488,2
+P4,2,51.1,2,7.5867,2,6.71,2,25.3158,2,292.3,2,0.466,2
+P4,2,51.9,2,7.5884,2,6.7,2,25.3178,2,291.9,2,0.447,2
+P4,2,52.6,2,7.5928,2,6.7,2,25.3202,2,291.9,2,0.42700000000000005,2
+END_DATA

@@ -1,0 +1,33 @@
+CTD,20190304CCHSIOLMM
+#---------------------------------------------------------------------------------------------------,,,,,,,,,,,,,,,,
+#Transmissivity - fluorescence - PAR are nominal and unedited except that some records were removed in editing temperature and salinity.,,,,,,,,,,,,,,,,
+#,,,,,,,,,,,,,,,,
+#Salinity:Practical:CTD was recalibrated based on a comparison with samples analyzed at IOS on an Autosal.,,,,,,,,,,,,,,,,
+#Other samples run at sea on a Portasal appear unreliable based on a study of duplicates run on the two salinometers. ,,,,,,,,,,,,,,,,
+#,,,,,,,,,,,,,,,,
+#The Oxygen:Dissolved:CTD data should be considered:,,,,,,,,,,,,,,,,
+#    • ± 0.5 ml/l from 0 to 125 dbar.,,,,,,,,,,,,,,,,
+#    • ± 0.2 ml/l from 125 to 400 dbar.,,,,,,,,,,,,,,,,
+#    • ± 0.1 ml/l from 400 to 1200 dbar.,,,,,,,,,,,,,,,,
+#    • data below 1200 dbar are considered unreliable by the manufacturer.,,,,,,,,,,,,,,,,
+#---------------------------------------------------------------------------------------------------,,,,,,,,,,,,,,,,
+#For details on the processing see file: 2008-26-proc.pdf.,,,,,,,,,,,,,,,,
+#---------------------------------------------------------------------------------------------------,,,,,,,,,,,,,,,,
+#,,,,,,,,,,,,,,,,
+#File Name,Zone,FIL:START TIME YYYY/MM/DD, HH:MM,LOC:EVENT_NUMBER,LOC:LATITUDE,LOC:LONGITUDE,LOC:STATION,Pressure:CTD [dbar],Temperature:CTD [deg_C_(ITS90)],Salinity:Practical:CTD [PSS-78],Sigma-t:CTD [kg/m^3],Transmissivity:CTD [*/m],Oxygen:Dissolved:CTD:Volume [ml/l],Oxygen:Dissolved:CTD:Mass [µmol/kg],Fluorescence:CTD:Seapoint [mg/m^3],PAR:CTD [µE/m^2/sec]
+#,,,,,,,,,,,,,,,,
+NUMBER_HEADERS = 8
+EXPOCODE = 18DD20080528
+STNBR = P26
+CASTNO = 5
+DATE = 09/06/2008
+TIME =  13:30
+LATITUDE = 50.00033
+LONGITUDE = -145.0
+CTDPRS,CTDPRS_FLAG_W,CTDTMP,CTDTMP_FLAG_W,CTDSAL,CTDSAL_FLAG_W,CTDOXY,CTDOXY_FLAG_W,CTDXMISS,CTDXMISS_FLAG_W,CTDFLUOR,CTDFLUOR_FLAG_W,PAR,PAR_FLAG_W
+DBAR,,ITS-90,,PSS-78,,UMOL/KG,,,,MG/M^3,,UE/m^2/sec,
+3.0,2,6.7895,2,32.6405,2,312.7,2,49.8,2,0.674,2,,2
+4.0,2,6.7855,2,32.6403,2,313.4,2,49.9,2,0.7090000000000001,2,,2
+5.1,2,6.7858,2,32.6401,2,313.7,2,49.7,2,0.733,2,,2
+5.6,2,6.7843,2,32.6399,2,313.7,2,49.8,2,0.72,2,,2
+END_DATA

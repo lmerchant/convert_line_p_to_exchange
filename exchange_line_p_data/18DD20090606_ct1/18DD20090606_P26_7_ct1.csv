@@ -1,0 +1,64 @@
+CTD,20190304CCHSIOLMM
+#-----------------------------------------------------------------------------------------------------------,,,,,,,,,,,,,,,,
+#Transmissivity - fluorescence - PAR are nominal and unedited except that some records were removed in editing temperature and salinity.,,,,,,,,,,,,,,,,
+#,,,,,,,,,,,,,,,,
+#The precision of the Oxygen:Dissolved:CTD channel is difficult to estimate because the comparison with bottles was very noisy but roughly the Oxygen:Dissolved:CTD data should be considered:,,,,,,,,,,,,,,,,
+#      • ±0.4 ml/l from 0 to 150 dbar,,,,,,,,,,,,,,,,
+#      • ±0.08 ml/l from 150 to 450 dbar,,,,,,,,,,,,,,,,
+#      • ±0.04 ml/l from 450 to 2000 dbar,,,,,,,,,,,,,,,,
+#      • ±0.1 ml/l below 2000 dbar,,,,,,,,,,,,,,,,
+#-----------------------------------------------------------------------------------------------------------,,,,,,,,,,,,,,,,
+#Transmissometer #1005DR was calibrated in March 2008 and drifted significantly but steadily until July 2009. ,,,,,,,,,,,,,,,,
+#Then a sudden shift occurred so that maximum values between September 2009 and July 2010 were very low by about 25 %/m. ,,,,,,,,,,,,,,,,
+#In August 2010 a study was made of transmissivity that led to a decision to apply post-processing corrections to all cruises between March 2008 and June 2010.,,,,,,,,,,,,,,,,
+#,,,,,,,,,,,,,,,,
+#Transmissivity data from this cruise were corrected by multiplying the original values by a correction factor which was based on assumptions that deep offshore transmissivity from a June 2009 cruise should be about 62 %/m and that drift was linear with time between March 2008 and July 2009. ,,,,,,,,,,,,,,,,
+#The corrections produced reasonable results for all cruises in that time period. ,,,,,,,,,,,,,,,,
+#,,,,,,,,,,,,,,,,
+#For details on how the correction factor was derived see Transmissometer_1005DR_Corrections.pdf,,,,,,,,,,,,,,,,
+#These data should be considered estimates.,,,,,,,,,,,,,,,,
+#-----------------------------------------------------------------------------------------------------------,,,,,,,,,,,,,,,,
+#For details on the processing see processing report: 2009-09-proc.pdf,,,,,,,,,,,,,,,,
+#-----------------------------------------------------------------------------------------------------------,,,,,,,,,,,,,,,,
+#,,,,,,,,,,,,,,,,
+#File Name,Zone,FIL:START TIME YYYY/MM/DD, HH:MM,LOC:EVENT_NUMBER,LOC:LATITUDE,LOC:LONGITUDE,LOC:STATION,Pressure:CTD [dbar],Temperature:CTD [deg_C_(ITS90)],Salinity:Practical:CTD [PSS-78],Sigma-t:CTD [kg/m^3],Transmissivity:CTD [*/m],Oxygen:Dissolved:CTD:Volume [ml/l],Oxygen:Dissolved:CTD:Mass [µmol/kg],Fluorescence:CTD [mg/m^3],PAR:CTD [µE/m^2/sec]
+#,,,,,,,,,,,,,,,,
+NUMBER_HEADERS = 8
+EXPOCODE = 18DD20090606
+STNBR = P26
+CASTNO = 7
+DATE = 15/06/2009
+TIME =  05:03
+LATITUDE = 49.9995
+LONGITUDE = -145.00101
+CTDPRS,CTDPRS_FLAG_W,CTDTMP,CTDTMP_FLAG_W,CTDSAL,CTDSAL_FLAG_W,CTDOXY,CTDOXY_FLAG_W,CTDXMISS,CTDXMISS_FLAG_W,CTDFLUOR,CTDFLUOR_FLAG_W,PAR,PAR_FLAG_W
+DBAR,,ITS-90,,PSS-78,,UMOL/KG,,,,MG/M^3,,UE/m^2/sec,
+3.1,2,9.5912,2,32.5675,2,301.5,2,39.6,2,0.67,2,,2
+4.0,2,9.5912,2,32.5674,2,300.9,2,41.0,2,0.672,2,,2
+5.0,2,9.5906,2,32.5678,2,301.6,2,46.0,2,0.667,2,,2
+6.0,2,9.589,2,32.5682,2,301.9,2,50.0,2,0.665,2,,2
+7.0,2,9.5894,2,32.5681,2,302.0,2,51.9,2,0.682,2,,2
+8.0,2,9.5898,2,32.5681,2,302.5,2,52.9,2,0.6809999999999999,2,,2
+9.0,2,9.5899,2,32.5681,2,302.4,2,53.1,2,0.7140000000000001,2,,2
+10.0,2,9.5893,2,32.5682,2,302.5,2,53.0,2,0.664,2,,2
+11.0,2,9.5906,2,32.5681,2,302.3,2,53.1,2,0.687,2,,2
+12.0,2,9.5904,2,32.5682,2,301.8,2,53.1,2,0.659,2,,2
+13.0,2,9.5883,2,32.5681,2,302.2,2,53.1,2,0.6659999999999999,2,,2
+14.0,2,9.5808,2,32.568000000000005,2,302.8,2,53.1,2,0.6629999999999999,2,,2
+15.0,2,9.5755,2,32.5678,2,301.6,2,53.1,2,0.665,2,,2
+16.0,2,9.558,2,32.5685,2,302.2,2,53.1,2,0.6809999999999999,2,,2
+17.0,2,9.4217,2,32.5671,2,303.8,2,53.0,2,0.693,2,,2
+17.9,2,9.2728,2,32.563,2,303.9,2,52.9,2,0.71,2,,2
+19.0,2,9.16,2,32.5608,2,304.8,2,52.5,2,0.753,2,,2
+20.0,2,8.9833,2,32.5609,2,306.8,2,52.2,2,0.8009999999999999,2,,2
+21.0,2,8.9004,2,32.5589,2,307.6,2,52.1,2,0.826,2,,2
+22.0,2,8.8272,2,32.5585,2,310.7,2,52.1,2,0.862,2,,2
+22.7,2,8.7727,2,32.5589,2,311.5,2,52.2,2,0.87,2,,2
+24.2,2,8.6587,2,32.5621,2,311.1,2,51.9,2,0.9279999999999999,2,,2
+25.0,2,8.5388,2,32.5615,2,310.2,2,51.9,2,1.016,2,,2
+25.9,2,8.3589,2,32.5667,2,315.1,2,51.6,2,1.041,2,,2
+27.3,2,8.0347,2,32.5683,2,317.9,2,51.6,2,1.054,2,,2
+28.0,2,8.006,2,32.5661,2,318.4,2,51.2,2,1.058,2,,2
+29.0,2,7.8531,2,32.5674,2,319.0,2,51.5,2,1.1179999999999999,2,,2
+29.8,2,7.7556,2,32.5697,2,322.3,2,51.6,2,1.161,2,,2
+END_DATA

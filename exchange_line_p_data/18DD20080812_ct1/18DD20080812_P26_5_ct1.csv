@@ -1,0 +1,39 @@
+CTD,20190304CCHSIOLMM
+#---------------------------------------------------------------------------------------------------,,,,,,,,,,,,,,,,
+#Transmissivity fluorescence  and PAR are nominal and unedited except that some records were removed in editing temperature and salinity.,,,,,,,,,,,,,,,,
+#---------------------------------------------------------------------------------------------------,,,,,,,,,,,,,,,,
+#There was no recalibration of Salinity:Practical:CTD based on the bottle comparison because of uncertainties about the performance of the two salinometers used.,,,,,,,,,,,,,,,,
+#Post-cruise calibrations show Salinity:Practical:CTD is within 0.001.,,,,,,,,,,,,,,,,
+#---------------------------------------------------------------------------------------------------,,,,,,,,,,,,,,,,
+#The Oxygen:Dissolved:CTD data should be considered:,,,,,,,,,,,,,,,,
+#      • ±0.5 ml/l from 0 to 10 dbar,,,,,,,,,,,,,,,,
+#      • ±0.25 ml/l from 10 to 500 dbar,,,,,,,,,,,,,,,,
+#      • ±0.1 ml/l from 500 to 1500 dbar,,,,,,,,,,,,,,,,
+#      • ±0.05 ml/l below 1500 dbar.,,,,,,,,,,,,,,,,
+#---------------------------------------------------------------------------------------------------,,,,,,,,,,,,,,,,
+#For details on the processing see file: 2008-27-proc.pdf,,,,,,,,,,,,,,,,
+#---------------------------------------------------------------------------------------------------,,,,,,,,,,,,,,,,
+#,,,,,,,,,,,,,,,,
+#File Name,Zone,FIL:START TIME YYYY/MM/DD, HH:MM,LOC:EVENT_NUMBER,LOC:LATITUDE,LOC:LONGITUDE,LOC:STATION,Pressure:CTD [dbar],Temperature:CTD [deg_C_(ITS90)],Salinity:Practical:CTD [PSS-78],Sigma-t:CTD [kg/m^3],Transmissivity:CTD [*/m],Oxygen:Dissolved:CTD:Volume [ml/l],Oxygen:Dissolved:CTD:Mass [µmol/kg],Fluorescence:CTD [mg/m^3],PAR:CTD [µE/m^2/sec]
+#,,,,,,,,,,,,,,,,
+NUMBER_HEADERS = 8
+EXPOCODE = 18DD20080812
+STNBR = P26
+CASTNO = 5
+DATE = 21/08/2008
+TIME =  10:05
+LATITUDE = 49.999829999999996
+LONGITUDE = -144.99933000000001
+CTDPRS,CTDPRS_FLAG_W,CTDTMP,CTDTMP_FLAG_W,CTDSAL,CTDSAL_FLAG_W,CTDOXY,CTDOXY_FLAG_W,CTDXMISS,CTDXMISS_FLAG_W,CTDFLUOR,CTDFLUOR_FLAG_W,PAR,PAR_FLAG_W
+DBAR,,ITS-90,,PSS-78,,UMOL/KG,,,,MG/M^3,,UE/m^2/sec,
+2.3,2,11.4438,2,32.4836,2,289.2,2,24.8,2,4.282,2,,2
+2.9,2,11.444,2,32.4833,2,289.0,2,21.6,2,4.3,2,,2
+4.0,2,11.4408,2,32.4845,2,290.0,2,22.3,2,4.3389999999999995,2,,2
+5.0,2,11.4392,2,32.4856,2,291.0,2,25.9,2,4.284,2,,2
+5.9,2,11.4374,2,32.486999999999995,2,289.8,2,28.1,2,4.279,2,,2
+7.0,2,11.4393,2,32.4864,2,289.9,2,27.8,2,4.275,2,,2
+8.0,2,11.4376,2,32.4869,2,290.1,2,32.6,2,4.3069999999999995,2,,2
+9.0,2,11.4367,2,32.4884,2,290.7,2,32.7,2,4.263999999999999,2,,2
+9.9,2,11.437999999999999,2,32.4907,2,290.8,2,32.5,2,4.467,2,,2
+10.7,2,11.4322,2,32.4915,2,290.4,2,31.9,2,4.518,2,,2
+END_DATA

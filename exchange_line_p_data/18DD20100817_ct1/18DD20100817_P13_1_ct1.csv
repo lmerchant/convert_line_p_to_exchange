@@ -1,0 +1,153 @@
+CTD,20190304CCHSIOLMM
+#---------------------------------------------------------------------------------------------------,,,,,,,,,,,,,,,,
+#Fluorescence - Transmissivity and PAR data are nominal and unedited except that some records were removed in editing temperature and salinity.,,,,,,,,,,,,,,,,
+#---------------------------------------------------------------------------------------------------,,,,,,,,,,,,,,,,
+#COMMENTS FOR CASTS 0001 TO 0032,,,,,,,,,,,,,,,,
+#CTD Serial Number 0506; SBE Dissolved Oxygen sensor Serial Number 1176.,,,,,,,,,,,,,,,,
+#,,,,,,,,,,,,,,,,
+#As has been noted from several other cruises using Oxygen:Dissolved:CTD sensor #1176 in the summer 2010 the data are odd for some casts (casts 0022 to 0032) with concentration values offset by approximately 0.24 ml/l from the normal-looking casts and a higher noise level in the raw oxygen voltage.,,,,,,,,,,,,,,,,
+#Data were recalibrated to correct for this offset but there were only 3 casts with titrated dissolved oxygen samples for the normal casts and 1 from the odd casts.,,,,,,,,,,,,,,,,
+#Establishing which casts require the special recalibration was based on the noise level in the Oxygen:Dissolved:CTD voltage and information from other cruises was used to recalibrate the odd casts.,,,,,,,,,,,,,,,,
+#,,,,,,,,,,,,,,,,
+#The quality of the Oxygen:Dissolved:CTD calibration is considered lower than usual and there are insufficient data to make precision estimates. ,,,,,,,,,,,,,,,,
+#,,,,,,,,,,,,,,,,
+#---------------------------------------------------------------------------------------------------,,,,,,,,,,,,,,,,
+#COMMENTS FOR CASTS 0036 TO 0129,,,,,,,,,,,,,,,,
+#CTD Serial Number 0443; SBE Dissolved Oxygen sensor Serial Number 1483.,,,,,,,,,,,,,,,,
+#,,,,,,,,,,,,,,,,
+#There are only 3 casts with titrated dissolved oxygen samples that could be compared to the Oxygen:Dissolved:CTD data for sensor #1438 and 1 of them looked significantly different in the comparison from the other 2. ,,,,,,,,,,,,,,,,
+#Recalibration of dissolved oxygen was based on the 2 casts that looked similar.,,,,,,,,,,,,,,,,
+#There are insufficient data to make a precision estimate.,,,,,,,,,,,,,,,,
+#,,,,,,,,,,,,,,,,
+#For Oxygen:Dissolved:CTD sensor #1438 values below 2200 dbar were replaced by pad values because there is evidence of significant hysteresis.,,,,,,,,,,,,,,,,
+#The Salinity:Practical data from CTD #0443 showed evidence of flow rate problems in the top 200 dbar; the two-sided noise caused by that was minimized by bin-averaging.,,,,,,,,,,,,,,,,
+#,,,,,,,,,,,,,,,,
+#***********************************************************************,,,,,,,,,,,,,,,,
+#In June 2011 it was discovered that the wrong information was used for conversion of the Oxygen:Dissolved:CTD sensor data for CTD #0443.,,,,,,,,,,,,,,,,
+#Sensor #1483 was actually used for this cruise.,,,,,,,,,,,,,,,,
+#,,,,,,,,,,,,,,,,
+#The Oxygen:Dissolved:CTD channel was reprocessed. ,,,,,,,,,,,,,,,,
+#A new recalibration scheme was found by rerunning the bottle comparison. ,,,,,,,,,,,,,,,,
+#The files were then merged with all the other channels from the original processing.,,,,,,,,,,,,,,,,
+#,,,,,,,,,,,,,,,,
+#The hysteresis noted in the original processing remains and the quality of the data is still considered of lower quality than usual.,,,,,,,,,,,,,,,,
+#,,,,,,,,,,,,,,,,
+#Note that the correct calibration information for the Oxygen:Dissolved:CTD sensor can be found at the end of the processing report along with detail about how the reprocessing was done.,,,,,,,,,,,,,,,,
+#,,,,,,,,,,,,,,,,
+#---------------------------------------------------------------------------------------------------,,,,,,,,,,,,,,,,
+#For details on the processing see file 2010-14-proc.pdf.,,,,,,,,,,,,,,,,
+#---------------------------------------------------------------------------------------------------,,,,,,,,,,,,,,,,
+#,,,,,,,,,,,,,,,,
+#File Name,Zone,FIL:START TIME YYYY/MM/DD, HH:MM,LOC:EVENT_NUMBER,LOC:LATITUDE,LOC:LONGITUDE,LOC:STATION,Pressure:CTD [dbar],Temperature:CTD [deg_C_(ITS90)],Salinity:Practical:CTD [PSS-78],Sigma-t:CTD [kg/m^3],Transmissivity:CTD [*/m],Oxygen:Dissolved:CTD:Volume [ml/l],Oxygen:Dissolved:CTD:Mass [µmol/kg],Fluorescence:CTD [mg/m^3],PAR:CTD [µE/m^2/sec]
+#,,,,,,,,,,,,,,,,
+NUMBER_HEADERS = 8
+EXPOCODE = 18DD20100817
+STNBR = P13
+CASTNO = 1
+DATE = 23/08/2010
+TIME =  03:03
+LATITUDE = 49.0455
+LONGITUDE = -131.66701
+CTDPRS,CTDPRS_FLAG_W,CTDTMP,CTDTMP_FLAG_W,CTDSAL,CTDSAL_FLAG_W,CTDOXY,CTDOXY_FLAG_W,CTDXMISS,CTDXMISS_FLAG_W,CTDFLUOR,CTDFLUOR_FLAG_W,PAR,PAR_FLAG_W
+DBAR,,ITS-90,,PSS-78,,UMOL/KG,,,,MG/M^3,,UE/m^2/sec,
+3.0,2,15.7244,2,31.8226,2,,2,,2,,2,,2
+4.0,2,15.7153,2,31.8225,2,,2,,2,,2,,2
+4.8,2,15.6798,2,31.8217,2,,2,,2,,2,,2
+6.0,2,15.5106,2,31.8206,2,,2,,2,,2,,2
+7.0,2,15.3633,2,31.8128,2,,2,,2,,2,,2
+8.0,2,15.2803,2,31.8123,2,,2,,2,,2,,2
+9.4,2,15.2344,2,31.8164,2,,2,,2,,2,,2
+9.9,2,15.2233,2,31.816,2,,2,,2,,2,,2
+11.0,2,15.2125,2,31.8153,2,,2,,2,,2,,2
+12.0,2,15.2022,2,31.8156,2,,2,,2,,2,,2
+12.8,2,15.1964,2,31.8164,2,,2,,2,,2,,2
+14.0,2,15.1839,2,31.8172,2,,2,,2,,2,,2
+15.0,2,15.1762,2,31.8172,2,,2,,2,,2,,2
+16.0,2,15.1682,2,31.8172,2,,2,,2,,2,,2
+17.0,2,15.1626,2,31.8173,2,,2,,2,,2,,2
+18.0,2,15.1584,2,31.8174,2,,2,,2,,2,,2
+19.0,2,15.1543,2,31.8177,2,,2,,2,,2,,2
+20.0,2,15.1496,2,31.8177,2,,2,,2,,2,,2
+21.0,2,15.1435,2,31.8177,2,,2,,2,,2,,2
+22.0,2,15.1362,2,31.8179,2,,2,,2,,2,,2
+23.0,2,15.1266,2,31.819000000000003,2,,2,,2,,2,,2
+24.0,2,15.1172,2,31.8198,2,,2,,2,,2,,2
+25.0,2,15.1056,2,31.8203,2,,2,,2,,2,,2
+26.0,2,15.0893,2,31.8219,2,,2,,2,,2,,2
+27.0,2,15.0672,2,31.8226,2,,2,,2,,2,,2
+28.0,2,15.055,2,31.8243,2,,2,,2,,2,,2
+29.0,2,15.0538,2,31.8254,2,,2,,2,,2,,2
+30.0,2,15.0511,2,31.826,2,,2,,2,,2,,2
+31.0,2,15.0499,2,31.8274,2,,2,,2,,2,,2
+32.0,2,15.0496,2,31.8285,2,,2,,2,,2,,2
+33.0,2,15.0464,2,31.83,2,,2,,2,,2,,2
+34.0,2,15.0398,2,31.835,2,,2,,2,,2,,2
+35.0,2,15.0065,2,31.8412,2,,2,,2,,2,,2
+36.0,2,14.8175,2,31.8654,2,,2,,2,,2,,2
+37.0,2,14.6891,2,31.8845,2,,2,,2,,2,,2
+38.0,2,14.5203,2,31.9156,2,,2,,2,,2,,2
+39.0,2,14.4114,2,31.9326,2,,2,,2,,2,,2
+40.0,2,14.1961,2,31.978,2,,2,,2,,2,,2
+41.0,2,14.0679,2,32.0084,2,,2,,2,,2,,2
+42.0,2,13.9193,2,32.0508,2,,2,,2,,2,,2
+43.0,2,13.5225,2,32.1196,2,,2,,2,,2,,2
+44.0,2,13.0716,2,32.1771,2,,2,,2,,2,,2
+45.0,2,12.661,2,32.229,2,,2,,2,,2,,2
+46.0,2,12.4417,2,32.2534,2,,2,,2,,2,,2
+47.0,2,12.1085,2,32.2786,2,,2,,2,,2,,2
+48.0,2,11.4095,2,32.3578,2,,2,,2,,2,,2
+49.0,2,10.8668,2,32.3901,2,,2,,2,,2,,2
+50.0,2,10.575,2,32.397,2,,2,,2,,2,,2
+51.0,2,10.4579,2,32.403,2,,2,,2,,2,,2
+52.0,2,10.2963,2,32.4173,2,,2,,2,,2,,2
+53.0,2,10.2032,2,32.4235,2,,2,,2,,2,,2
+54.0,2,10.0392,2,32.4386,2,,2,,2,,2,,2
+55.0,2,9.9678,2,32.4459,2,,2,,2,,2,,2
+56.0,2,9.9137,2,32.4506,2,,2,,2,,2,,2
+57.0,2,9.8162,2,32.4568,2,,2,,2,,2,,2
+58.0,2,9.6783,2,32.471,2,,2,,2,,2,,2
+59.0,2,9.5679,2,32.4799,2,,2,,2,,2,,2
+60.0,2,9.5154,2,32.4846,2,,2,,2,,2,,2
+61.0,2,9.4505,2,32.4908,2,,2,,2,,2,,2
+62.0,2,9.1214,2,32.5163,2,,2,,2,,2,,2
+63.0,2,9.0179,2,32.5225,2,,2,,2,,2,,2
+64.0,2,9.0171,2,32.5238,2,,2,,2,,2,,2
+65.0,2,8.9971,2,32.5236,2,,2,,2,,2,,2
+66.0,2,8.9628,2,32.5261,2,,2,,2,,2,,2
+67.0,2,8.8988,2,32.535,2,,2,,2,,2,,2
+68.0,2,8.7606,2,32.5556,2,,2,,2,,2,,2
+69.0,2,8.7081,2,32.5694,2,,2,,2,,2,,2
+70.0,2,8.7088,2,32.5735,2,,2,,2,,2,,2
+71.0,2,8.6886,2,32.5767,2,,2,,2,,2,,2
+72.0,2,8.5833,2,32.5915,2,,2,,2,,2,,2
+73.0,2,8.4954,2,32.6077,2,,2,,2,,2,,2
+74.0,2,8.4424,2,32.6175,2,,2,,2,,2,,2
+75.0,2,8.3376,2,32.635999999999996,2,,2,,2,,2,,2
+76.0,2,8.1845,2,32.6759,2,,2,,2,,2,,2
+77.0,2,8.0202,2,32.7194,2,,2,,2,,2,,2
+78.0,2,7.9199,2,32.7397,2,,2,,2,,2,,2
+79.0,2,7.9065,2,32.7429,2,,2,,2,,2,,2
+80.0,2,7.903,2,32.7443,2,,2,,2,,2,,2
+81.0,2,7.9012,2,32.7452,2,,2,,2,,2,,2
+82.0,2,7.8964,2,32.7484,2,,2,,2,,2,,2
+83.1,2,7.8914,2,32.7528,2,,2,,2,,2,,2
+84.0,2,7.8904,2,32.7533,2,,2,,2,,2,,2
+85.0,2,7.8846,2,32.7595,2,,2,,2,,2,,2
+86.0,2,7.8718,2,32.769,2,,2,,2,,2,,2
+87.0,2,7.7557,2,32.817,2,,2,,2,,2,,2
+88.0,2,7.6388,2,32.8653,2,,2,,2,,2,,2
+89.0,2,7.4996,2,32.9418,2,,2,,2,,2,,2
+90.0,2,7.4574,2,32.9639,2,,2,,2,,2,,2
+91.0,2,7.4185,2,32.9882,2,,2,,2,,2,,2
+92.0,2,7.394,2,33.0036,2,,2,,2,,2,,2
+93.0,2,7.361000000000001,2,33.0234,2,,2,,2,,2,,2
+94.0,2,7.3274,2,33.0489,2,,2,,2,,2,,2
+95.0,2,7.2808,2,33.0946,2,,2,,2,,2,,2
+96.1,2,7.2617,2,33.1115,2,,2,,2,,2,,2
+97.0,2,7.2499,2,33.1228,2,,2,,2,,2,,2
+98.0,2,7.2437,2,33.1288,2,,2,,2,,2,,2
+99.0,2,7.2202,2,33.1535,2,,2,,2,,2,,2
+100.0,2,7.1795,2,33.2151,2,,2,,2,,2,,2
+101.0,2,7.1443,2,33.2709,2,,2,,2,,2,,2
+102.1,2,7.1318,2,33.2988,2,,2,,2,,2,,2
+END_DATA

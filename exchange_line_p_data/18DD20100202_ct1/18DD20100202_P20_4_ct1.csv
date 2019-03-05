@@ -1,0 +1,63 @@
+CTD,20190304CCHSIOLMM
+#---------------------------------------------------------------------------------------------------,,,,,,,,,,,,,,,,
+#Transmissivity and PAR data are nominal and unedited except that some records were removed in editing temperature and salinity.,,,,,,,,,,,,,,,,
+#,,,,,,,,,,,,,,,,
+#Fluorescence data were removed because of severe problems with spikes and higher than usual values at depth suggesting problems with the cable. ,,,,,,,,,,,,,,,,
+#The data may be obtained from the chief scientist. ,,,,,,,,,,,,,,,,
+#,,,,,,,,,,,,,,,,
+#The precision of the Oxygen:Dissolved:CTD channel is difficult to estimate because the comparison with bottles was very noisy but roughly the Oxygen:Dissolved:CTD data should be considered:,,,,,,,,,,,,,,,,
+#      • ±0.15 ml/l from 0 to 100 dbar,,,,,,,,,,,,,,,,
+#      • ±0.5 ml/l from 100 to 400 dbar (values tend to be too high),,,,,,,,,,,,,,,,
+#      • ±0.2 ml/l from 400 to 600 dbar (values tend to be slightly high),,,,,,,,,,,,,,,,
+#      • ±0.04 ml/l from 600 to 2000 dbar (values tend to be slightly low),,,,,,,,,,,,,,,,
+#      • ±0.01 ml/l below 2500 dbar,,,,,,,,,,,,,,,,
+#,,,,,,,,,,,,,,,,
+#---------------------------------------------------------------------------------------------------,,,,,,,,,,,,,,,,
+#Transmissometer #1005DR was calibrated in March 2008 and drifted significantly but steadily until July 2009.,,,,,,,,,,,,,,,,
+#Then a sudden shift occurred so that maximum values between September 2009 and July 2010 were very low by ~25% / m. ,,,,,,,,,,,,,,,,
+#In August 2010 a study was made of transmissivity that led to a decision to apply post-processing corrections to all cruises between March 2008 and June 2010. ,,,,,,,,,,,,,,,,
+#,,,,,,,,,,,,,,,,
+#Transmissivity data from this cruise were corrected by multiplying the original values by correction factor 2.26 which was based on the assumption that deep offshore transmissivity should be about 62% / m.,,,,,,,,,,,,,,,,
+#,,,,,,,,,,,,,,,,
+#For details on the transmissometer post-processing see: Transmissometer_1005DR_Corrections.pdf.,,,,,,,,,,,,,,,,
+#,,,,,,,,,,,,,,,,
+#These data should still be considered nominal.,,,,,,,,,,,,,,,,
+#---------------------------------------------------------------------------------------------------,,,,,,,,,,,,,,,,
+#For details on the processing see processing file 2010-01-proc.pdf,,,,,,,,,,,,,,,,
+#---------------------------------------------------------------------------------------------------,,,,,,,,,,,,,,,,
+#,,,,,,,,,,,,,,,,
+#File Name,Zone,FIL:START TIME YYYY/MM/DD, HH:MM,LOC:EVENT_NUMBER,LOC:LATITUDE,LOC:LONGITUDE,LOC:STATION,Pressure:CTD [dbar],Temperature:CTD [deg_C_(ITS90)],Salinity:Practical:CTD [PSS-78],Sigma-t:CTD {kg/m^3],Transmissivity:CTD [*/m],Oxygen:Dissolved:CTD:Volume [ml/l],Oxygen:Dissolved:CTD:Mass [µmol/kg],PAR:CTD [µE/m^2/sec],Comments
+#,,,,,,,,,,,,,,,,
+NUMBER_HEADERS = 8
+EXPOCODE = 18DD20100202
+STNBR = P20
+CASTNO = 4
+DATE = 09/02/2010
+TIME =  03:08
+LATITUDE = 49.56783
+LONGITUDE = -138.66617
+CTDPRS,CTDPRS_FLAG_W,CTDTMP,CTDTMP_FLAG_W,CTDSAL,CTDSAL_FLAG_W,CTDOXY,CTDOXY_FLAG_W,CTDXMISS,CTDXMISS_FLAG_W,PAR,PAR_FLAG_W
+DBAR,,ITS-90,,PSS-78,,UMOL/KG,,,,UE/m^2/sec,
+2,2,6.9361,2,32.4602,2,297.4,2,51.1,2,,2
+3,2,6.9362,2,32.4602,2,296.7,2,51.1,2,,2
+4,2,6.9366,2,32.4601,2,296.7,2,51.1,2,,2
+5,2,6.9374,2,32.4602,2,295.9,2,51.1,2,,2
+6,2,6.9381,2,32.4603,2,296.4,2,51.1,2,,2
+7,2,6.9387,2,32.4604,2,297.2,2,51.1,2,,2
+8,2,6.9386,2,32.4604,2,296.6,2,51.1,2,,2
+9,2,6.9382,2,32.4604,2,296.2,2,51.1,2,,2
+10,2,6.9377,2,32.4605,2,295.8,2,50.8,2,,2
+11,2,6.936,2,32.4608,2,296.0,2,50.8,2,,2
+12,2,6.9382,2,32.4604,2,296.5,2,50.8,2,,2
+13,2,6.9379,2,32.4603,2,296.7,2,51.1,2,,2
+14,2,6.9374,2,32.4604,2,297.0,2,51.1,2,,2
+15,2,6.9393,2,32.4604,2,297.8,2,50.8,2,,2
+16,2,6.9392,2,32.4604,2,296.8,2,50.8,2,,2
+17,2,6.9376,2,32.4605,2,296.4,2,50.8,2,,2
+18,2,6.9376,2,32.4606,2,297.3,2,50.8,2,,2
+19,2,6.9395,2,32.4603,2,296.2,2,50.8,2,,2
+20,2,6.9415,2,32.4607,2,295.8,2,50.8,2,,2
+21,2,6.9425,2,32.4608,2,295.6,2,50.8,2,,2
+22,2,6.9374,2,32.4613,2,296.0,2,50.8,2,,2
+23,2,6.9402,2,32.4612,2,296.9,2,50.8,2,,2
+END_DATA

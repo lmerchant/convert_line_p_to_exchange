@@ -1,0 +1,84 @@
+CTD,20190304CCHSIOLMM
+#---------------------------------------------------------------------------------------------------,,,,,,,,,,,,,,,,
+#Fluorescence - Transmissivity and PAR data are nominal and unedited except that some records were removed in editing temperature and salinity.,,,,,,,,,,,,,,,,
+#---------------------------------------------------------------------------------------------------,,,,,,,,,,,,,,,,
+#COMMENTS FOR CASTS 0001 TO 0032,,,,,,,,,,,,,,,,
+#CTD Serial Number 0506; SBE Dissolved Oxygen sensor Serial Number 1176.,,,,,,,,,,,,,,,,
+#,,,,,,,,,,,,,,,,
+#As has been noted from several other cruises using Oxygen:Dissolved:CTD sensor #1176 in the summer 2010 the data are odd for some casts (casts 0022 to 0032) with concentration values offset by approximately 0.24 ml/l from the normal-looking casts and a higher noise level in the raw oxygen voltage.,,,,,,,,,,,,,,,,
+#Data were recalibrated to correct for this offset but there were only 3 casts with titrated dissolved oxygen samples for the normal casts and 1 from the odd casts.,,,,,,,,,,,,,,,,
+#Establishing which casts require the special recalibration was based on the noise level in the Oxygen:Dissolved:CTD voltage and information from other cruises was used to recalibrate the odd casts.,,,,,,,,,,,,,,,,
+#,,,,,,,,,,,,,,,,
+#The quality of the Oxygen:Dissolved:CTD calibration is considered lower than usual and there are insufficient data to make precision estimates. ,,,,,,,,,,,,,,,,
+#,,,,,,,,,,,,,,,,
+#---------------------------------------------------------------------------------------------------,,,,,,,,,,,,,,,,
+#COMMENTS FOR CASTS 0036 TO 0129,,,,,,,,,,,,,,,,
+#CTD Serial Number 0443; SBE Dissolved Oxygen sensor Serial Number 1483.,,,,,,,,,,,,,,,,
+#,,,,,,,,,,,,,,,,
+#There are only 3 casts with titrated dissolved oxygen samples that could be compared to the Oxygen:Dissolved:CTD data for sensor #1438 and 1 of them looked significantly different in the comparison from the other 2. ,,,,,,,,,,,,,,,,
+#Recalibration of dissolved oxygen was based on the 2 casts that looked similar.,,,,,,,,,,,,,,,,
+#There are insufficient data to make a precision estimate.,,,,,,,,,,,,,,,,
+#,,,,,,,,,,,,,,,,
+#For Oxygen:Dissolved:CTD sensor #1438 values below 2200 dbar were replaced by pad values because there is evidence of significant hysteresis.,,,,,,,,,,,,,,,,
+#The Salinity:Practical data from CTD #0443 showed evidence of flow rate problems in the top 200 dbar; the two-sided noise caused by that was minimized by bin-averaging.,,,,,,,,,,,,,,,,
+#,,,,,,,,,,,,,,,,
+#***********************************************************************,,,,,,,,,,,,,,,,
+#In June 2011 it was discovered that the wrong information was used for conversion of the Oxygen:Dissolved:CTD sensor data for CTD #0443.,,,,,,,,,,,,,,,,
+#Sensor #1483 was actually used for this cruise.,,,,,,,,,,,,,,,,
+#,,,,,,,,,,,,,,,,
+#The Oxygen:Dissolved:CTD channel was reprocessed. ,,,,,,,,,,,,,,,,
+#A new recalibration scheme was found by rerunning the bottle comparison. ,,,,,,,,,,,,,,,,
+#The files were then merged with all the other channels from the original processing.,,,,,,,,,,,,,,,,
+#,,,,,,,,,,,,,,,,
+#The hysteresis noted in the original processing remains and the quality of the data is still considered of lower quality than usual.,,,,,,,,,,,,,,,,
+#,,,,,,,,,,,,,,,,
+#Note that the correct calibration information for the Oxygen:Dissolved:CTD sensor can be found at the end of the processing report along with detail about how the reprocessing was done.,,,,,,,,,,,,,,,,
+#,,,,,,,,,,,,,,,,
+#---------------------------------------------------------------------------------------------------,,,,,,,,,,,,,,,,
+#For details on the processing see file 2010-14-proc.pdf.,,,,,,,,,,,,,,,,
+#---------------------------------------------------------------------------------------------------,,,,,,,,,,,,,,,,
+#,,,,,,,,,,,,,,,,
+#File Name,Zone,FIL:START TIME YYYY/MM/DD, HH:MM,LOC:EVENT_NUMBER,LOC:LATITUDE,LOC:LONGITUDE,LOC:STATION,Pressure:CTD [dbar],Temperature:CTD [deg_C_(ITS90)],Salinity:Practical:CTD [PSS-78],Sigma-t:CTD [kg/m^3],Transmissivity:CTD [*/m],Oxygen:Dissolved:CTD:Volume [ml/l],Oxygen:Dissolved:CTD:Mass [µmol/kg],Fluorescence:CTD [mg/m^3],PAR:CTD [µE/m^2/sec]
+#,,,,,,,,,,,,,,,,
+NUMBER_HEADERS = 8
+EXPOCODE = 18DD20100817
+STNBR = PA-004
+CASTNO = 1
+DATE = 26/08/2010
+TIME =  18:04
+LATITUDE = 50.04733
+LONGITUDE = -144.881
+CTDPRS,CTDPRS_FLAG_W,CTDTMP,CTDTMP_FLAG_W,CTDSAL,CTDSAL_FLAG_W,CTDOXY,CTDOXY_FLAG_W,CTDXMISS,CTDXMISS_FLAG_W,CTDFLUOR,CTDFLUOR_FLAG_W,PAR,PAR_FLAG_W
+DBAR,,ITS-90,,PSS-78,,UMOL/KG,,,,MG/M^3,,UE/m^2/sec,
+2.5,2,13.589,2,32.6213,2,253.3,2,51.4,2,2.117,2,48.8,2
+2.9,2,13.5895,2,32.6214,2,253.8,2,51.3,2,2.135,2,48.6,2
+3.9,2,13.5896,2,32.6217,2,254.0,2,51.4,2,2.151,2,40.8,2
+5.0,2,13.5943,2,32.6216,2,254.4,2,51.5,2,2.126,2,35.0,2
+6.0,2,13.5928,2,32.6221,2,254.6,2,51.4,2,2.166,2,30.8,2
+7.0,2,13.5907,2,32.622,2,254.8,2,51.4,2,2.215,2,27.4,2
+7.7,2,13.5898,2,32.6222,2,254.7,2,51.5,2,2.231,2,25.8,2
+8.9,2,13.589,2,32.6221,2,253.8,2,51.5,2,2.2359999999999998,2,21.2,2
+10.0,2,13.5891,2,32.6218,2,253.7,2,51.4,2,2.219,2,20.0,2
+11.0,2,13.5892,2,32.6217,2,254.1,2,51.4,2,2.219,2,17.9,2
+12.0,2,13.5891,2,32.6217,2,254.4,2,51.4,2,2.229,2,15.7,2
+13.1,2,13.5889,2,32.6218,2,254.8,2,51.4,2,2.201,2,14.0,2
+13.9,2,13.5891,2,32.6217,2,254.6,2,51.5,2,2.228,2,13.5,2
+15.0,2,13.59,2,32.6219,2,254.6,2,51.4,2,2.24,2,12.5,2
+16.0,2,13.5905,2,32.622,2,254.9,2,51.3,2,2.222,2,11.3,2
+17.0,2,13.5905,2,32.6221,2,254.6,2,51.4,2,2.201,2,10.0,2
+18.0,2,13.5903,2,32.6222,2,254.1,2,51.5,2,2.271,2,9.2,2
+18.9,2,13.5909,2,32.622,2,259.3,2,51.4,2,2.294,2,9.0,2
+20.0,2,13.5915,2,32.6221,2,259.4,2,51.4,2,2.265,2,8.4,2
+21.0,2,13.592,2,32.6221,2,260.2,2,51.4,2,2.252,2,7.8,2
+22.0,2,13.2456,2,32.6254,2,273.6,2,51.2,2,2.602,2,7.1,2
+23.0,2,11.5237,2,32.6513,2,290.4,2,49.9,2,2.824,2,6.5,2
+24.3,2,11.1166,2,32.6617,2,288.5,2,50.4,2,2.967,2,5.8,2
+25.3,2,10.8805,2,32.6593,2,299.0,2,50.7,2,2.955,2,5.4,2
+26.0,2,10.8217,2,32.6594,2,299.8,2,50.9,2,2.972,2,5.1,2
+27.0,2,10.7313,2,32.6583,2,300.4,2,51.0,2,2.9560000000000004,2,4.6,2
+28.0,2,10.6383,2,32.6594,2,300.3,2,51.1,2,2.96,2,4.1,2
+29.0,2,10.4759,2,32.6627,2,299.8,2,51.4,2,2.9339999999999997,2,3.7,2
+29.9,2,10.3022,2,32.6717,2,298.9,2,51.8,2,2.909,2,3.4,2
+31.0,2,10.2315,2,32.6689,2,297.8,2,52.0,2,2.883,2,3.1,2
+31.9,2,10.1469,2,32.672,2,296.9,2,52.1,2,2.864,2,2.8,2
+END_DATA
