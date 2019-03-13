@@ -40,15 +40,6 @@ Then group rows by P line and it's sequential event number to find castno
 For cruise list, need to have corresponding expocodes in corresponding order
 
 
-# Formatting error, so not run with this program
-# Run for one cruise
-cruise_list =[ 
-    ('2009', '03')
-]    
-
-expocode_list = [
-    '18DD20090818'
-]
 
 ---------------------------------
 
@@ -131,6 +122,7 @@ import pandas as pd
 import numpy as np
 from urllib.request import urlopen
 import datetime
+import csv
 
 
 class RawData():
@@ -186,15 +178,24 @@ class RawData():
     def get_raw_csv(self, url):
 
         # Read in csv file and split text on returns to get a list of lines
-        txt = urlopen(url).read()
-        decode_txt = txt.decode('windows-1252')
-        raw_csv = decode_txt.split('\r\n')
+        # txt = urlopen(url).read()
+        # decode_txt = txt.decode('windows-1252')
+        # raw_csv = decode_txt.split('\r\n')
 
 
         # # For testing
         # text_file = open("./2017_test_file2.csv", "r")
+        #text_file = open("./test/data/2017_test_file2.csv", "r")
+        #text_file = open("./test/data/2017-01-ctd-cruise.csv", "r")
         # txt = text_file.read()
         # raw_csv = txt.split('\n')
+
+        # read csv file into a list
+        test_filename = "./test/data/18DD20070207_2007-01-ctd-cruise.csv"
+
+        with open(test_filename, newline='\n', encoding='windows-1252') as f:
+            reader = csv.reader(f)
+            raw_csv = list(reader)
 
         return raw_csv
 
@@ -207,7 +208,7 @@ class RawData():
         # Then read in all data lines and put into a data frame
         # Filter data from for Line P stations, sort and return data frame
 
-        # Sample header and first data line
+        # Sample parameter header and first data line
         # File Name,Zone,FIL:START TIME YYYY/MM/DD, HH:MM,LOC:EVENT_NUMBER,LOC:LATITUDE,LOC:LONGITUDE,LOC:STATION,INS:LOCATION,Pressure:CTD [dbar],Temperature:CTD [deg_C_(ITS90)],Salinity:CTD [PSS-78],Sigma-t:CTD [kg/m^3],Transmissivity:CTD [*/m],Oxygen:Dissolved:CTD:Volume [ml/l],Oxygen:Dissolved:CTD:Mass [µmol/kg],Fluorescence:CTD:Seapoint [mg/m^3],Fluorescence:CTD:Wetlabs [mg/m^3],PAR:CTD [µE/m^2/sec]
         #,,,,,,,,,,,,,,,,,,
         #2017-01-0001.ctd,UTC,06-02-17, 23:58,1,48.65883,-123.49934,SI,Mid-ship,1.1,6.6845,28.1863,22.1205,,,,1.186,,12.6  
@@ -235,7 +236,7 @@ class RawData():
 
         # clean_csv contains all the data lines
         # Get data column header above comma separation line
-        header = raw_csv[count-2].split(',')
+        parameter_header = raw_csv[count-2].split(',')
         clean_csv = raw_csv[count:]
 
         # Get data lines into a list
@@ -244,8 +245,7 @@ class RawData():
             data.append(row.split(','))
 
         # Import data lines into a data frame
-        df = pd.DataFrame(data,columns=header)
-
+        df = pd.DataFrame(data,columns=parameter_header)
 
         # Get P-Line Stations only
 
@@ -253,11 +253,21 @@ class RawData():
         # Do this because data sets separated by empty rows
         df.dropna(subset=['Pressure:CTD [dbar]'], inplace=True)
 
+        # TODO. Not deleting empty rows. Fill empty values with NaN?
+        print(df.head())
+
         # Find rows starting with P in the LOC:STATION column
         df = df[df['LOC:STATION'].str.startswith('P')]
 
         # Convert to numeric values
         df = df.apply(pd.to_numeric, errors='ignore')
+
+
+        # # drop any rows with NaN value in Pressure:CTD column
+        # # Do this because data sets separated by empty rows
+        # df.dropna(subset=['Pressure:CTD [dbar]'], inplace=True)
+        # print(df.head())
+
 
         # Sort by station and then pressure and reset index to match
         df.sort_values(by=['LOC:STATION','Pressure:CTD [dbar]'],inplace=True)
@@ -741,6 +751,8 @@ def main():
         data_file.write_data_to_file(station_castno_df_sets, comment_header, meta_params, data_params)
 
         print("Completed " + expocode)
+
+        break
 
 
 
