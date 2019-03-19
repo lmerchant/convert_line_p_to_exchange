@@ -167,6 +167,11 @@ class RawData():
             ('2007', '15', '18DD20070814')
         ]
 
+
+        # TESTING
+        #cruise_list = [('2007', '01', '18DD20070207')]
+        cruise_list = [('2017', '01', '18DD20170205')]
+
         return cruise_list        
 
 
@@ -178,24 +183,32 @@ class RawData():
     def get_raw_csv(self, url):
 
         # Read in csv file and split text on returns to get a list of lines
+
+        # Run chardetect on cruise csv file to download and returns
+        # encoding of windows-1252
+
         # txt = urlopen(url).read()
         # decode_txt = txt.decode('windows-1252')
         # raw_csv = decode_txt.split('\r\n')
 
 
-        # # For testing
-        # text_file = open("./2017_test_file2.csv", "r")
-        #text_file = open("./test/data/2017_test_file2.csv", "r")
-        #text_file = open("./test/data/2017-01-ctd-cruise.csv", "r")
-        # txt = text_file.read()
-        # raw_csv = txt.split('\n')
+        # TESTING
 
         # read csv file into a list
-        test_filename = "./test/data/18DD20070207_2007-01-ctd-cruise.csv"
 
-        with open(test_filename, newline='\n', encoding='windows-1252') as f:
-            reader = csv.reader(f)
-            raw_csv = list(reader)
+        # Create test files in windows-1252 with windows line endings
+
+        #test_filename = "./test/data/18DD20070207_2007-01-ctd-cruise.csv"
+        #test_filename = "./test/data/18DD20170205_2017-01-ctd-cruise.csv"
+        test_filename = "./test/data/test_file2.csv"
+
+        with open(test_filename, 'r', encoding='windows-1252') as f:
+            decode_text = f.read()
+
+        raw_csv = decode_text.split('\n')
+
+
+        # ---------------------
 
         return raw_csv
 
@@ -224,6 +237,7 @@ class RawData():
 
         count = 0
         for line in raw_csv:
+
             if '.ctd' not in line:
                 # then line is a comment header
                 # prepend a # sign
@@ -244,6 +258,7 @@ class RawData():
         for row in clean_csv:
             data.append(row.split(','))
 
+
         # Import data lines into a data frame
         df = pd.DataFrame(data,columns=parameter_header)
 
@@ -253,23 +268,14 @@ class RawData():
         # Do this because data sets separated by empty rows
         df.dropna(subset=['Pressure:CTD [dbar]'], inplace=True)
 
-        # TODO. Not deleting empty rows. Fill empty values with NaN?
-        print(df.head())
-
         # Find rows starting with P in the LOC:STATION column
         df = df[df['LOC:STATION'].str.startswith('P')]
 
         # Convert to numeric values
         df = df.apply(pd.to_numeric, errors='ignore')
 
-
-        # # drop any rows with NaN value in Pressure:CTD column
-        # # Do this because data sets separated by empty rows
-        # df.dropna(subset=['Pressure:CTD [dbar]'], inplace=True)
-        # print(df.head())
-
-
-        # Sort by station and then pressure and reset index to match
+        # Sort by station and then pressure and reset index to match 
+        # re-sorted rows
         df.sort_values(by=['LOC:STATION','Pressure:CTD [dbar]'],inplace=True)
         df.reset_index(drop=True,inplace=True)
 
@@ -345,6 +351,13 @@ class Parameters:
 
 
     def get_all_data_params(self):
+
+
+        #TODO 
+
+        # search column names with unicode strings or UTF-8 character
+        # ('\u03BC') stands for micro
+        # '\u03BCE/m^2/sec'\\\
         
         params =[                             
         {'whpname' : 'CTDPRS' , 'longname':'Pressure:CTD [dbar]', 'units' : 'DBAR'},                          
@@ -597,7 +610,6 @@ class DataColumns:
         return station_df_sets
 
 
-
 class DataFile():
 
     def __init__(self):
@@ -713,6 +725,7 @@ class DataFile():
             prepend_string = start_line_str + comment_header_string + metadata_header_string + column_header_string
 
             # Prepend ctd file
+            # TODO, save as encoding utf-8
             with open(ctd_filename, 'w') as modified: modified.write(prepend_string + data)
 
             # Append ctd file
