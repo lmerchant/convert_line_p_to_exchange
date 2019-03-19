@@ -72,7 +72,7 @@ is written.
 
 Testing:
 --------
-To test the script, comment/uncomment the following lines in load_p_line_cruise 
+To test the script, comment/uncomment the following lines in get_headers_and_data 
 
     Comment this group reading from url ->
     # Read in csv file and split text on returns to get a list of lines
@@ -213,7 +213,7 @@ class RawData():
         return raw_csv
 
 
-    def load_p_line_cruise(self, url):
+    def get_headers_and_data(self, url):
 
         # The url is a csv file
         # This cruise csv file lists all lines from from ctd files and all stations
@@ -258,6 +258,12 @@ class RawData():
         for row in clean_csv:
             data.append(row.split(','))
 
+        return comment_header, parameter_header, data
+    
+
+    def insert_into_dataframe(self, parameter_header, data):
+    
+        # TODO use encoding utf-8
 
         # Import data lines into a data frame
         df = pd.DataFrame(data,columns=parameter_header)
@@ -274,12 +280,12 @@ class RawData():
         # Convert to numeric values
         df = df.apply(pd.to_numeric, errors='ignore')
 
-        # Sort by station and then pressure and reset index to match 
-        # re-sorted rows
+        # Sort by station and then pressure and reset index to match
         df.sort_values(by=['LOC:STATION','Pressure:CTD [dbar]'],inplace=True)
         df.reset_index(drop=True,inplace=True)
 
-        return df, comment_header
+        return df
+
 
 
 class Headers():
@@ -751,7 +757,10 @@ def main():
         url = raw_data.build_url(cruise[0],cruise[1])
 
         # Get dataframe holding all Station P data lines
-        df, comment_header = raw_data.load_p_line_cruise(url)
+        comment_header, parameter_header, data = raw_data.get_headers_and_data(url)
+        
+        df = raw_data.insert_into_dataframe(parameter_header, data)
+        
 
         # Get params
         meta_params = params.get_meta_params()
