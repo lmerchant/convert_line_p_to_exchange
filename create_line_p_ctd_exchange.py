@@ -434,9 +434,33 @@ class DataColumns:
 
     def reformat_date_column(self, df):
 
-        # Reformat DATE column from dd-mm-yy to yyyymmdd
-        pattern = r'(\d\d)-(\d\d)-(\d\d)'
-        repl = r'20\3\2\1'
+        # Files can have two different date formats
+        # dd-mm-yy or dd/mm/yyyyy
+        # Check if date contains - or /
+
+        if '-' in df['DATE'][0]:
+
+            # 1) Reformat DATE column from dd-mm-yy to yyyymmdd
+
+            # Check if yy is less than 40. 
+            #  if it is, prepend with 20
+            #  if it isn't, prepend with 19
+
+            year = df['DATE'][0][-2:]
+
+            pattern = r'(\d\d)-(\d\d)-(\d\d)'
+
+            if int(year) < 40:
+                repl = r'20\3\2\1'
+            else:
+                repl = r'19\3\2\1'
+
+        elif '/' in df['DATE'][0]:
+
+            # 2) Reformat DATE column from dd/mm/yyyy to yyyymmdd
+            pattern = r'(\d\d)/(\d\d)/(\d\d\d\d)'
+            repl = r'\3\2\1'
+
 
         df['DATE'] = df['DATE'].str.replace(pattern, repl)
 
