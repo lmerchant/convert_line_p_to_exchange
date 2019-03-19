@@ -358,7 +358,6 @@ class Parameters:
 
     def get_all_data_params(self):
 
-
         #TODO 
 
         # search column names with unicode strings or UTF-8 character
@@ -371,8 +370,8 @@ class Parameters:
         {'whpname' : 'CTDSAL' , 'longname':'Salinity:CTD [PSS-78]', 'units' : 'PSS-78'},
         {'whpname' : 'CTDSAL' , 'longname':'Salinity:Practical:CTD [PSS-78]', 'units' : 'PSS-78'},
         {'whpname' : 'CTDOXY' , 'longname':'Oxygen:Dissolved:CTD:Mass [µmol/kg]', 'units' : 'UMOL/KG'},   
-        {'whpname' : 'CTDXMISS' , 'longname':'Transmissivity:CTD [*/m]', 'units' : '/METERS'},
-        {'whpname' : 'CTDXMISS' , 'longname':'Transmissivity:CTD [%/m]', 'units' : '/METERS'},
+        {'whpname' : 'CTDXMISS' , 'longname':'Transmissivity:CTD [*/m]', 'units' : '/METER'},
+        {'whpname' : 'CTDXMISS' , 'longname':'Transmissivity:CTD [%/m]', 'units' : '/METER'},
         {'whpname' : 'CTDFLUOR' , 'longname':'Fluorescence:CTD:Seapoint [mg/m^3]', 'units' : 'MG/M^3'},   
         {'whpname' : 'CTDFLUOR', 'longname': 'Fluorescence:CTD:Seapoint', 'units' : 'MG/M^3'},
         {'whpname' : 'CTDFLUOR', 'longname': 'Fluorescence:CTD [mg/m^3]', 'units' : 'MG/M^3'},
@@ -706,8 +705,12 @@ class DataFile():
             #data_columns_df = get_data_columns(data_set, data_params)
             data_columns_df = self.data_columns.get_data_columns(data_set, data_params)
 
-            # Write to file
+            print('------------------')
+            print(data_columns_df.head())
+            print('------------------')
 
+
+            # Write to file
             data_columns_df.to_csv(ctd_filename, sep=',', index=False, header=False, encoding='utf-8')
 
             with open(ctd_filename, 'r') as original: 
@@ -733,7 +736,6 @@ class DataFile():
             prepend_string = start_line_str + comment_header_string + metadata_header_string + column_header_string
 
             # Prepend ctd file
-            # TODO, save as encoding utf-8
             with open(ctd_filename, 'w', encoding='utf-8') as modified: 
                 modified.write(prepend_string + data)
 
