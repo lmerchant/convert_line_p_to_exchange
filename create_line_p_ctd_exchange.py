@@ -585,7 +585,7 @@ class DataColumns:
         return df
 
 
-    def get_unique_station_castno(self, df):
+    def get_unique_station_castno_sets(self, df):
 
         # Get unique values of STATION_CASTNO column
         station_castno_df = df['STATION_CASTNO'].copy()
@@ -707,9 +707,10 @@ class DataFile():
 
             # Write to file
 
-            data_columns_df.to_csv(ctd_filename, sep=',', index=False,header=False, encoding='utf-8')
+            data_columns_df.to_csv(ctd_filename, sep=',', index=False, header=False, encoding='utf-8')
 
-            with open(ctd_filename, 'r') as original: data = original.read()
+            with open(ctd_filename, 'r') as original: 
+                data = original.read()
 
             # Create string to prepend
             prepend_string = ''
@@ -732,10 +733,11 @@ class DataFile():
 
             # Prepend ctd file
             # TODO, save as encoding utf-8
-            with open(ctd_filename, 'w') as modified: modified.write(prepend_string + data)
+            with open(ctd_filename, 'w', encoding='utf-8') as modified: 
+                modified.write(prepend_string + data)
 
             # Append ctd file
-            with open(ctd_filename, 'a') as f:
+            with open(ctd_filename, 'a', encoding='utf-8') as f:
                 f.write("{}\n".format(end_line))
 
 
@@ -760,7 +762,7 @@ def main():
         comment_header, parameter_header, data = raw_data.get_headers_and_data(url)
         
         df = raw_data.insert_into_dataframe(parameter_header, data)
-        
+
 
         # Get params
         meta_params = params.get_meta_params()
@@ -789,7 +791,7 @@ def main():
     
 
         # Get unique station_castno sets
-        unique_station_castno_sets = data_columns.get_unique_station_castno(df)
+        unique_station_castno_sets = data_columns.get_unique_station_castno_sets(df)
 
         # Get data sets from dataframe for unique station and castno
         station_castno_df_sets = data_columns.get_station_castno_df_sets(df, unique_station_castno_sets)
