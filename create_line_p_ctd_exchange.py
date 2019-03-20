@@ -287,7 +287,6 @@ class RawData():
         return df
 
 
-
 class Headers():
 
     def __init__(self):
@@ -412,6 +411,8 @@ class DataColumns:
 
     def rename_pline_columns(self, df, meta_params, data_params):
 
+        # Rename all meta and data parameters
+
         param_dict = {}
 
         for param in meta_params:
@@ -500,13 +501,21 @@ class DataColumns:
 
     def insert_castno_column(self, df):
 
-        # Create CASTNO column and fill with dummy value first
+        # Creating castno from sorted list of unique event numbers
+        # for each station
+
+        # Create CASTNO column and fill with dummy value
         # Insert after STATION column    
         STATION_LOC = df.columns.get_loc('STATION')
         df.insert(STATION_LOC + 1, 'CASTNO', 0)
 
-        # castno is sequential number of indiv events at a single station
-        # combine station and event #, get unique of this combination while including Station and Event columns
+        # Will be filling the CASTNO column station by station.
+
+        # castno is a mapping of the sequential event numbers of a single station
+        # Say the event number series is 17, 18, 21, 30. Cast No would be 1,2,3,4
+
+        # combine station and event #, get unique of this combination while including Station 
+        #    and Event columns
         # count events in station subsets
 
         # Unique subset of station and event
@@ -515,6 +524,18 @@ class DataColumns:
         # 1 P20  event 18
         # 2 P20  event 19
         # 3 P20  event 26
+
+
+        # Steps. Loope through each station and do following
+        #  Say station looking at is P20
+        #  Get rows for that single station. All rows with station = P20
+
+        # Now for that single station set of rows, filter event column
+        # so only have incrementing list of event numbers
+
+        # Now remap this incrementing event list to start at 1
+        # and this will be the cast number
+
 
         # Sort by station and then event and reset index to match
         df.sort_values(by=['STATION','EVENT'],inplace=True)
@@ -764,12 +785,12 @@ def main():
         
         df = raw_data.insert_into_dataframe(parameter_header, data)
 
-
-        # Get params
+        # Get meta and data parameters with
+        # mapping of pline names to WHP names
         meta_params = params.get_meta_params()
         data_params = params.get_data_params(df)
 
-        # Rename all data columns 
+        # # Rename all meta and data parameters
         df = data_columns.rename_pline_columns(df, meta_params, data_params)
 
         # Insert flag columns
@@ -781,10 +802,18 @@ def main():
         # Get expocode
         expocode = cruise[2]
 
+
+        # TODO.  Do I need to insert expocode column?
+        # Only using to extract expocode when write data fo file.
+        # Could just pass expcode in as parameter
+
         # Insert expocode column
         df = data_columns.insert_expocode_column(df, expocode)
 
+
         # Insert castno column
+        # Creating castno from sorted list of unique event numbers
+        # for each station
         df = data_columns.insert_castno_column(df)
 
         # Insert station_castno column to get unique CTD files
