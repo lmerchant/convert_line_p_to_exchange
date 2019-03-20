@@ -1,6 +1,7 @@
-cruise_reports
-raw_canadian_data
-exchange_line_p_data
-upload_to_cchdo
-data_to_upload
+cruise_reports/
+raw_canadian_data/
+exchange_line_p_data/
+upload_to_cchdo/
+data_to_upload/
+__pycache__/
 .DS_Store
