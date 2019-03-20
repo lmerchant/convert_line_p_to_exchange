@@ -1,5 +1,5 @@
 """
-  Get Canadian Line P cruise reports
+  Get Canadian Line P ctd csv files
 
 
   For ('2018', '001', '18LU20180218'),
@@ -7,7 +7,7 @@
   Raw data at 
   https://www.waterproperties.ca/linep/2018-001/donneesctddata/2018-001-ctd-cruise.csv
 
-  download and prepend expocode to 18LU20180218_<RAW_DATA_NAME>.pdf
+  download and prepend expocode to 18LU20180218_<RAW_DATA_NAME>.csv
 
 """
 
@@ -25,8 +25,8 @@ def save_raw_data(url, expocode):
     url_list = url.split('/')
     raw_file_name = url_list[-1]
 
-    # download cruise report year-month-cruise_report.pdf 
-    # reaname to expocode_<RAW FILE NAME>.pdf
+    # download ctd data file
+    # reaname to expocode_<RAW FILE NAME>.csv
     output_file = "./raw_canadian_data/{}_{}".format(expocode, raw_file_name)
 
     response = urlopen(url)
