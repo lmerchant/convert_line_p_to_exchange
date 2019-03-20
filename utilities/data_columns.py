@@ -2,6 +2,9 @@ def rename_pline_columns(df, meta_params, data_params):
 
     # Rename all pline meta and data parameters
 
+    # meta_params and data_params are mapping dicts
+    # between pline column names and WHP column names
+
     param_dict = {}
 
     for param in meta_params:
@@ -30,6 +33,8 @@ def insert_flag_colums(df, data_params):
         df.insert(param_loc + 1, flag_name, 2)
 
         # Insert flag param dict into data_params list
+        # Want this so know which columns to extract for saving output and
+        # keep order of newly inserted flag column after param column
         param_insert = {}
         param_insert['whpname'] = flag_name
         param_insert['longname'] = flag_name
@@ -80,15 +85,22 @@ def insert_expocode_column(df, expocode):
 
     # Create EXPOCODE column
 
+    # Insert before STATION column
     STATION_LOC = df.columns.get_loc('STATION')
 
-    # Insert before STATION column
     df.insert(STATION_LOC - 1, 'EXPOCODE', expocode)
 
     return df
 
 
 def populate_castno_one_station(df, station):
+
+    # Incoming df has been sorted on station and event number
+
+    # Want to get station subset and find all the unique event numbers
+    # used for that station. Then take these sorted event numbers and 
+    # map it to an increasing castno that starts at 1.
+    # Once have mapping of event numbers to castno, fill rows of castno column
 
     # Get dataframe subset for station
     df_subset = df.loc[df['STATION'] == station].copy()
@@ -104,7 +116,7 @@ def populate_castno_one_station(df, station):
     # Get list of unique events for station
     unique_event_list = unique_event_df.tolist() 
 
-    # Use index of unique event list to creat CASTNO
+    # Use index of unique event list to create CASTNO
     # since df was sorted on Event#
 
     # Events were sorted, so increasing castno corresponding to increasing event #
@@ -118,13 +130,14 @@ def populate_castno_one_station(df, station):
 
 def insert_castno_column(df):
 
-    # Creating castno from sorted list of unique event numbers
-    # for each station
-
     # Create CASTNO column and fill with dummy value
     # Insert after STATION column    
     STATION_LOC = df.columns.get_loc('STATION')
     df.insert(STATION_LOC + 1, 'CASTNO', 0)
+
+    # Creating castno from sorted list of unique event numbers
+    # for each station.  Mapping increasing event number to 
+    # increasing castno where castno starts at one and has increment of 1
 
     # Will be filling the CASTNO column station by station.
 

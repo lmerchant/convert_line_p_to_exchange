@@ -1,4 +1,8 @@
 def get_meta_params():
+
+    # Mapping between pline names and WHP names for renaming columns
+
+    # Space before HH:MM is required since space is in the line p column name
     
     params =[
     {'whpname' : 'DATE' , 'longname':'FIL:START TIME YYYY/MM/DD', 'units' : ''},                       
@@ -15,6 +19,8 @@ def get_meta_params():
 def get_all_data_params():
 
     # List of all possible pline parameter names
+
+    # All choices of mapping between pline names and WHP names for renaming columns
 
     params =[                             
     {'whpname' : 'CTDPRS' , 'longname':'Pressure:CTD [dbar]', 'units' : 'DBAR'},                          
@@ -37,6 +43,7 @@ def get_all_data_params():
 def get_data_params(df):
 
     # Get only pline parameter names in dataframe so can just rename these
+    # If try to rename pline parameter name not in dataframe, will get an error
 
     column_params = []
     

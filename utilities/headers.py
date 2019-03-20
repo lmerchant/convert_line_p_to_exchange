@@ -3,6 +3,9 @@ import utilities.parameters as params
 
 def create_column_headers(data_params):
 
+    # column headers is two lines
+    # Column names in one line followed by corresponding units in next line
+
     column_headers = []
 
     # Get data units from all columns
@@ -30,6 +33,7 @@ def create_metadata_header(data_set):
 
     metadata_header = []
 
+    # Since metadata same in all rows, pick first row to get values from
     first_row = data_set.iloc[0]
 
     metadata_header.append('EXPOCODE = ' + first_row['EXPOCODE'])
@@ -40,9 +44,11 @@ def create_metadata_header(data_set):
     metadata_header.append('LATITUDE = ' + str(first_row['LATITUDE']))
     metadata_header.append('LONGITUDE = ' + str(first_row['LONGITUDE']))
 
+    # NUMBER_HEADERS counts all metadata values plus itself
     number_headers = len(metadata_header) + 1
     number_headers_line = 'NUMBER_HEADERS = ' + str(number_headers)
 
+    # Insert NUMBER_HEADERS above metadata values
     metadata_header.insert(0, number_headers_line)
 
     return metadata_header
