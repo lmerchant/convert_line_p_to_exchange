@@ -1,5 +1,6 @@
 import os
 import datetime
+import csv
 
 import utilities.headers as headers
 import utilities.data_columns as data_columns
@@ -43,6 +44,34 @@ def get_ctd_filename(data_set):
     return ctd_filename
 
 
+def fill_values_in_file(ctd_filename):
+
+    # Replace blanks with '-999' and change fill of -99.0 to -999
+    new_lines = []
+
+    with open(ctd_filename, 'r', encoding='utf-8') as f:
+        csv_reader = csv.reader(f)
+
+        for line in csv_reader:
+
+            new_line = []
+            
+            for entry in line:
+                if not entry or entry == '-99.0':
+                    entry = '-999'
+
+                new_line.append(entry)
+
+            new_line = ','.join(new_line)
+            new_lines.append(new_line)
+
+
+    # write new_lines to file
+    with open(ctd_filename, 'w', encoding='utf-8') as f:
+        for line in new_lines:
+            f.write("{}\n".format(line))    
+
+
 def write_data_to_file(station_castno_df_sets, comment_header, meta_params, data_params):
 
     # Write data sets to file
@@ -78,15 +107,17 @@ def write_data_to_file(station_castno_df_sets, comment_header, meta_params, data
         # Get data columns
         data_columns_df = data_columns.get_data_columns(data_set, data_params)
 
-
         # Write dataframe to csv file so data formatted properly by pandas
         # Don't write index column to file
         data_columns_df.to_csv(ctd_filename, sep=',', index=False, header=False, encoding='utf-8')
 
+        # Replace blanks with '-999' and change fill of -99.0 to -999
+        fill_values_in_file(ctd_filename)
+
+
         # Read in data from file just created from dataframe
         with open(ctd_filename, 'r', encoding='utf-8') as original: 
             data = original.read()
-
 
         # Create concatenaated string to prepend
         # Contains exchange start line, comments, and parameter column names
