@@ -499,6 +499,34 @@ class DataColumns:
         return df
 
 
+    def populate_castno_one_station(self, df, station):
+
+        # Get dataframe subset for station
+        df_subset = df.loc[df['STATION'] == station].copy()
+        df_subset.reset_index(drop=True,inplace=True)
+
+        # Get unique events for this station subset
+        event_df = df_subset['EVENT'].copy()
+        event_df.reset_index(drop=True,inplace=True)
+
+        unique_event_df = event_df.drop_duplicates()
+        unique_event_df.reset_index(drop=True,inplace=True)
+
+        # Get list of unique events for station
+        unique_event_list = unique_event_df.tolist() 
+
+        # Use index of unique event list to creat CASTNO
+        # since df was sorted on Event#
+
+        # Events were sorted, so increasing castno corresponding to increasing event #
+        for index, event in enumerate(unique_event_list):
+            # index of unique event list gives the increasing # indicating a castno
+            # Then for each event in df, set CASTNO value
+            df.loc[df.EVENT == event, 'CASTNO'] = index + 1  
+
+        return df      
+
+
     def insert_castno_column(self, df):
 
         # Creating castno from sorted list of unique event numbers
@@ -555,28 +583,30 @@ class DataColumns:
 
         for station in unique_station_list:
 
-            # Get dataframe subset for station
-            df_subset = df.loc[df['STATION'] == station].copy()
-            df_subset.reset_index(drop=True,inplace=True)
+            # # Get dataframe subset for station
+            # df_subset = df.loc[df['STATION'] == station].copy()
+            # df_subset.reset_index(drop=True,inplace=True)
 
-            # Get unique events in for this station subset
-            event_df = df_subset['EVENT'].copy()
-            event_df.reset_index(drop=True,inplace=True)
+            # # Get unique events in for this station subset
+            # event_df = df_subset['EVENT'].copy()
+            # event_df.reset_index(drop=True,inplace=True)
 
-            unique_event_df = event_df.drop_duplicates()
-            unique_event_df.reset_index(drop=True,inplace=True)
+            # unique_event_df = event_df.drop_duplicates()
+            # unique_event_df.reset_index(drop=True,inplace=True)
 
-            # Get list of unique events for station
-            unique_event_list = unique_event_df.tolist() 
+            # # Get list of unique events for station
+            # unique_event_list = unique_event_df.tolist() 
 
-            # Use index of unique event list to creat CASTNO
-            # since df was sorted on Event#
+            # # Use index of unique event list to creat CASTNO
+            # # since df was sorted on Event#
 
-            # Events were sorted, so increasing castno corresponding to increasing event #
-            for index, event in enumerate(unique_event_list):
-                # index of unique event list gives the increasing # indicating a castno
-                # Then for each event in df, set CASTNO value
-                df.loc[df.EVENT == event, 'CASTNO'] = index + 1
+            # # Events were sorted, so increasing castno corresponding to increasing event #
+            # for index, event in enumerate(unique_event_list):
+            #     # index of unique event list gives the increasing # indicating a castno
+            #     # Then for each event in df, set CASTNO value
+            #     df.loc[df.EVENT == event, 'CASTNO'] = index + 1
+
+            df = self.populate_castno_one_station(df,station)
 
         return df
 
