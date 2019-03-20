@@ -2,6 +2,8 @@ import pandas as pd
 from urllib.request import urlopen
 
 
+TESTING = True
+
 def get_cruise_list():
 
     cruise_list = [
@@ -42,10 +44,10 @@ def get_cruise_list():
         ('2007', '15', '18DD20070814')
     ]
 
+    if TESTING:
+        # TESTING
+        cruise_list = [('2017', '01', '18DD20170205')]
 
-    # TESTING
-    #cruise_list = [('2007', '01', '18DD20070207')]
-    cruise_list = [('2017', '01', '18DD20170205')]
 
     return cruise_list        
 
@@ -59,32 +61,33 @@ def get_raw_csv(url):
 
     # Read in csv file and split text on returns to get a list of lines
 
-    # Run chardetect on cruise csv file to download and returns
-    # encoding of windows-1252
-
-    # txt = urlopen(url).read()
-    # decode_txt = txt.decode('windows-1252')
-    # raw_csv = decode_txt.split('\r\n')
-
-    #-----------
-
-    # TESTING
-
-    # read csv file into a list
-
-    # Create test files in windows-1252 with windows line endings
-
-    #test_filename = "./test/data/18DD20070207_2007-01-ctd-cruise.csv"
-    #test_filename = "./test/data/18DD20170205_2017-01-ctd-cruise.csv"
-    test_filename = "./test/data/test_file2.csv"
-
-    with open(test_filename, 'r', encoding='windows-1252') as f:
-        decode_text = f.read()
-
-    raw_csv = decode_text.split('\n')
+    # Ran chardetect in terminal on cruise csv file downloaded from web page
+    # and returns encoding of windows-1252
 
 
-    # ---------------------
+    if TESTING:
+
+        # TESTING
+
+        # read csv file into a list
+
+        # Create test files in windows-1252 with windows line endings
+
+        #test_filename = "./test/data/18DD20070207_2007-01-ctd-cruise.csv"
+        #test_filename = "./test/data/18DD20170205_2017-01-ctd-cruise.csv"
+        test_filename = "./test/data/test_file2.csv"
+
+        with open(test_filename, 'r', encoding='windows-1252') as f:
+            decode_text = f.read()
+
+        raw_csv = decode_text.split('\n')
+
+    else:
+
+        txt = urlopen(url).read()
+        decode_txt = txt.decode('windows-1252')
+        raw_csv = decode_txt.split('\r\n')
+
 
     return raw_csv
 
