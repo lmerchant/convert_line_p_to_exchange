@@ -1,3 +1,4 @@
+import shutil
 import pandas as pd
 from urllib.request import urlopen
 
@@ -45,8 +46,7 @@ def get_cruise_list():
     ]
 
     if TESTING:
-        # TESTING
-        cruise_list = [('2017', '01', '18DD20170205')]
+        cruise_list = [('year', 'month', 'TESTING')]
 
 
     return cruise_list        
@@ -67,15 +67,19 @@ def get_raw_csv(url):
 
     if TESTING:
 
-        # TESTING
+        # Delete testing data output
+        try:
+            shutil.rmtree("./exchange_line_p_data/TESTING_ct1")
+        except:
+            pass
 
         # read csv file into a list
 
         # Create test files in windows-1252 with windows line endings
-
-        #test_filename = "./test/data/18DD20070207_2007-01-ctd-cruise.csv"
-        #test_filename = "./test/data/18DD20170205_2017-01-ctd-cruise.csv"
-        test_filename = "./test/data/test_file2.csv"
+        
+        test_filename = "./test/data/data_to_test_castno.csv"
+        #test_filename = "./test/data/data_to_test_date_format_w_dash.csv"
+        #test_filename = "./test/data/data_to_test_date_format_w_slash.csv"
 
         with open(test_filename, 'r', encoding='windows-1252') as f:
             decode_text = f.read()
