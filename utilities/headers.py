@@ -3,7 +3,7 @@ import utilities.parameters as params
 
 def create_column_headers(data_params):
 
-    # column headers is two lines
+    # column headers are two lines
     # Column names in one line followed by corresponding units in next line
 
     column_headers = []

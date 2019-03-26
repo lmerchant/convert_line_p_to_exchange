@@ -87,14 +87,9 @@ def main():
         # Get expocode from cruise list
         expocode = cruise[2]
 
-        # TODO.  Do I need to insert expocode column?
-        # Only using to extract expocode when write data to file.
-        # Could just pass expcode in as parameter to write_data_to_file
-        # Leave as is for now
-
-        # Insert expocode column
+        # Insert expocode column to use to get
+        # filename later to write output to
         df = data_columns.insert_expocode_column(df, expocode)
-
 
         # Insert castno column
         # Creating castno from sorted list of unique event numbers

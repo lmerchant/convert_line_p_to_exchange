@@ -77,9 +77,12 @@ def get_raw_csv(url):
 
         # Create test files in windows-1252 with windows line endings
         
-        test_filename = "./test/data/data_to_test_castno.csv"
+        #test_filename = "./test/data/data_to_test_castno.csv"
+        #test_filename = "./test/data/data_to_test_castno_one_line.csv"
+        test_filename = "./test/data/data_to_test_fill_999.csv"
         #test_filename = "./test/data/data_to_test_date_format_w_dash.csv"
         #test_filename = "./test/data/data_to_test_date_format_w_slash.csv"
+
 
         with open(test_filename, 'r', encoding='windows-1252') as f:
             decode_text = f.read()
@@ -153,17 +156,26 @@ def insert_into_dataframe(parameter_header, data):
     # Panda keeps greek characters in column names if there were any
     df = pd.DataFrame(data,columns=parameter_header)
 
+
     # Get P-Line Stations only.  These are Stations starting with P
 
     # drop any rows with NaN value in Pressure:CTD column
     # Do this because data sets separated by empty rows
     df.dropna(subset=['Pressure:CTD [dbar]'], inplace=True)
 
+
     # Find rows starting with P in the LOC:STATION column
     df = df[df['LOC:STATION'].str.startswith('P')]
 
-    # Convert to numeric values
+
+    # Convert all columns to numeric to look for Nan when 
+    # later fill NaN with -999 for csv file output.
+    # Also, any -99 fill values will convert to float -99.0
+    # but will replace -99.0 values later with -999 fill
+    # for csv file output.
+    # Keeps string columns as dtype Object
     df = df.apply(pd.to_numeric, errors='ignore')
+
 
     # Sort by station and then pressure and reset index to match new row order
     df.sort_values(by=['LOC:STATION','Pressure:CTD [dbar]'],inplace=True)

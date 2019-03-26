@@ -111,7 +111,7 @@ def write_data_to_file(station_castno_df_sets, comment_header, meta_params, data
         # Don't write index column to file
         data_columns_df.to_csv(ctd_filename, sep=',', index=False, header=False, encoding='utf-8')
 
-        # Replace blanks with '-999' and change fill of -99.0 to -999
+        # Replace NaN with '-999' and change fill of -99.0 to -999
         fill_values_in_file(ctd_filename)
 
 
