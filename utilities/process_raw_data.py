@@ -155,41 +155,23 @@ def insert_into_dataframe(parameter_header, data):
 
     # Import data lines into a data frame
     
-    # parameter_header is list of all the columns using
-    # original parameter names.
+    # parameter_header is list of all the columns with
+    # original parameter names in order so only 
+    # import the columns wanted.
     # Panda keeps greek characters in column names if there were any
-    df = pd.DataFrame(data,columns=parameter_header)
-
-
-    print(df.dtypes)
-
     # Pandas imports all columns as string
-
-    # Any parameter numbers are imported as either integer or float
-    # Date, Time, and Station are imported as string
-    # Time and date are imported as string because
-    # time includes a : and date includes a / or -
-    # Station is imported as string because station name
-    # starts with a letter
-
-    # Any -99 fill numbers are converted to -99.0 because
-    # pandas can only have all integers or all floats in
-    # a column. Later when the program is saved as a csv
-    # exchange file are any -99.0 fill values set to -999
-
-
-    # Get P-Line Stations only.  These are Stations starting with P
+    df = pd.DataFrame(data,columns=parameter_header)
 
     # drop any rows with empty cell values in Pressure:CTD column
     # Do this because data sets separated by empty rows
     df.dropna(subset=['Pressure:CTD [dbar]'], inplace=True)
 
-
+    # Get P-Line Stations only.  These are Stations starting with P
     # Find rows starting with P in the LOC:STATION column
     df = df[df['LOC:STATION'].str.startswith('P')]
 
 
-    # Convert any string numeric columns to numeric 
+    # Convert any string numeric columns to numeric.
     # String columns kept as dtype Object
 
     # Convert columns to numeric to have all numbers in 
