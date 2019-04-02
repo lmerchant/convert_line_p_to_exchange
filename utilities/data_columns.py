@@ -81,6 +81,22 @@ def reformat_date_column(df):
     return df
 
 
+def reformat_time_column(df):
+
+    # Reformat HH:MM to HHMM
+    if ':' in df['TIME'][0]:
+
+        HH = df['TIME'][0][-2:]
+
+        pattern = r'(\d\d):(\d\d)'
+
+        repl = r'\1\2'
+
+    df['TIME'] = df['TIME'].str.replace(pattern, repl)
+
+    return df
+
+
 def insert_expocode_column(df, expocode):
 
     # Create EXPOCODE column
