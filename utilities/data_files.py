@@ -47,6 +47,8 @@ def get_ctd_filename(data_set):
 def fill_values_in_file(ctd_filename):
 
     # Replace blanks with '-999' and change fill of -99.0 to -999
+
+    # Replace any values of '-999.0' to '-999'
     new_lines = []
 
     with open(ctd_filename, 'r', encoding='utf-8') as f:
@@ -57,7 +59,8 @@ def fill_values_in_file(ctd_filename):
             new_line = []
             
             for entry in line:
-                if not entry or entry == '-99.0':
+                #if not entry or entry == '-99.0':
+                if entry == '-999.0':
                     entry = '-999'
 
                 new_line.append(entry)
@@ -112,6 +115,8 @@ def write_data_to_file(station_castno_df_sets, comment_header, meta_params, data
         data_columns_df.to_csv(ctd_filename, sep=',', index=False, header=False, encoding='utf-8')
 
         # Replace NaN with '-999' and change fill of -99.0 to -999
+
+        # Replace any -999.0 values with -999
         fill_values_in_file(ctd_filename)
 
 
