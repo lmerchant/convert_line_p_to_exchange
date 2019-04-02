@@ -84,6 +84,9 @@ def main():
         # Reformat date column to Exchange format
         df = data_columns.reformat_date_column(df)
 
+        # Reformat time column to Exchange format
+        df = data_columns.reformat_time_column(df)
+
         # Get expocode from cruise list
         expocode = cruise[2]
 
