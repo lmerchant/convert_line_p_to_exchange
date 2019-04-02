@@ -6,9 +6,13 @@ import utilities.headers as headers
 import utilities.data_columns as data_columns
 
 
+# Top folder to save data folders in
+TOP_DATA_FOLDER = './exchange_line_p_data'
+
+
 def create_start_end_lines():
 
-    # Create starting and ending lines for an exchange format
+    # Create starting and ending lines for exchange format
 
     now = datetime.datetime.now()
 
@@ -23,8 +27,12 @@ def create_start_end_lines():
     return start_line, end_line
 
 
-def get_ctd_filename(data_set):
+def get_ctd_filename(directory, data_set):
 
+    # Create filename to store data to
+
+    # From first row, get expocode, stnbr, and castno
+    # needed to create filename
     first_row = data_set.iloc[0]
 
     expocode = first_row['EXPOCODE']
@@ -34,26 +42,28 @@ def get_ctd_filename(data_set):
     str_stnbr = str(stnbr)
     str_castno = str(castno)
 
-    # if stnbr has a slash in name, replace with a dash
+    # if stnbr has a slash in name, replace with a dash because
+    # can't use / as part of filename.
     if '/' in str_stnbr:
         str_stnbr = str_stnbr.replace('/', '-')
+ 
 
-
-    ctd_filename = './exchange_line_p_data/' + expocode + '_ct1/' + expocode + '_' + str_stnbr + '_' + str_castno + '_ct1.csv'
+    ctd_file = expocode + '_' + str_stnbr + '_' + str_castno + '_ct1.csv'
+    ctd_filename = directory + ctd_file
 
     return ctd_filename
    
 
 def write_data_to_file(station_castno_df_sets, comment_header, meta_params, data_params):
 
-    # Write data sets to file
+    # Write data sets to files
 
     # Get expocode to make directory for files
     first_row = station_castno_df_sets[0].iloc[0]
     expocode = first_row['EXPOCODE']
 
-    # Make sub directory in './exchange_line_p_data'
-    directory = './exchange_line_p_data/' + expocode + '_ct1'
+    # Make sub directory in parent folder
+    directory = TOP_DATA_FOLDER + '/' + expocode + '_ct1/'
 
     if not os.path.exists(directory):
         os.makedirs(directory)
@@ -66,14 +76,13 @@ def write_data_to_file(station_castno_df_sets, comment_header, meta_params, data
     # Create column and data units lines
     column_headers = headers.create_column_headers(data_params)
 
-    # Loop over unique row sets (STATION and CASTNO) and save each to a file      
+    # Loop over row sets (STATION and CASTNO) and save each to a file      
     for data_set in station_castno_df_sets:
 
-        # Get filename
-        ctd_filename = get_ctd_filename(data_set)
+        # Get filename using info from data_set
+        ctd_filename = get_ctd_filename(directory, data_set)
 
-        # Create metadata headers
-        # Since all the same, use first data set
+        # Create metadata headers using info from data_set
         metadata_header = headers.create_metadata_header(data_set)        
 
         # Get data columns
@@ -83,16 +92,18 @@ def write_data_to_file(station_castno_df_sets, comment_header, meta_params, data
         data_columns_df = data_columns_df.applymap(str)
         data_columns_df.replace('-999.0', '-999', inplace=True)
 
-
-        # Write dataframe to csv file so data formatted properly by pandas
-        # Don't write index column to file
+        # Write dataframe to csv file so data formatted properly by pandas.
+        # Don't write index column to file. 
+        # Will add header below.
         data_columns_df.to_csv(ctd_filename, sep=',', index=False, header=False, encoding='utf-8')
 
-        # Read in data from file just created from dataframe
+
+        # Read in data from file just created from dataframe to
+        # prepend and append lines
         with open(ctd_filename, 'r', encoding='utf-8') as original: 
             data = original.read()
 
-        # Create concatenaated string to prepend
+        # Create concatenated string to prepend
         # Contains exchange start line, comments, and parameter column names
         prepend_string = ''
         comment_header_string = ''
@@ -111,6 +122,7 @@ def write_data_to_file(station_castno_df_sets, comment_header, meta_params, data
             column_header_string = column_header_string + line + '\n' 
 
         prepend_string = start_line_str + comment_header_string + metadata_header_string + column_header_string
+
 
         # Rewrite over ctd file with prepended text to data csv section
         # Prepend ctd file
