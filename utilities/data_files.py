@@ -53,7 +53,7 @@ def get_ctd_filename(directory, data_set):
 
     return ctd_filename
    
-   
+
 
 def write_data_to_file(station_castno_df_sets, comment_header, meta_params, data_params):
 
@@ -88,6 +88,9 @@ def write_data_to_file(station_castno_df_sets, comment_header, meta_params, data
 
         # Get data columns
         data_columns_df = data_columns.get_data_columns(data_set, data_params)
+
+        # Change flag from 2 to 9 if value in column to left of flag column is -999.0
+        data_columns.update_flag_for_fill_999(data_columns_df, data_params)
 
         # Convert data columns to string and replace -999.0 with -999
         data_columns_df = data_columns_df.applymap(str)

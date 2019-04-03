@@ -53,6 +53,33 @@ def insert_flag_colums(df, data_params):
     return df, new_params
 
 
+def update_flag_for_fill_999(df, data_params):
+    # If cell has fill -999 or -999.0, change corresponding flag cell to 9
+    # Flag = 9 means not sampled
+
+    # Go column by column
+
+    for param in data_params:
+
+        param_name = param['whpname']
+        flag_name = '{}_FLAG_W'.format(param_name)
+        param_loc = df.columns.get_loc(param_name)
+        flag_loc = param_loc + 1
+
+        df_rows = df.loc[(df[param_name] == -999) | (df[param_name] == -999.0)]
+        number_of_rows = df.shape[0]
+
+        if not df_rows.empty:
+  
+            df.loc[df[param_name] == 999, flag_name] = 9
+            df.loc[df[param_name] == -999.0, flag_name] = 9
+
+
+        print(df.head())
+
+
+
+
 def reformat_date_column(df):
 
     # Files can have two different date formats
