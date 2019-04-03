@@ -7,6 +7,14 @@ TESTING = True
 
 def get_cruise_list():
 
+    # list mapping Line P web files to expocodes
+
+    # Canadian Line P cruise data of format
+    # year-identifier. Check website for values
+    # https://www.waterproperties.ca/linep/cruises.php
+
+
+    # line p year, cruise identifier, and corresponding expocode
     cruise_list = [
         ('2018', '001', '18LU20180218'),
         ('2018', '026', '18DD20180605'),
@@ -45,15 +53,17 @@ def get_cruise_list():
         ('2007', '15', '18DD20070814')
     ]
 
+
     if TESTING:
-        cruise_list = [('year', 'month', 'TESTING')]
+        # use dummy value for cruise list and expocode = 'TESTING'
+        cruise_list = [('year', 'cruise_id', 'TESTING')]
 
 
     return cruise_list        
 
 
-def build_url(year,month):
-    url = 'https://www.waterproperties.ca/linep/' + year + '-' + month + '/donneesctddata/' + year + '-' + month + '-ctd-cruise.csv'
+def build_url(year, cruise_id):
+    url = 'https://www.waterproperties.ca/linep/' + year + '-' + cruise_id + '/donneesctddata/' + year + '-' + cruise_id + '-ctd-cruise.csv'
     return url
 
 
@@ -78,10 +88,17 @@ def get_raw_csv(url):
         # Create test files in windows-1252 with windows line endings
         
         #test_filename = "./test/data/data_to_test_castno.csv"
-        #test_filename = "./test/data/data_to_test_castno_one_line.csv"
-        test_filename = "./test/data/data_to_test_fill_999.csv"
+        #test_filename = "./test/data/data_to_test_castno_one_pline.csv"
+        #test_filename = "./test/data/data_to_test_fill_999.csv"
         #test_filename = "./test/data/data_to_test_date_format_w_dash.csv"
         #test_filename = "./test/data/data_to_test_date_format_w_slash.csv"
+        #test_filename = "./test/data/data_to_test_column_names1.csv"
+        #test_filename = "./test/data/data_to_test_column_names2.csv"
+        #test_filename = "./test/data/data_to_test_column_names3.csv"
+        #test_filename = "./test/data/data_to_test_column_names4.csv"
+        #test_filename = "./test/data/data_to_test_column_names5.csv"
+        test_filename = "./test/data/data_to_test_flag_values.csv"
+
         #test_filename = "./test/data/2007-13-ctd-cruise.csv"
 
 
