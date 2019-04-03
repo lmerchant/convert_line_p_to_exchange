@@ -1,9 +1,10 @@
 def rename_pline_columns(df, meta_params, data_params):
 
-    # Rename all pline meta and data parameters
+    # Rename all Line P metadata and parameter data column headers
 
     # meta_params and data_params are mapping dicts
-    # between pline column names and WHP column names
+    # between Line P column names (longname) and 
+    # WHP column names (whpname)
 
     param_dict = {}
 
@@ -20,9 +21,13 @@ def rename_pline_columns(df, meta_params, data_params):
 
 def insert_flag_colums(df, data_params):
 
+    # Will be adding flag columns to data_params and 
+    # having order of param, param_flag.
+    # Data params have order of column names to save,
+    # so order same with interleaving flag columns
     new_params = []
 
-    # Get location of column to insert flag column after
+    # Get location of column to insert flag column after.
     # Insert flag column with value of 2
     for param in data_params:
 
@@ -30,9 +35,11 @@ def insert_flag_colums(df, data_params):
         param_loc = df.columns.get_loc(param_name)
         flag_name = '{}_FLAG_W'.format(param_name)
 
+        # Insert in next column
+        # Will move all other columns to right
         df.insert(param_loc + 1, flag_name, 2)
 
-        # Insert flag param dict into data_params list
+        # Insert flag param dict into data_params list.
         # Want this so know which columns to extract for saving output and
         # keep order of newly inserted flag column after param column
         param_insert = {}
@@ -164,12 +171,12 @@ def insert_castno_column(df):
     #    and Event columns
     # count events in station subsets
 
-    # Unique subset of station and event
+    # Unique subset of station and event #
 
-    # castno station event#
-    # 1 P20  event 18
-    # 2 P20  event 19
-    # 3 P20  event 26
+    # station   Event #    Cast #
+    # P20       event 18   1
+    # P20       event 19   2
+    # P20       event 26   3
 
 
     # Steps. Loop through each station and do following

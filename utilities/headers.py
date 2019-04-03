@@ -15,7 +15,6 @@ def create_column_headers(data_params):
     column_units_row = []
 
     for key, value in data_units_dict.items():
-
         column_name_row.append(key)
         column_units_row.append(value)
 
