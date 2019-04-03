@@ -22,14 +22,19 @@ def get_all_data_params():
 
     # All choices of mapping between pline names and WHP names for renaming columns
 
+    # Put in list in order want columns to appear in exchange output file
+
+    # Some data files call CTDSAL, CTDBEAMCP, and CTDFLUOR with different names and units 
+    # so account for this when importing columns
+
     params =[                             
-    {'whpname' : 'CTDPRS' , 'longname':'Pressure:CTD [dbar]', 'units' : 'DBAR'},                          
+    {'whpname' : 'CTDPRS' , 'longname':'Pressure:CTD [dbar]', 'units' : 'DBAR'},
     {'whpname' : 'CTDTMP' , 'longname':'Temperature:CTD [deg_C_(ITS90)]', 'units' : 'ITS-90'},
     {'whpname' : 'CTDSAL' , 'longname':'Salinity:CTD [PSS-78]', 'units' : 'PSS-78'},
     {'whpname' : 'CTDSAL' , 'longname':'Salinity:Practical:CTD [PSS-78]', 'units' : 'PSS-78'},
     {'whpname' : 'CTDOXY' , 'longname':'Oxygen:Dissolved:CTD:Mass [µmol/kg]', 'units' : 'UMOL/KG'},   
-    {'whpname' : 'CTDXMISS' , 'longname':'Transmissivity:CTD [*/m]', 'units' : '/METER'},
-    {'whpname' : 'CTDXMISS' , 'longname':'Transmissivity:CTD [%/m]', 'units' : '/METER'},
+    {'whpname' : 'CTDBEAMCP' , 'longname':'Transmissivity:CTD [*/m]', 'units' : '/METER'},
+    {'whpname' : 'CTDBEAMCP' , 'longname':'Transmissivity:CTD [%/m]', 'units' : '/METER'},
     {'whpname' : 'CTDFLUOR' , 'longname':'Fluorescence:CTD:Seapoint [mg/m^3]', 'units' : 'MG/M^3'},   
     {'whpname' : 'CTDFLUOR', 'longname': 'Fluorescence:CTD:Seapoint', 'units' : 'MG/M^3'},
     {'whpname' : 'CTDFLUOR', 'longname': 'Fluorescence:CTD [mg/m^3]', 'units' : 'MG/M^3'},
