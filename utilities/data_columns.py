@@ -75,11 +75,6 @@ def update_flag_for_fill_999(df, data_params):
             df.loc[df[param_name] == -999.0, flag_name] = 9
 
 
-        print(df.head())
-
-
-
-
 def reformat_date_column(df):
 
     # Files can have two different date formats
