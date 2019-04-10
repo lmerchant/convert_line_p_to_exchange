@@ -123,8 +123,7 @@ def main():
 
         print("Completed " + expocode)
 
-        break
-
+    
 
 
 if __name__ == '__main__':
