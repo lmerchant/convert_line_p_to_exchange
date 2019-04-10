@@ -20,7 +20,7 @@ def create_start_end_lines():
     month = now.strftime('%m')
     day = now.strftime('%d')
 
-    start_line = "CTD,{}{}{}CCHSIOLMM".format(year,month,day)
+    start_line = "CTD,{}{}{}CCHSIOLM".format(year,month,day)
 
     end_line = 'END_DATA'
 
