@@ -3,7 +3,7 @@ import pandas as pd
 from urllib.request import urlopen
 
 
-TESTING = True
+TESTING = False
 
 def get_cruise_list():
 
@@ -97,9 +97,7 @@ def get_raw_csv(url):
         #test_filename = "./test/data/data_to_test_column_names3.csv"
         #test_filename = "./test/data/data_to_test_column_names4.csv"
         #test_filename = "./test/data/data_to_test_column_names5.csv"
-        test_filename = "./test/data/data_to_test_flag_values.csv"
-
-        #test_filename = "./test/data/2007-13-ctd-cruise.csv"
+        #test_filename = "./test/data/data_to_test_flag_values.csv"
 
 
         with open(test_filename, 'r', encoding='windows-1252') as f:
