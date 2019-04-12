@@ -92,9 +92,17 @@ def write_data_to_file(station_castno_df_sets, comment_header, meta_params, data
         # Change flag from 2 to 9 if value in column to left of flag column is -999.0
         data_columns.update_flag_for_fill_999(data_columns_df, data_params)
 
+        # Change flag from 2 to 5 if value in column to left of flag column is -99.0
+        data_columns.update_flag_for_fill_99(data_columns_df, data_params)        
+
         # Convert data columns to string and replace -999.0 with -999
         data_columns_df = data_columns_df.applymap(str)
         data_columns_df.replace('-999.0', '-999', inplace=True)
+
+        # Convert data columns to string and replace -99.0 with -999
+        data_columns_df = data_columns_df.applymap(str)
+        data_columns_df.replace('-99.0', '-999', inplace=True)
+
 
         # Write dataframe to csv file so data formatted properly by pandas.
         # Don't write index column to file. 

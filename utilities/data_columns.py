@@ -75,6 +75,28 @@ def update_flag_for_fill_999(df, data_params):
             df.loc[df[param_name] == -999.0, flag_name] = 9
 
 
+def update_flag_for_fill_99(df, data_params):
+    # If cell has fill -99 or -99.0, change corresponding flag cell to 5
+    # Flag = 5 means Not reported
+
+    # Go column by column
+
+    for param in data_params:
+
+        param_name = param['whpname']
+        flag_name = '{}_FLAG_W'.format(param_name)
+        param_loc = df.columns.get_loc(param_name)
+        flag_loc = param_loc + 1
+
+        df_rows = df.loc[(df[param_name] == -99) | (df[param_name] == -99.0)]
+        number_of_rows = df.shape[0]
+
+        if not df_rows.empty:
+  
+            df.loc[df[param_name] == 99, flag_name] = 5
+            df.loc[df[param_name] == -99.0, flag_name] = 5
+
+
 def reformat_date_column(df):
 
     # Files can have two different date formats
@@ -235,7 +257,7 @@ def insert_castno_column(df):
 
 def insert_station_castno_column(df):
 
-    # Create STATION_CAST column which is a combo of station and castno to 
+    # Create STATION_CASTNO column which is a combo of station and castno to 
     # make it easy to sort and group on this value for each station to save
     # each to a file
     df['STATION_CASTNO'] = df['STATION'].apply(str) + '_' + df['CASTNO'].apply(str)

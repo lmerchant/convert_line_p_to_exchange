@@ -3,7 +3,7 @@ import pandas as pd
 from urllib.request import urlopen
 
 
-TESTING = False
+TESTING = True
 
 def get_cruise_list():
 
@@ -89,7 +89,7 @@ def get_raw_csv(url):
         
         #test_filename = "./test/data/data_to_test_castno.csv"
         #test_filename = "./test/data/data_to_test_castno_one_pline.csv"
-        #test_filename = "./test/data/data_to_test_fill_999.csv"
+        test_filename = "./test/data/data_to_test_fill_999.csv"
         #test_filename = "./test/data/data_to_test_date_format_w_dash.csv"
         #test_filename = "./test/data/data_to_test_date_format_w_slash.csv"
         #test_filename = "./test/data/data_to_test_column_names1.csv"
@@ -215,8 +215,8 @@ def insert_into_dataframe(parameter_header, data):
     # Later when the program is saved as a csv
     # exchange file, any -999.0 fill values are set to -999 
 
-    df.replace(-99.0, -999, inplace=True)
-    df.replace(-99, -999, inplace=True)
+    #df.replace(-99.0, -999, inplace=True)
+    #df.replace(-99, -999, inplace=True)
     df.fillna(-999, inplace=True)
 
 
