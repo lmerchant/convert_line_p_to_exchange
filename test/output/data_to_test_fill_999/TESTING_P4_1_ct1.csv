@@ -1,17 +1,108 @@
-CTD,20190408CCHSIOLMM
-#,,,,,,,,,,,,,,,,,,
-#Downcast (CTD files) Oxygen:Dissolved:CTD data are considered very roughly to be:,,,,,,,,,,,,,,,,,,
-#      • ±0.25 ml/l from 0 to 125 dbar,,,,,,,,,,,,,,,,,,
-#      • ±0.2 ml/l from 125 to 400 dbar,,,,,,,,,,,,,,,,,,
-#      • ±0.1 ml/l from 400 to 600 dbar,,,,,,,,,,,,,,,,,,
-#      • ±0.05 ml/l from 600 to 1500 dbar,,,,,,,,,,,,,,,,,,
-#      • Low by up to 0.08 ml/l below 1500 dbar,,,,,,,,,,,,,,,,,,
-#---------------------------------------------------------------------------------------------------,,,,,,,,,,,,,,,,,,
-#For details on the processing see the report 2017-01-proc.pdf,,,,,,,,,,,,,,,,,,
-#---------------------------------------------------------------------------------------------------,,,,,,,,,,,,,,,,,,
-#,,,,,,,,,,,,,,,,,,
-#File Name,Zone,FIL:START TIME YYYY/MM/DD, HH:MM,LOC:EVENT_NUMBER,LOC:LATITUDE,LOC:LONGITUDE,LOC:STATION,INS:LOCATION,Pressure:CTD [dbar],Temperature:CTD [deg_C_(ITS90)],Salinity:CTD [PSS-78],Sigma-t:CTD [kg/m^3],Transmissivity:CTD [*/m],Oxygen:Dissolved:CTD:Volume [ml/l],Oxygen:Dissolved:CTD:Mass [µmol/kg],Fluorescence:CTD:Seapoint [mg/m^3],Fluorescence:CTD:Wetlabs [mg/m^3],PAR:CTD [µE/m^2/sec]
-#,,,,,,,,,,,,,,,,,,
+CTD,20190424CCHSIOLM
+#*2017/06/29 15:26:49.78
+#*IOS HEADER VERSION 2.0      2016/04/28 2016/06/13 IVF16
+#
+#*FILE
+#    START TIME          : UTC 2017/02/07 16:39:50.000
+#    TIME INCREMENT      : 0 0 0 0.416667E-01 0  ! (day hr min sec ms)
+#    NUMBER OF RECORDS   : 494
+#    DATA DESCRIPTION    : CTD
+#    FILE TYPE           : ASCII
+#    CRC                 : C9A4AA2A
+#    NUMBER OF CHANNELS  : 8
+#
+#    $TABLE: CHANNELS
+#    ! No Name                          Units           Minimum        Maximum
+#    !--- ----------------------------- --------------- -------------- --------------
+#       1 Pressure:CTD                  dbar            2              500.8
+#       2 Temperature:CTD               deg_C_(ITS90)   4.9091         9.5889
+#       3 Salinity:CTD                  PSS-78          32.3599        34.0113
+#       4 Sigma-t:CTD                   kg/m^3          25.0678        26.9244
+#       5 Oxygen:Dissolved:CTD:Volume   ml/l            1.26           6.58
+#       6 Oxygen:Dissolved:CTD:Mass     µmol/kg         55             286.5
+#       7 Fluorescence:CTD:Seapoint     mg/m^3          0.54E-01       0.723
+#       8 PAR:CTD                       µE/m^2/sec      0              64
+#    $END
+#
+#    $TABLE: CHANNEL DETAIL
+#    ! No  Pad   Start  Width  Format  Type  Decimal_Places
+#    !---  ----  -----  -----  ------  ----  --------------
+#       1  -99   ' '        7  F       ' '     1
+#       2  -99   ' '        9  F       ' '     4
+#       3  -99   ' '        9  F       ' '     4
+#       4  -99   ' '        9  F       R4      4
+#       5  -99   ' '        7  F       ' '     2
+#       6  -99   ' '        6  F       ' '     1
+#       7  -99   ' '        8  F       ' '     3
+#       8  -99   ' '        7  F       ' '     1
+#    $END
+#
+#*ADMINISTRATION
+#    MISSION             : 2017-01
+#    AGENCY              : IOS, Ocean Sciences Division, Sidney, B.C.
+#    COUNTRY             : Canada
+#    PROJECT             : Line P
+#    SCIENTIST           : Robert M.
+#    PLATFORM            : John P. Tully
+#
+#*LOCATION
+#    GEOGRAPHIC AREA     : North-East Pacific
+#    STATION             : P4
+#    EVENT NUMBER        : 17
+#    LATITUDE            :  48  38.91000 N  ! (deg min)
+#    LONGITUDE           : 126  40.02000 W  ! (deg min)
+#    WATER DEPTH         : 1320
+#
+#*INSTRUMENT
+#    TYPE                : Sea-Bird CTD
+#    MODEL               : SBE-911plus
+#    SERIAL NUMBER       : 0506
+#    LOCATION            : Mid-ship                              ! custom item
+#
+#*COMMENTS
+#    The descent rate of the CTD was very noisy.
+#    CTDEDIT was used to remove some near-surface records and records
+#	corrupted by shed wakes; salinity was cleaned.
+#
+#    Data Processing Notes:
+#    ----------------------
+#    Fluorescence and PAR data are nominal and unedited except that some records were
+#	removed in editing temperature and salinity and a large spike in
+#	fluorescence was removed from file 0032.
+#
+#    The Transmissivity channel was removed because of frequent shifts in values during
+#	casts and large variations between values during repeat casts.
+#	The data are available, by request, from the chief scientist.
+#
+#    NOTE: While the Fluorescence:CTD data are expressed in concentration units, they
+#	do not always compare well to extracted chlorophyll samples, particularly for
+#	casts far from shore. It is recommended that users check extracted chlorophyll
+#	values where available.
+#
+#    Oxygen:Dissolved:CTD was calibrated using the method described in Sea-Bird
+#	Application Note #64-2, June 2012 revision (Sea-Bird_64-2_Jun2012.pdf), except 
+#	that a small offset in the fit was allowed.
+#
+#    The Dissolved Oxygen sensor used in files 0001, 0002 and 0016 malfunctioned so the 
+#	Oxygen:Dissolved:CTD channels were removed from those files.
+#
+#    The Oxygen:Dissolved:CTD sensor has a fairly long response time so data accuracy 
+#	is not as high when it is in motion as it is during stops for bottles. This will be
+#	especially true when vertical dissolved oxygen gradients are large. To get an estimate
+#	of the accuracy of the Oxygen:Dissolved:CTD data during downcasts (after recalibration)
+#	a rough comparison was made between downcast Oxygen:Dissolved:CTD data and upcast 
+#	titrated samples. Some of the difference will be due to problems with flushing of 
+#	Niskin bottles and/or analysis errors, so the following statement likely underestimates 
+#	Oxygen:Dissolved:CTD accuracy.
+#
+#    Downcast (CTD files) Oxygen:Dissolved:CTD data are considered, very roughly, to be:
+#	±0.25 ml/l from 0 to 125 dbar.
+#	±0.2 ml/l from 125 to 400 dbar.
+#	±0.1 ml/l from 400 to 600 dbar.
+#	±0.05 ml/l from 600 to 1500 dbar.
+#	Low by up to 0.08 ml/l below 1500 dbar.
+#
+#    For details on the processing see document: 2017-01-proc.pdf.
 NUMBER_HEADERS = 8
 EXPOCODE = TESTING
 STNBR = P4
