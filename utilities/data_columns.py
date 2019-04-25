@@ -71,7 +71,7 @@ def update_flag_for_fill_999(df, data_params):
 
         if not df_rows.empty:
   
-            df.loc[df[param_name] == 999, flag_name] = 9
+            df.loc[df[param_name] == -999, flag_name] = 9
             df.loc[df[param_name] == -999.0, flag_name] = 9
 
 
@@ -93,7 +93,7 @@ def update_flag_for_fill_99(df, data_params):
 
         if not df_rows.empty:
   
-            df.loc[df[param_name] == 99, flag_name] = 5
+            df.loc[df[param_name] == -99, flag_name] = 5
             df.loc[df[param_name] == -99.0, flag_name] = 5
 
 
@@ -190,6 +190,7 @@ def populate_castno_one_station(df, station):
     for index, event in enumerate(unique_event_list):
         # index of unique event list gives the increasing # indicating a castno
         # Then for each event in df, set CASTNO value
+        # Since index starts at 0,increment by 1 to get CASTNO
         df.loc[df.EVENT == event, 'CASTNO'] = index + 1  
 
     return df      

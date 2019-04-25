@@ -54,6 +54,9 @@ def get_cruise_list():
     ]
 
 
+
+
+
     if TESTING:
         # use dummy value for cruise list and expocode = 'TESTING'
         cruise_list = [('year', 'cruise_id', 'TESTING')]
@@ -89,7 +92,9 @@ def get_raw_csv(url):
         
         #test_filename = "./test/data/data_to_test_castno.csv"
         #test_filename = "./test/data/data_to_test_castno_one_pline.csv"
-        test_filename = "./test/data/data_to_test_fill_999.csv"
+        #test_filename = "./test/data/data_to_test_fill_999.csv"
+        test_filename = "./test/data/data_to_test_fill_999_2.csv"
+        #test_filename = "./test/data/data_to_test_fill_999_3.csv"
         #test_filename = "./test/data/data_to_test_date_format_w_dash.csv"
         #test_filename = "./test/data/data_to_test_date_format_w_slash.csv"
         #test_filename = "./test/data/data_to_test_column_names1.csv"
@@ -98,6 +103,7 @@ def get_raw_csv(url):
         #test_filename = "./test/data/data_to_test_column_names4.csv"
         #test_filename = "./test/data/data_to_test_column_names5.csv"
         #test_filename = "./test/data/data_to_test_flag_values.csv"
+        #test_filename = "./test/data/18DD20170205_2017-01-ctd-cruise.csv"
 
 
         with open(test_filename, 'r', encoding='windows-1252') as f:
@@ -202,21 +208,19 @@ def insert_into_dataframe(parameter_header, data):
     df = df.apply(pd.to_numeric, errors='ignore')
 
 
-    # Any -99 fill numbers in float columns are converted to -99.0 
+    # Any columns with float values automatically convert to float.
     # because pandas can only have all integers or all floats in
     # a column. 
 
-    # Replace any -99 or -99.0 cells with -999 and
-    # replace any NaN cells with -999   
+    # If fill with -999 in a float column, it becomes -999.0  
 
-    # Any columns with float values automatically convert
-    # any -999 to -999.0    
+    # Any -99 fill numbers in float columns are converted to -99.0 
 
-    # Later when the program is saved as a csv
-    # exchange file, any -999.0 fill values are set to -999 
+    # Replace any NaN cells with -999   
+  
+    # Later when the program is saved as a csv exchange file, 
+    # any -999.0, -99.0, -99 fill values are set to -999 
 
-    #df.replace(-99.0, -999, inplace=True)
-    #df.replace(-99, -999, inplace=True)
     df.fillna(-999, inplace=True)
 
 

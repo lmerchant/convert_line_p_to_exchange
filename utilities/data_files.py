@@ -167,25 +167,33 @@ def write_data_to_file(station_castno_df_sets, comment_header, meta_params, data
             else:
                 # Can't open raw individual comment header so use global header instead
                 raw_individual_comment_header = comment_header
-                #print("Can't find individual CTD file so using concatenated for file: " + ctd_filename)
+                print("Can't find individual CTD file so using concatenated for file: " + ctd_filename)
         
 
         # Get data columns
         data_columns_df = data_columns.get_data_columns(data_set, data_params)
 
-        # Change flag from 2 to 9 if value in column to left of flag column is -999.0
+
+        # Change flag from 2 to 9 if value in column to left of flag column is -999 or -999.0
+        # Flag = 9 represents data not sampled
         data_columns.update_flag_for_fill_999(data_columns_df, data_params)
 
-        # Change flag from 2 to 5 if value in column to left of flag column is -99.0
-        data_columns.update_flag_for_fill_99(data_columns_df, data_params)        
+        # Change flag from 2 to 5 if value in column to left of flag column is -99 or -99.0
+        # Flag = 5 represents data not reported
+        data_columns.update_flag_for_fill_99(data_columns_df, data_params)  
+
 
         # Convert data columns to string and replace -999.0 with -999
         data_columns_df = data_columns_df.applymap(str)
         data_columns_df.replace('-999.0', '-999', inplace=True)
 
-        # Convert data columns to string and replace -99.0 with -999
+        # Convert data columns to string and replace -99.0 and -99 with -999
         data_columns_df = data_columns_df.applymap(str)
         data_columns_df.replace('-99.0', '-999', inplace=True)
+
+        # Convert data columns to string and replace -99 with -999
+        data_columns_df = data_columns_df.applymap(str)
+        data_columns_df.replace('-99', '-999', inplace=True)
 
 
         # Write dataframe to csv file so data formatted properly by pandas.
