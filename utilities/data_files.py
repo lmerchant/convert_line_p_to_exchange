@@ -1,9 +1,12 @@
 import os
 import datetime
 import csv
+from urllib.request import urlopen
 
 import utilities.headers as headers
 import utilities.data_columns as data_columns
+import utilities.process_raw_data as process_raw_data
+
 
 
 # Top folder to save data folders in
@@ -52,7 +55,70 @@ def get_ctd_filename(directory, data_set):
     ctd_filename = directory + ctd_file
 
     return ctd_filename
-   
+
+
+def get_line_p_cruise_id(expocode, cruise_list):
+
+    # Find tuple for expocode
+    found_cruise = [cruise for cruise in cruise_list if cruise[2] == expocode]
+
+    line_p_year = found_cruise[0][0]
+    line_p_id = found_cruise[0][1]
+
+    return line_p_year, line_p_id
+
+
+def get_individual_raw_file(expocode, data_set):
+
+    # Get rows with unique event numbers
+    df_unique_events = data_set['EVENT'].unique()
+    unique_events = df_unique_events.tolist()
+
+
+    cruise_list = process_raw_data.get_cruise_list()
+
+
+    line_p_year, line_p_id = get_line_p_cruise_id(expocode, cruise_list)
+
+    for event in unique_events:
+        # Pad event number with leading 0
+        event = str(event).zfill(4)
+
+        filename = line_p_year + '-' + line_p_id + '-' + event + '.ctd'
+
+        url = 'https://www.waterproperties.ca/linep/' + line_p_year + '-' + line_p_id + '/donneesctddata/' + filename
+
+        return url
+
+
+def get_individual_raw_file_header(url):
+
+    txt = urlopen(url).read()
+    decode_txt = txt.decode('windows-1252')
+    file_text = decode_txt.split('\r\n')
+
+
+    # Get lines up to line *END OF HEADER
+    comment_header = []
+
+    count = 0
+    for line in file_text:
+
+        #if '*END OF HEADER' not in line:
+        if 'For details on the processing' not in line:
+            # then line is a comment header
+            # prepend a # sign
+            line_comment = '#' + line
+            comment_header.append(line_comment)
+            count = count+1
+        else:
+            # Get one more line
+            # Get For details on the processing line
+            line_comment = '#' + line
+            comment_header.append(line_comment)         
+            break
+
+    return comment_header
 
 
 def write_data_to_file(station_castno_df_sets, comment_header, meta_params, data_params):
@@ -84,7 +150,25 @@ def write_data_to_file(station_castno_df_sets, comment_header, meta_params, data
         ctd_filename = get_ctd_filename(directory, data_set)
 
         # Create metadata headers using info from data_set
-        metadata_header = headers.create_metadata_header(data_set)        
+        metadata_header = headers.create_metadata_header(data_set)  
+
+
+        # Get filename of individal raw file to get header
+        url = get_individual_raw_file(expocode, data_set)
+
+        try:
+            raw_individual_comment_header = get_individual_raw_file_header(url)
+        except:
+            if url == 'https://www.waterproperties.ca/linep/2009-09/donneesctddata/2009-09-0051.ctd':
+                # Error in concatenated file using event 51 for P19 when web page
+                # table says it should be event 52. So fixed for this special case
+                # https://www.waterproperties.ca/linep/2009-09/index.php
+                url = 'https://www.waterproperties.ca/linep/2009-09/donneesctddata/2009-09-0052.ctd'
+            else:
+                # Can't open raw individual comment header so use global header instead
+                raw_individual_comment_header = comment_header
+                #print("Can't find individual CTD file so using concatenated for file: " + ctd_filename)
+        
 
         # Get data columns
         data_columns_df = data_columns.get_data_columns(data_set, data_params)
@@ -124,8 +208,9 @@ def write_data_to_file(station_castno_df_sets, comment_header, meta_params, data
 
         start_line_str = start_line + '\n'
 
-        for line in comment_header:
-            comment_header_string = comment_header_string + line + '\n' 
+
+        for line in raw_individual_comment_header:
+            comment_header_string = comment_header_string + line + '\n'
 
         for line in metadata_header:
             metadata_header_string = metadata_header_string + line + '\n'   
@@ -144,6 +229,4 @@ def write_data_to_file(station_castno_df_sets, comment_header, meta_params, data
         # Append ctd file with end line
         with open(ctd_filename, 'a', encoding='utf-8') as f:
             f.write("{}\n".format(end_line))
-
-
 
