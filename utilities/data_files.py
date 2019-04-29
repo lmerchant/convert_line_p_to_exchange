@@ -159,11 +159,18 @@ def write_data_to_file(station_castno_df_sets, comment_header, meta_params, data
         try:
             raw_individual_comment_header = get_individual_raw_file_header(url)
         except:
-            if url == 'https://www.waterproperties.ca/linep/2009-09/donneesctddata/2009-09-0051.ctd':
+            if url == 'https://www.waterproperties.ca/linep/2009-09/donneesctddata/2009-09-0014.ctd':
+                # Error in concatenated file using event 14 for P4 when web page
+                # table says it should be event 15. So fixed for this special case
+                # https://www.waterproperties.ca/linep/2009-09/index.php
+                url = 'https://www.waterproperties.ca/linep/2009-09/donneesctddata/2009-09-0015.ctd'
+
+            elif url == 'https://www.waterproperties.ca/linep/2009-09/donneesctddata/2009-09-0051.ctd':
                 # Error in concatenated file using event 51 for P19 when web page
                 # table says it should be event 52. So fixed for this special case
                 # https://www.waterproperties.ca/linep/2009-09/index.php
                 url = 'https://www.waterproperties.ca/linep/2009-09/donneesctddata/2009-09-0052.ctd'
+            
             else:
                 # Can't open raw individual comment header so use global header instead
                 raw_individual_comment_header = comment_header
@@ -183,16 +190,14 @@ def write_data_to_file(station_castno_df_sets, comment_header, meta_params, data
         data_columns.update_flag_for_fill_99(data_columns_df, data_params)  
 
 
-        # Convert data columns to string and replace -999.0 with -999
+        # Convert data columns to string 
+        # replace -999.0 with -999
+        # replace -99.0 and -99 with -999
+        # replace -99 with -999 (since all converted to float, just covering bases with integer -99 fill)
         data_columns_df = data_columns_df.applymap(str)
+
         data_columns_df.replace('-999.0', '-999', inplace=True)
-
-        # Convert data columns to string and replace -99.0 and -99 with -999
-        data_columns_df = data_columns_df.applymap(str)
         data_columns_df.replace('-99.0', '-999', inplace=True)
-
-        # Convert data columns to string and replace -99 with -999
-        data_columns_df = data_columns_df.applymap(str)
         data_columns_df.replace('-99', '-999', inplace=True)
 
 
