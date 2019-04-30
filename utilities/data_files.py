@@ -172,7 +172,7 @@ def write_data_to_file(station_castno_df_sets, comment_header, meta_params, data
                 url = 'https://www.waterproperties.ca/linep/2009-09/donneesctddata/2009-09-0052.ctd'
             
             else:
-                # Can't open raw individual comment header so use global header instead
+                # Can't open raw individual comment header so use concatenated files header instead
                 raw_individual_comment_header = comment_header
                 print("Can't find individual CTD file so using concatenated for file: " + ctd_filename)
         
@@ -191,9 +191,9 @@ def write_data_to_file(station_castno_df_sets, comment_header, meta_params, data
 
 
         # Convert data columns to string 
-        # replace -999.0 with -999
+        # replace -999.0 with -999 which is exchange fill value (has to be integer)
         # replace -99.0 and -99 with -999
-        # replace -99 with -999 (since all converted to float, just covering bases with integer -99 fill)
+        # replace -99 with -999 
         data_columns_df = data_columns_df.applymap(str)
 
         data_columns_df.replace('-999.0', '-999', inplace=True)

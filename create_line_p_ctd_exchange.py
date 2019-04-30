@@ -38,7 +38,6 @@ To test the script, set TESTING to True in utilities/process_raw_data.py
 Set name of testing file to use.
 
 
-
 """
 
 
@@ -89,6 +88,8 @@ def main():
         df, data_params = data_columns.insert_flag_colums(df, data_params)
 
         # Reformat date column to Exchange format
+        # TODO: Use regular expressions to check date format
+        # rather than looking for a - or /
         df = data_columns.reformat_date_column(df)
 
         # Reformat time column to Exchange format

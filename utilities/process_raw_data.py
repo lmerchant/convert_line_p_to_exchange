@@ -5,6 +5,10 @@ from urllib.request import urlopen
 
 TESTING = True
 
+# Top folder to save data folders in
+TOP_DATA_FOLDER = './exchange_line_p_data'
+
+
 def get_cruise_list():
 
     # list mapping Line P web files to expocodes
@@ -55,8 +59,6 @@ def get_cruise_list():
 
 
 
-
-
     if TESTING:
         # use dummy value for cruise list and expocode = 'TESTING'
         cruise_list = [('year', 'cruise_id', 'TESTING')]
@@ -80,9 +82,10 @@ def get_raw_csv(url):
 
     if TESTING:
 
-        # Delete testing data output
+        # Delete testing data output folder before writing more
         try:
-            shutil.rmtree("./exchange_line_p_data/TESTING_ct1")
+            testing_output_folder = TOP_DATA_FOLDER + '/TESTING_ct1'
+            shutil.rmtree(testing_output_folder)
         except:
             pass
 
@@ -93,8 +96,8 @@ def get_raw_csv(url):
         #test_filename = "./test/data/data_to_test_castno.csv"
         #test_filename = "./test/data/data_to_test_castno_one_pline.csv"
         #test_filename = "./test/data/data_to_test_fill_999.csv"
-        test_filename = "./test/data/data_to_test_fill_999_2.csv"
-        #test_filename = "./test/data/data_to_test_fill_999_3.csv"
+        #test_filename = "./test/data/data_to_test_fill_999_2.csv"
+        test_filename = "./test/data/data_to_test_fill_999_3.csv"
         #test_filename = "./test/data/data_to_test_date_format_w_dash.csv"
         #test_filename = "./test/data/data_to_test_date_format_w_slash.csv"
         #test_filename = "./test/data/data_to_test_column_names1.csv"
@@ -129,7 +132,7 @@ def get_headers_and_data(url):
     # Then read in all data lines and put into a data frame
     # Filter data from for Line P stations, sort and return data frame
 
-    # Sample parameter header and first data line
+    # Sample file column names line, followed by empty line, and then first data line
     # File Name,Zone,FIL:START TIME YYYY/MM/DD, HH:MM,LOC:EVENT_NUMBER,LOC:LATITUDE,LOC:LONGITUDE,LOC:STATION,INS:LOCATION,Pressure:CTD [dbar],Temperature:CTD [deg_C_(ITS90)],Salinity:CTD [PSS-78],Sigma-t:CTD [kg/m^3],Transmissivity:CTD [*/m],Oxygen:Dissolved:CTD:Volume [ml/l],Oxygen:Dissolved:CTD:Mass [µmol/kg],Fluorescence:CTD:Seapoint [mg/m^3],Fluorescence:CTD:Wetlabs [mg/m^3],PAR:CTD [µE/m^2/sec]
     #,,,,,,,,,,,,,,,,,,
     #2017-01-0001.ctd,UTC,06-02-17, 23:58,1,48.65883,-123.49934,SI,Mid-ship,1.1,6.6845,28.1863,22.1205,,,,1.186,,12.6  
@@ -139,9 +142,9 @@ def get_headers_and_data(url):
     raw_csv = get_raw_csv(url)
 
 
-    # Find header and data lines containing values from ctd files
-
-    # Save original comment header to write to output file later
+    # Find header and data lines containing values from ctd files.
+    # Save original comment header to write to output file later if needed.
+    # Want to skipp comment header to read in data to pandas
 
     comment_header = []
 
@@ -158,8 +161,8 @@ def get_headers_and_data(url):
             # Found ctd data line
             break
 
-    # Get data parameter header above comma separation line
-    parameter_header = raw_csv[count-2].split(',')
+    # Get column names above comma separation line
+    column_names = raw_csv[count-2].split(',')
 
     # clean_csv contains all the data lines
     clean_csv = raw_csv[count:]
@@ -169,41 +172,40 @@ def get_headers_and_data(url):
     for row in clean_csv:
         data.append(row.split(','))
 
-    return comment_header, parameter_header, data
+    return comment_header, column_names, data
 
 
-def insert_into_dataframe(parameter_header, data):
+def insert_into_dataframe(column_names, data):
 
     # Import data lines into a data frame
     
-    # parameter_header is list of all the columns with
-    # original parameter names in order so only 
-    # import the columns wanted.
+    # column_names is list of all the column names
+
     # Panda keeps greek characters in column names if there were any
     # Pandas imports all columns as string
-    df = pd.DataFrame(data,columns=parameter_header)
+    df = pd.DataFrame(data,columns=column_names)
 
     # drop any rows with empty cell values in Pressure:CTD column
     # Do this because data sets separated by empty rows
     df.dropna(subset=['Pressure:CTD [dbar]'], inplace=True)
 
-    # Get P-Line Stations only.  These are Stations starting with P
+    # Get Line P Stations only.  These are Stations starting with P
     # Find rows starting with P in the LOC:STATION column
     df = df[df['LOC:STATION'].str.startswith('P')]
 
 
+    # Column data are converted to either string or numeric
+    # with df.apply
+
     # Convert any string numeric columns to numeric.
-    # String columns kept as dtype Object
+    # String columns kept as dtype Object. 
+    # Any empty values will become NaN    
 
-    # Convert columns to numeric to have all numbers in 
-    # columns as integer or float and not mixed.
-
-    # Any parameter numbers are converted to either integer or float
-    # Date, Time, and Station are kept as string
+    # Date, Time, and Station are kept as string.
     # Time and date are kept as string because
-    # time includes a ':' and date includes a '/' or '-'
+    # time includes a ':' and date includes a '/' or '-'.
     # Station is imported as string because station name
-    # starts with a letter  
+    # starts with a letter. The rest becomes NaN or float
    
     df = df.apply(pd.to_numeric, errors='ignore')
 
@@ -213,16 +215,13 @@ def insert_into_dataframe(parameter_header, data):
     # a column. 
 
     # If fill with -999 in a float column, it becomes -999.0  
-
     # Any -99 fill numbers in float columns are converted to -99.0 
 
-    # Replace any NaN cells with -999   
-  
     # Later when the program is saved as a csv exchange file, 
     # any -999.0, -99.0, -99 fill values are set to -999 
 
+    # Replace any NaN cells with -999   
     df.fillna(-999, inplace=True)
-
 
     # Sort by station and then pressure and reset index to match new row order
     df.sort_values(by=['LOC:STATION','Pressure:CTD [dbar]'],inplace=True)

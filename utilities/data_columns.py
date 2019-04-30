@@ -103,6 +103,9 @@ def reformat_date_column(df):
     # dd-mm-yy or dd/mm/yyyyy
     # Check if date contains - or /
 
+    # TODO: Fix to check for exact format and not just if - or / in date
+    # because they may change date to another format
+
     if '-' in df['DATE'][0]:
 
         # 1) Reformat DATE column from dd-mm-yy to yyyymmdd
