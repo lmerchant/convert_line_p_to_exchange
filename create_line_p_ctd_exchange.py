@@ -5,12 +5,15 @@ Create ctd exchange file for Canadian cruises from 2007-01 to 2018-026
 Have checked parameter names for this grouping of cruises and can't guarantee things 
 will be the same for other years.  So if run program for new cruises, check 
 parameter names and date format.  Currently there are two date formats. One is dd-mm-yy
-and the other is dd/mm/yyyy. 
+and the other is dd/mm/yyyy. I only check if date has a '-' or '/' in name and
+not by exact format. Should do this in the future.
 
-URL of cruise files that contain all cruise lines and their data,
+URL of cruise files that contain all cruise lines and their data
+As an example for 2017-01 cruise,
 url: https://www.waterproperties.ca/linep/2017-01/donneesctddata/2017-01-ctd-cruise.csv
 This file contains more than just Line P data. In this program, only the Line P data is
-converted to exchange format.
+converted to exchange format. This is also a concatenated file of all individual
+station files.
 
 
 Read in all data lines into a data frame, then filter on P line and sort on station.
