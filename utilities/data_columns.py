@@ -1,3 +1,6 @@
+import re
+
+
 def rename_pline_columns(df, meta_params, data_params):
 
     # Rename all Line P metadata and parameter data column headers
@@ -101,12 +104,24 @@ def reformat_date_column(df):
 
     # Files can have two different date formats
     # dd-mm-yy or dd/mm/yyyyy
-    # Check if date contains - or /
 
     # TODO: Fix to check for exact format and not just if - or / in date
     # because they may change date to another format
 
-    if '-' in df['DATE'][0]:
+    # check if date format of type 
+    dash_pattern = r'(\d\d)-(\d\d)-(\d\d)'
+    dash_regexp = re.compile(dash_pattern)    
+    dash_match = dash_regexp.search(df['DATE'][0])
+
+    slash_pattern = r'(\d\d)/(\d\d)/(\d\d\d\d)'
+    slash_regexp = re.compile(slash_pattern)
+    slash_match = slash_regexp.search(df['DATE'][0])
+
+    # In future, date format may be YYYY/MM/DD
+    
+
+    #if '-' in df['DATE'][0]:
+    if dash_match:
 
         # 1) Reformat DATE column from dd-mm-yy to yyyymmdd
 
@@ -123,12 +138,16 @@ def reformat_date_column(df):
         else:
             repl = r'19\3\2\1'
 
-    elif '/' in df['DATE'][0]:
+    #elif '/' in df['DATE'][0]:
+    elif slash_match:
 
         # 2) Reformat DATE column from dd/mm/yyyy to yyyymmdd
         pattern = r'(\d\d)/(\d\d)/(\d\d\d\d)'
         repl = r'\3\2\1'
 
+    else:
+        print('Date pattern of dd-mm-yy or dd/mm/yyyy not found')
+        exit(1)
 
     df['DATE'] = df['DATE'].str.replace(pattern, repl)
 
