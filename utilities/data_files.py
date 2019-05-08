@@ -50,8 +50,12 @@ def get_ctd_filename(directory, data_set):
     if '/' in str_stnbr:
         str_stnbr = str_stnbr.replace('/', '-')
  
+    # pad stnbr and castno so have 5 digit chars and prepend 0
+    str_stnbr = str_stnbr.zfill(5)
+    str_castno = str_castno.zfill(5)
 
     ctd_file = expocode + '_' + str_stnbr + '_' + str_castno + '_ct1.csv'
+
     ctd_filename = directory + ctd_file
 
     return ctd_filename
