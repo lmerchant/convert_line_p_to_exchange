@@ -165,27 +165,39 @@ def reformat_columns(df):
     return df
 
 
-def reformat_csv(ctd_filename):
+def reformat_csv(ctd_filename, column_headers):
 
-    # Want data output in format (10 space columns)
+    # Want data output in format (10 space columns) except for flags
     #          1,2,    0.4121,2,   33.6184,2,    320.82,1,     0.326,1,     97.69,1,      1.18,1
 
-    # How to format numbers as 10s
+    column_headers_str = column_headers[0]
+    columns = column_headers_str.split(',')
 
-
-    # a = 33.330999999999996
-
-    # precision = 4
-
-    # b = '{0:.{1}f}'.format(a, 4)
-
-    # print(b)
-
+    new_rows = []
 
     with open(ctd_filename) as csv_file:
         csv_reader = csv.reader(csv_file, delimiter=',')
-        for row in csv_reader:    
-            print(row)
+        for row in csv_reader:  
+
+            new_row = ''
+            
+            for index, column in enumerate(row):
+
+                if 'FLAG' in columns[index]:
+                    new_column = '{:>1}'.format(column)
+                    new_row = new_row + ',' + new_column
+
+                else:
+                    new_column = '{:>10}'.format(column)
+                    new_row = new_row + ',' + new_column
+
+            
+            new_row = new_row[1:] + '\n'
+            new_rows.append(new_row)
+
+    with open(ctd_filename, 'w', encoding='utf-8') as f:
+        for row in new_rows:
+            f.write(row)       
 
 
 def write_dataframe_to_csv(data_columns_df, ctd_filename, start_line, end_line, raw_individual_comment_header, metadata_header, column_headers):
@@ -196,8 +208,7 @@ def write_dataframe_to_csv(data_columns_df, ctd_filename, start_line, end_line, 
     data_columns_df.to_csv(ctd_filename, sep=',', index=False, header=False, encoding='utf-8')
 
 
-
-    reformat_csv(ctd_filename)
+    reformat_csv(ctd_filename, column_headers)
 
 
 
@@ -302,9 +313,6 @@ def write_data_to_file(station_castno_df_sets, comment_header, meta_params, data
         data_columns_df.replace('-999.0', '-999', inplace=True)
         data_columns_df.replace('-99.0', '-999', inplace=True)
         data_columns_df.replace('-99', '-999', inplace=True)
-
-
-        print(data_columns_df['CTDFLUOR'])        
 
 
         write_dataframe_to_csv(data_columns_df, ctd_filename, start_line, end_line, raw_individual_comment_header, metadata_header, column_headers)
