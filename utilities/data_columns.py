@@ -28,6 +28,8 @@ def insert_flag_colums(df, data_params):
     # having order of param, param_flag.
     # Data params have order of column names to save,
     # so order same with interleaving flag columns
+
+    # Don't add a flag for pressure and temperature
     new_params = []
 
     # Get location of column to insert flag column after.
@@ -35,23 +37,30 @@ def insert_flag_colums(df, data_params):
     for param in data_params:
 
         param_name = param['whpname']
+
         param_loc = df.columns.get_loc(param_name)
         flag_name = '{}_FLAG_W'.format(param_name)
 
-        # Insert in next column
-        # Will move all other columns to right
-        df.insert(param_loc + 1, flag_name, 2)
+        if param_name is 'CTDPRS' or param_name is 'CTDTMP':
+            # no flag columns for pressure and temperature
+            new_params.append(param)
 
-        # Insert flag param dict into data_params list.
-        # Want this so know which columns to extract for saving output and
-        # keep order of newly inserted flag column after param column
-        param_insert = {}
-        param_insert['whpname'] = flag_name
-        param_insert['longname'] = flag_name
-        param_insert['units'] = ''
+        else:
 
-        new_params.append(param)
-        new_params.append(param_insert)
+            # Insert in next column
+            # Will move all other columns to right
+            df.insert(param_loc + 1, flag_name, 2)
+
+            # Insert flag param dict into data_params list.
+            # Want this so know which columns to extract for saving output and
+            # keep order of newly inserted flag column after param column
+            param_insert = {}
+            param_insert['whpname'] = flag_name
+            param_insert['longname'] = flag_name
+            param_insert['units'] = ''
+
+            new_params.append(param)
+            new_params.append(param_insert)
 
     return df, new_params
 
@@ -118,7 +127,7 @@ def reformat_date_column(df):
     slash_match = slash_regexp.search(df['DATE'][0])
 
     # In future, date format may be YYYY/MM/DD
-    
+
 
     #if '-' in df['DATE'][0]:
     if dash_match:
