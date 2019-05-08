@@ -152,12 +152,53 @@ def choose_raw_file_header(url, comment_header, ctd_filename):
     return raw_individual_comment_header
 
 
+def reformat_columns(df):
+
+    df = df.round(4)
+
+    # or 
+    # https://stackoverflow.com/questions/42735541/customized-float-formatting-in-a-pandas-dataframe
+    #df = df.applymap(lambda x: (int(x)) if abs(x - int(x)) < 1e-6 else (round(x,4)))
+
+    #df.applymap(lambda x: str(int(x)) if abs(x - int(x)) < 1e-6 else str(round(x,4)))    
+
+    return df
+
+
+def reformat_csv(ctd_filename):
+
+    # Want data output in format (10 space columns)
+    #          1,2,    0.4121,2,   33.6184,2,    320.82,1,     0.326,1,     97.69,1,      1.18,1
+
+    # How to format numbers as 10s
+
+
+    # a = 33.330999999999996
+
+    # precision = 4
+
+    # b = '{0:.{1}f}'.format(a, 4)
+
+    # print(b)
+
+
+    with open(ctd_filename) as csv_file:
+        csv_reader = csv.reader(csv_file, delimiter=',')
+        for row in csv_reader:    
+            print(row)
+
+
 def write_dataframe_to_csv(data_columns_df, ctd_filename, start_line, end_line, raw_individual_comment_header, metadata_header, column_headers):
 
     # Write dataframe to csv file so data formatted properly by pandas.
     # Don't write index column to file. 
     # Will add header below.
     data_columns_df.to_csv(ctd_filename, sep=',', index=False, header=False, encoding='utf-8')
+
+
+
+    reformat_csv(ctd_filename)
+
 
 
     # Read in data from file just created from dataframe to
@@ -233,31 +274,7 @@ def write_data_to_file(station_castno_df_sets, comment_header, meta_params, data
         # Get filename of individal raw file to get header
         url = get_individual_raw_file(expocode, data_set)
 
-        raw_individual_comment_header = choose_raw_file_header(url, comment_header, ctd_filename)
-
-
-
-
-        # try:
-        #     raw_individual_comment_header = get_individual_raw_file_header(url)
-        # except:
-        #     if url == 'https://www.waterproperties.ca/linep/2009-09/donneesctddata/2009-09-0014.ctd':
-        #         # Error in concatenated file using event 14 for P4 when web page
-        #         # table says it should be event 15. So fixed for this special case
-        #         # https://www.waterproperties.ca/linep/2009-09/index.php
-        #         url = 'https://www.waterproperties.ca/linep/2009-09/donneesctddata/2009-09-0015.ctd'
-
-        #     elif url == 'https://www.waterproperties.ca/linep/2009-09/donneesctddata/2009-09-0051.ctd':
-        #         # Error in concatenated file using event 51 for P19 when web page
-        #         # table says it should be event 52. So fixed for this special case
-        #         # https://www.waterproperties.ca/linep/2009-09/index.php
-        #         url = 'https://www.waterproperties.ca/linep/2009-09/donneesctddata/2009-09-0052.ctd'
-            
-        #     else:
-        #         # Can't open raw individual comment header so use concatenated files header instead
-        #         raw_individual_comment_header = comment_header
-        #         print("Can't find individual CTD file so using concatenated for file: " + ctd_filename)
-        
+        raw_individual_comment_header = choose_raw_file_header(url, comment_header, ctd_filename)        
 
         # Get data columns
         data_columns_df = data_columns.get_data_columns(data_set, data_params)
@@ -272,58 +289,23 @@ def write_data_to_file(station_castno_df_sets, comment_header, meta_params, data
         data_columns.update_flag_for_fill_99(data_columns_df, data_params)  
 
 
+
+        data_columns_df = reformat_columns(data_columns_df)
+
+
         # Convert data columns to string 
+        data_columns_df = data_columns_df.applymap(str)
+
         # replace -999.0 with -999 which is exchange fill value (has to be integer)
         # replace -99.0 and -99 with -999
         # replace -99 with -999 
-        data_columns_df = data_columns_df.applymap(str)
-
         data_columns_df.replace('-999.0', '-999', inplace=True)
         data_columns_df.replace('-99.0', '-999', inplace=True)
         data_columns_df.replace('-99', '-999', inplace=True)
 
+
+        print(data_columns_df['CTDFLUOR'])        
+
+
         write_dataframe_to_csv(data_columns_df, ctd_filename, start_line, end_line, raw_individual_comment_header, metadata_header, column_headers)
-
-
-        # # Write dataframe to csv file so data formatted properly by pandas.
-        # # Don't write index column to file. 
-        # # Will add header below.
-        # data_columns_df.to_csv(ctd_filename, sep=',', index=False, header=False, encoding='utf-8')
-
-
-        # # Read in data from file just created from dataframe to
-        # # prepend and append lines
-        # with open(ctd_filename, 'r', encoding='utf-8') as original: 
-        #     data = original.read()
-
-        # # Create concatenated string to prepend
-        # # Contains exchange start line, comments, and parameter column names
-        # prepend_string = ''
-        # comment_header_string = ''
-        # metadata_header_string = ''
-        # column_header_string = ''
-
-        # start_line_str = start_line + '\n'
-
-
-        # for line in raw_individual_comment_header:
-        #     comment_header_string = comment_header_string + line + '\n'
-
-        # for line in metadata_header:
-        #     metadata_header_string = metadata_header_string + line + '\n'   
-
-        # for line in column_headers:
-        #     column_header_string = column_header_string + line + '\n' 
-
-        # prepend_string = start_line_str + comment_header_string + metadata_header_string + column_header_string
-
-
-        # # Rewrite over ctd file with prepended text to data csv section
-        # # Prepend ctd file
-        # with open(ctd_filename, 'w', encoding='utf-8') as modified: 
-        #     modified.write(prepend_string + data)
-
-        # # Append ctd file with end line
-        # with open(ctd_filename, 'a', encoding='utf-8') as f:
-        #     f.write("{}\n".format(end_line))
 
