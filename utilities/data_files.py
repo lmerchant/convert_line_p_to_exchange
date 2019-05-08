@@ -125,6 +125,78 @@ def get_individual_raw_file_header(url):
     return comment_header
 
 
+def choose_raw_file_header(url, comment_header, ctd_filename):
+
+    try:
+        raw_individual_comment_header = get_individual_raw_file_header(url)
+    
+    except:
+    
+        if url == 'https://www.waterproperties.ca/linep/2009-09/donneesctddata/2009-09-0014.ctd':
+            # Error in concatenated file using event 14 for P4 when web page
+            # table says it should be event 15. So fixed for this special case
+            # https://www.waterproperties.ca/linep/2009-09/index.php
+            url = 'https://www.waterproperties.ca/linep/2009-09/donneesctddata/2009-09-0015.ctd'
+
+        elif url == 'https://www.waterproperties.ca/linep/2009-09/donneesctddata/2009-09-0051.ctd':
+            # Error in concatenated file using event 51 for P19 when web page
+            # table says it should be event 52. So fixed for this special case
+            # https://www.waterproperties.ca/linep/2009-09/index.php
+            url = 'https://www.waterproperties.ca/linep/2009-09/donneesctddata/2009-09-0052.ctd'
+        
+        else:
+            # Can't open raw individual comment header so use concatenated files header instead
+            raw_individual_comment_header = comment_header
+            print("Can't find individual CTD file so using concatenated for file: " + ctd_filename)
+
+    return raw_individual_comment_header
+
+
+def write_dataframe_to_csv(data_columns_df, ctd_filename, start_line, end_line, raw_individual_comment_header, metadata_header, column_headers):
+
+    # Write dataframe to csv file so data formatted properly by pandas.
+    # Don't write index column to file. 
+    # Will add header below.
+    data_columns_df.to_csv(ctd_filename, sep=',', index=False, header=False, encoding='utf-8')
+
+
+    # Read in data from file just created from dataframe to
+    # prepend and append lines
+    with open(ctd_filename, 'r', encoding='utf-8') as original: 
+        data = original.read()
+
+    # Create concatenated string to prepend
+    # Contains exchange start line, comments, and parameter column names
+    prepend_string = ''
+    comment_header_string = ''
+    metadata_header_string = ''
+    column_header_string = ''
+
+    start_line_str = start_line + '\n'
+
+
+    for line in raw_individual_comment_header:
+        comment_header_string = comment_header_string + line + '\n'
+
+    for line in metadata_header:
+        metadata_header_string = metadata_header_string + line + '\n'   
+
+    for line in column_headers:
+        column_header_string = column_header_string + line + '\n' 
+
+    prepend_string = start_line_str + comment_header_string + metadata_header_string + column_header_string
+
+
+    # Rewrite over ctd file with prepended text to data csv section
+    # Prepend ctd file
+    with open(ctd_filename, 'w', encoding='utf-8') as modified: 
+        modified.write(prepend_string + data)
+
+    # Append ctd file with end line
+    with open(ctd_filename, 'a', encoding='utf-8') as f:
+        f.write("{}\n".format(end_line))
+
+
 def write_data_to_file(station_castno_df_sets, comment_header, meta_params, data_params):
 
     # Write data sets to files
@@ -153,6 +225,7 @@ def write_data_to_file(station_castno_df_sets, comment_header, meta_params, data
         # Get filename using info from data_set
         ctd_filename = get_ctd_filename(directory, data_set)
 
+
         # Create metadata headers using info from data_set
         metadata_header = headers.create_metadata_header(data_set)  
 
@@ -160,25 +233,30 @@ def write_data_to_file(station_castno_df_sets, comment_header, meta_params, data
         # Get filename of individal raw file to get header
         url = get_individual_raw_file(expocode, data_set)
 
-        try:
-            raw_individual_comment_header = get_individual_raw_file_header(url)
-        except:
-            if url == 'https://www.waterproperties.ca/linep/2009-09/donneesctddata/2009-09-0014.ctd':
-                # Error in concatenated file using event 14 for P4 when web page
-                # table says it should be event 15. So fixed for this special case
-                # https://www.waterproperties.ca/linep/2009-09/index.php
-                url = 'https://www.waterproperties.ca/linep/2009-09/donneesctddata/2009-09-0015.ctd'
+        raw_individual_comment_header = choose_raw_file_header(url, comment_header, ctd_filename)
 
-            elif url == 'https://www.waterproperties.ca/linep/2009-09/donneesctddata/2009-09-0051.ctd':
-                # Error in concatenated file using event 51 for P19 when web page
-                # table says it should be event 52. So fixed for this special case
-                # https://www.waterproperties.ca/linep/2009-09/index.php
-                url = 'https://www.waterproperties.ca/linep/2009-09/donneesctddata/2009-09-0052.ctd'
+
+
+
+        # try:
+        #     raw_individual_comment_header = get_individual_raw_file_header(url)
+        # except:
+        #     if url == 'https://www.waterproperties.ca/linep/2009-09/donneesctddata/2009-09-0014.ctd':
+        #         # Error in concatenated file using event 14 for P4 when web page
+        #         # table says it should be event 15. So fixed for this special case
+        #         # https://www.waterproperties.ca/linep/2009-09/index.php
+        #         url = 'https://www.waterproperties.ca/linep/2009-09/donneesctddata/2009-09-0015.ctd'
+
+        #     elif url == 'https://www.waterproperties.ca/linep/2009-09/donneesctddata/2009-09-0051.ctd':
+        #         # Error in concatenated file using event 51 for P19 when web page
+        #         # table says it should be event 52. So fixed for this special case
+        #         # https://www.waterproperties.ca/linep/2009-09/index.php
+        #         url = 'https://www.waterproperties.ca/linep/2009-09/donneesctddata/2009-09-0052.ctd'
             
-            else:
-                # Can't open raw individual comment header so use concatenated files header instead
-                raw_individual_comment_header = comment_header
-                print("Can't find individual CTD file so using concatenated for file: " + ctd_filename)
+        #     else:
+        #         # Can't open raw individual comment header so use concatenated files header instead
+        #         raw_individual_comment_header = comment_header
+        #         print("Can't find individual CTD file so using concatenated for file: " + ctd_filename)
         
 
         # Get data columns
@@ -204,46 +282,48 @@ def write_data_to_file(station_castno_df_sets, comment_header, meta_params, data
         data_columns_df.replace('-99.0', '-999', inplace=True)
         data_columns_df.replace('-99', '-999', inplace=True)
 
-
-        # Write dataframe to csv file so data formatted properly by pandas.
-        # Don't write index column to file. 
-        # Will add header below.
-        data_columns_df.to_csv(ctd_filename, sep=',', index=False, header=False, encoding='utf-8')
+        write_dataframe_to_csv(data_columns_df, ctd_filename, start_line, end_line, raw_individual_comment_header, metadata_header, column_headers)
 
 
-        # Read in data from file just created from dataframe to
-        # prepend and append lines
-        with open(ctd_filename, 'r', encoding='utf-8') as original: 
-            data = original.read()
-
-        # Create concatenated string to prepend
-        # Contains exchange start line, comments, and parameter column names
-        prepend_string = ''
-        comment_header_string = ''
-        metadata_header_string = ''
-        column_header_string = ''
-
-        start_line_str = start_line + '\n'
+        # # Write dataframe to csv file so data formatted properly by pandas.
+        # # Don't write index column to file. 
+        # # Will add header below.
+        # data_columns_df.to_csv(ctd_filename, sep=',', index=False, header=False, encoding='utf-8')
 
 
-        for line in raw_individual_comment_header:
-            comment_header_string = comment_header_string + line + '\n'
+        # # Read in data from file just created from dataframe to
+        # # prepend and append lines
+        # with open(ctd_filename, 'r', encoding='utf-8') as original: 
+        #     data = original.read()
 
-        for line in metadata_header:
-            metadata_header_string = metadata_header_string + line + '\n'   
+        # # Create concatenated string to prepend
+        # # Contains exchange start line, comments, and parameter column names
+        # prepend_string = ''
+        # comment_header_string = ''
+        # metadata_header_string = ''
+        # column_header_string = ''
 
-        for line in column_headers:
-            column_header_string = column_header_string + line + '\n' 
-
-        prepend_string = start_line_str + comment_header_string + metadata_header_string + column_header_string
+        # start_line_str = start_line + '\n'
 
 
-        # Rewrite over ctd file with prepended text to data csv section
-        # Prepend ctd file
-        with open(ctd_filename, 'w', encoding='utf-8') as modified: 
-            modified.write(prepend_string + data)
+        # for line in raw_individual_comment_header:
+        #     comment_header_string = comment_header_string + line + '\n'
 
-        # Append ctd file with end line
-        with open(ctd_filename, 'a', encoding='utf-8') as f:
-            f.write("{}\n".format(end_line))
+        # for line in metadata_header:
+        #     metadata_header_string = metadata_header_string + line + '\n'   
+
+        # for line in column_headers:
+        #     column_header_string = column_header_string + line + '\n' 
+
+        # prepend_string = start_line_str + comment_header_string + metadata_header_string + column_header_string
+
+
+        # # Rewrite over ctd file with prepended text to data csv section
+        # # Prepend ctd file
+        # with open(ctd_filename, 'w', encoding='utf-8') as modified: 
+        #     modified.write(prepend_string + data)
+
+        # # Append ctd file with end line
+        # with open(ctd_filename, 'a', encoding='utf-8') as f:
+        #     f.write("{}\n".format(end_line))
 
