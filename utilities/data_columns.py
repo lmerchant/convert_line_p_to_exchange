@@ -22,7 +22,7 @@ def rename_pline_columns(df, meta_params, data_params):
     return df
 
 
-def insert_flag_colums(df, data_params):
+def insert_flag_colums_ver2(df, data_params):
 
     # Will be adding flag columns to data_params and 
     # having order of param, param_flag.
@@ -61,6 +61,43 @@ def insert_flag_colums(df, data_params):
 
             new_params.append(param)
             new_params.append(param_insert)
+
+    return df, new_params
+
+
+def insert_flag_colums(df, data_params):
+
+    # Will be adding flag columns to data_params and 
+    # having order of param, param_flag.
+    # Data params have order of column names to save,
+    # so order same with interleaving flag columns
+
+    # Don't add a flag for pressure and temperature
+    new_params = []
+
+    # Get location of column to insert flag column after.
+    # Insert flag column with value of 2
+    for param in data_params:
+
+        param_name = param['whpname']
+
+        param_loc = df.columns.get_loc(param_name)
+        flag_name = '{}_FLAG_W'.format(param_name)
+
+        # Insert in next column
+        # Will move all other columns to right
+        df.insert(param_loc + 1, flag_name, 2)
+
+        # Insert flag param dict into data_params list.
+        # Want this so know which columns to extract for saving output and
+        # keep order of newly inserted flag column after param column
+        param_insert = {}
+        param_insert['whpname'] = flag_name
+        param_insert['longname'] = flag_name
+        param_insert['units'] = ''
+
+        new_params.append(param)
+        new_params.append(param_insert)
 
     return df, new_params
 
