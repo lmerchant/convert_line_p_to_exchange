@@ -1,0 +1,1 @@
+curl -i -X POST https://cchdo.ucsd.edu/api/v1/cruise -H "Content-Type: application/json" --data @cruise_form_18DD20180911.json

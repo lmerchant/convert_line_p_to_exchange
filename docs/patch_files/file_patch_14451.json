@@ -1,0 +1,12 @@
+[
+	{
+		"op": "replace",
+		"path": "/role",
+		"value": "unprocessed"
+	},
+	{
+		"op": "replace",
+		"path": "/data_type",
+		"value": "ctd"
+	}
+]

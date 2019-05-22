@@ -1,0 +1,34 @@
+Unique netadata columns
+
+File Name
+Zone
+FIL:START TIME YYYY/MM/DD
+ HH:MM
+LOC:EVENT_NUMBER
+LOC:LATITUDE
+LOC:LONGITUDE
+LOC:STATION
+INS:LOCATION
+
+
+For FIL:START TIME YYYY/MM/DD, use two different versions for date
+
+2007-01
+17/02/2007 is of format DD/MM/YYYY
+
+2012-13
+15-08-12 is of format DD-MM-YY
+
+
+For exchange format, convert to YYYYMMDD
+
+
+Zone = UTC for all files and not used in exchange metadata dates UTC
+
+
+INS:LOCATION not used in exchange metadata
+
+
+Time has : in value, HH:MM, and will be converted to exchange format HHMM
+
+

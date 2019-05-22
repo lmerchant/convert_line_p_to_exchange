@@ -1,0 +1,305 @@
+parameter headers
+
+---------------------------------------------------------------------,,,,,,,,,,,,,,,,
+For details on the processing see processing report: 2007-01-proc.pdf,,,,,,,,,,,,,,,,
+---------------------------------------------------------------------,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,
+File Name,Zone,FIL:START TIME YYYY/MM/DD, HH:MM,LOC:EVENT_NUMBER,LOC:LATITUDE,LOC:LONGITUDE,LOC:STATION,Pressure:CTD [dbar],Temperature:CTD [deg_C_(ITS90)],Salinity:CTD [PSS-78],Sigma-t:CTD [kg/m^3],Transmissivity:CTD [*/m],Oxygen:Dissolved:CTD:Volume [ml/l],Oxygen:Dissolved:CTD:Mass [µmol/kg],Fluorescence:CTD:Seapoint [mg/m^3],PAR:CTD [µE/m^2/sec]
+,,,,,,,,,,,,,,,,
+2007-01-0001.ctd,UTC,08/02/2007, 18:28,1,48.59333,-123.49934,SI03,3.4,7.8851,,0,47.2,,,0.83,68.4
+
+---------------------------------------------------------------------,,,,,,,,,,,,,,,,
+For details on the processing see processing report: 2007-13-proc.pdf,,,,,,,,,,,,,,,,
+---------------------------------------------------------------------,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,
+File Name,Zone,FIL:START TIME YYYY/MM/DD, HH:MM,LOC:EVENT_NUMBER,LOC:LATITUDE,LOC:LONGITUDE,LOC:STATION,Pressure:CTD [dbar],Temperature:CTD [deg_C_(ITS90)],Salinity:CTD [PSS-78],Sigma-t:CTD [kg/m^3],Transmissivity:CTD [*/m],Oxygen:Dissolved:CTD:Volume [ml/l],Oxygen:Dissolved:CTD:Mass [µmol/kg],Fluorescence:CTD:Seapoint [mg/m^3],PAR:CTD [µE/m^2/sec]
+,,,,,,,,,,,,,,,,
+2007-13-0001.ctd,UTC,30/05/2007, 21:36,1,48.59184,-123.50017,SI03,3.3,12.4595,27.6412,20.8254,10.8,8.96,392,5.356,
+
+---------------------------------------------------------------------,,,,,,,,,,,,,,,,
+For details on the processing see processing report: 2007-15-proc.pdf,,,,,,,,,,,,,,,,
+---------------------------------------------------------------------,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,
+File Name,Zone,FIL:START TIME YYYY/MM/DD, HH:MM,LOC:EVENT_NUMBER,LOC:LATITUDE,LOC:LONGITUDE,LOC:STATION,Pressure:CTD [dbar],Temperature:CTD [deg_C_(ITS90)],Salinity:Practical:CTD [PSS-78],Sigma-t:CTD [kg/m^3],Transmissivity:CTD [*/m],Oxygen:Dissolved:CTD:Volume [ml/l],Oxygen:Dissolved:CTD:Mass [µmol/kg],Fluorescence:CTD [mg/m^3],PAR:CTD [µE/m^2/sec]
+  ,,,,,,,,,,,,,,,,
+2007-15-0002.ctd,UTC,15/08/2007, 22:21,2,48.59367,-123.50066,SI03,2.3,15.79,28.1694,20.5727,24.1,,,1.898,715.5
+
+
+---------------------------------------------------------------------------------------------------,,,,,,,,,,,,,,,,
+For details on the processing see file: 2008-01-proc.pdf.,,,,,,,,,,,,,,,,
+---------------------------------------------------------------------------------------------------,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,
+File Name,Zone,FIL:START TIME YYYY/MM/DD, HH:MM,LOC:EVENT_NUMBER,LOC:LATITUDE,LOC:LONGITUDE,LOC:STATION,Pressure:CTD [dbar],Temperature:CTD [deg_C_(ITS90)],Salinity:Practical:CTD [PSS-78],Sigma-t:CTD [kg/m^3],Transmissivity:CTD [*/m],Oxygen:Dissolved:CTD:Volume [ml/l],Oxygen:Dissolved:CTD:Mass [µmol/kg],Fluorescence:CTD [mg/m^3],PAR:CTD [µE/m^2/sec]
+,,,,,,,,,,,,,,,,
+2008-01-0001.ctd,UTC,31/01/2008, 04:13,1,48.59317,-123.49917,SIO3,2.1,7.5444,29.3136,22.8987,45.7,5.66,247,0.79,0.6
+2008-01-0001.ctd,UTC,31/01/2008,
+
+---------------------------------------------------------------------------------------------------,,,,,,,,,,,,,,,,
+For details on the processing see file: 2008-26-proc.pdf.,,,,,,,,,,,,,,,,
+---------------------------------------------------------------------------------------------------,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,
+File Name,Zone,FIL:START TIME YYYY/MM/DD, HH:MM,LOC:EVENT_NUMBER,LOC:LATITUDE,LOC:LONGITUDE,LOC:STATION,Pressure:CTD [dbar],Temperature:CTD [deg_C_(ITS90)],Salinity:Practical:CTD [PSS-78],Sigma-t:CTD [kg/m^3],Transmissivity:CTD [*/m],Oxygen:Dissolved:CTD:Volume [ml/l],Oxygen:Dissolved:CTD:Mass [µmol/kg],Fluorescence:CTD:Seapoint [mg/m^3],PAR:CTD [µE/m^2/sec]
+,,,,,,,,,,,,,,,,
+2008-26-0001.ctd,UTC,01/06/2008, 02:07,1,48.5925,-123.50034,SI03,3.3,12.6951,28.0563,21.1034,29.5,8.19,358.3,1.254,290.7
+
+---------------------------------------------------------------------------------------------------,,,,,,,,,,,,,,,,
+For details on the processing see file: 2008-27-proc.pdf,,,,,,,,,,,,,,,,
+---------------------------------------------------------------------------------------------------,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,
+File Name,Zone,FIL:START TIME YYYY/MM/DD, HH:MM,LOC:EVENT_NUMBER,LOC:LATITUDE,LOC:LONGITUDE,LOC:STATION,Pressure:CTD [dbar],Temperature:CTD [deg_C_(ITS90)],Salinity:Practical:CTD [PSS-78],Sigma-t:CTD [kg/m^3],Transmissivity:CTD [*/m],Oxygen:Dissolved:CTD:Volume [ml/l],Oxygen:Dissolved:CTD:Mass [µmol/kg],Fluorescence:CTD [mg/m^3],PAR:CTD [µE/m^2/sec]
+,,,,,,,,,,,,,,,,
+2008-27-0001.ctd,UTC,13/08/2008, 17:19,1,48.59267,-123.499,SI03,3.3,14.3971,28.4036,21.0428,35.2,6.65,290.9,1.877,
+
+
+
+---------------------------------------------------------------------------------------------------,,,,,,,,,,,,,,,,,
+For details on the processing see file 2009-03-proc.pdf.,,,,,,,,,,,,,,,,,
+---------------------------------------------------------------------------------------------------,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,
+File Name,Zone,FIL:START TIME YYYY/MM/DD, HH:MM,LOC:EVENT_NUMBER,LOC:LATITUDE,LOC:LONGITUDE,LOC:STATION,Pressure:CTD [dbar],Temperature:CTD [deg_C_(ITS90)],Salinity:Practical:CTD [PSS-78],Sigma-t:CTD [kg/m^3],Transmissivity:CTD [*/m],Oxygen:Dissolved:CTD:Volume [ml/l],Oxygen:Dissolved:CTD:Mass [µmol/kg],Fluorescence:CTD [mg/m^3],PAR:CTD [µE/m^2/sec],
+,,,,,,,,,,,,,,,,,
+2009-03-0001.ctd,UTC,28/01/2009, 23:04,1,48.59117,-123.50066,SIO3,SIO3,2.3,6.9224,28.2974,22.1793,33.5,5.54,241.9,2.123,84.5
+2009-03-0001.ctd,UTC,28/01/2009, 
+
+-----------------------------------------------------------------------------------------------------------,,,,,,,,,,,,,,,,
+For details on the processing see processing report: 2009-09-proc.pdf,,,,,,,,,,,,,,,,
+-----------------------------------------------------------------------------------------------------------,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,
+File Name,Zone,FIL:START TIME YYYY/MM/DD, HH:MM,LOC:EVENT_NUMBER,LOC:LATITUDE,LOC:LONGITUDE,LOC:STATION,Pressure:CTD [dbar],Temperature:CTD [deg_C_(ITS90)],Salinity:Practical:CTD [PSS-78],Sigma-t:CTD [kg/m^3],Transmissivity:CTD [*/m],Oxygen:Dissolved:CTD:Volume [ml/l],Oxygen:Dissolved:CTD:Mass [µmol/kg],Fluorescence:CTD [mg/m^3],PAR:CTD [µE/m^2/sec]
+,,,,,,,,,,,,,,,,
+2009-09-0001.ctd,UTC,07/06/2009, 01:04,1,48.59067,-123.5005,SI03,2.4,17.3888,28.9454,20.8108,44.4,9.06,396.3,0.786,431.1
+
+---------------------------------------------------------------------------------------------------,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,
+For details on the processing see processing report: 2009-10-proc.pdf,,,,,,,,,,,,,,,,,
+---------------------------------------------------------------------------------------------------,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,
+File Name,Zone,FIL:START TIME YYYY/MM/DD, HH:MM,LOC:EVENT_NUMBER,LOC:LATITUDE,LOC:LONGITUDE,LOC:STATION,INS:LOCATION,Pressure:CTD [dbar],Temperature:CTD [deg_C_(ITS90)],Salinity:Practical:CTD [PSS-78],Sigma-t:CTD [kg/m^3],Transmissivity:CTD [*/m],Oxygen:Dissolved:CTD:Volume [ml/l],Oxygen:Dissolved:CTD:Mass [µmol/kg],Fluorescence:CTD [mg/m^3],PAR:CTD [µE/m^2/sec]
+,,,,,,,,,,,,,,,,,
+2009-10-0001.ctd,UTC,19/08/2009, 23:43,1,48.59317,-123.50017,SI03,Aft-deck,11.4,13.6597,29.3915,21.9511,37.5,5.58,243.8,1.551,113
+
+
+
+---------------------------------------------------------------------------------------------------,,,,,,,,,,,,,,,,
+For details on the processing see processing file 2010-01-proc.pdf,,,,,,,,,,,,,,,,
+---------------------------------------------------------------------------------------------------,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,
+File Name,Zone,FIL:START TIME YYYY/MM/DD, HH:MM,LOC:EVENT_NUMBER,LOC:LATITUDE,LOC:LONGITUDE,LOC:STATION,Pressure:CTD [dbar],Temperature:CTD [deg_C_(ITS90)],Salinity:Practical:CTD [PSS-78],Sigma-t:CTD {kg/m^3],Transmissivity:CTD [*/m],Oxygen:Dissolved:CTD:Volume [ml/l],Oxygen:Dissolved:CTD:Mass [µmol/kg],PAR:CTD [µE/m^2/sec],Comments
+,,,,,,,,,,,,,,,,
+2010-01-0001.ctd,UTC,03/02/2010, 05:31,1,48.59333,-123.5005,SI03,2,8.1474,24.0849,18.7237,45,4.83,211.5,0.3,
+
+---------------------------------------------------------------------------------------------------,,,,,,,,,,,,,,,,
+For details on the processing see file 2010-13-proc.pdf.,,,,,,,,,,,,,,,,
+---------------------------------------------------------------------------------------------------,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,
+File Name,Zone,FIL:START TIME YYYY/MM/DD, HH:MM,LOC:EVENT_NUMBER,LOC:LATITUDE,LOC:LONGITUDE,LOC:STATION,Pressure:CTD [dbar],Temperature:CTD [deg_C_(ITS90)],Salinity:Practical:CTD [PSS-78],Sigma-t:CTD [kg/m^3],Transmissivity:CTD [*/m],Oxygen:Dissolved:CTD:Volume [ml/l],Oxygen:Dissolved:CTD:Mass [µmol/kg],Fluorescence:CTD [mg/m^3],PAR:CTD [µE/m^2/sec]
+,,,,,,,,,,,,,,,,
+2010-13-0001.ctd,UTC,06/06/2010, 02:22,1,48.5935,-123.50034,SI03,4.2,12.2089,28.8924,21.8391,23.6,9.48,414.4,3.048,1968
+
+---------------------------------------------------------------------------------------------------,,,,,,,,,,,,,,,,
+For details on the processing see file 2010-14-proc.pdf.,,,,,,,,,,,,,,,,
+---------------------------------------------------------------------------------------------------,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,
+File Name,Zone,FIL:START TIME YYYY/MM/DD, HH:MM,LOC:EVENT_NUMBER,LOC:LATITUDE,LOC:LONGITUDE,LOC:STATION,Pressure:CTD [dbar],Temperature:CTD [deg_C_(ITS90)],Salinity:Practical:CTD [PSS-78],Sigma-t:CTD [kg/m^3],Transmissivity:CTD [*/m],Oxygen:Dissolved:CTD:Volume [ml/l],Oxygen:Dissolved:CTD:Mass [µmol/kg],Fluorescence:CTD [mg/m^3],PAR:CTD [µE/m^2/sec]
+,,,,,,,,,,,,,,,,
+2010-14-0001.ctd,UTC,19/08/2010, 00:49,1,48.59367,-123.50034,SI03,2.9,17.4966,28.6017,20.5231,17.3,8.92,390.4,9.398,544.3
+
+
+---------------------------------------------------------------------------------------------------,,,,,,,,,,,,,,,,
+For details on the processing see processing file 2011-01-proc.pdf,,,,,,,,,,,,,,,,
+---------------------------------------------------------------------------------------------------,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,
+File Name,Zone,FIL:START TIME YYYY/MM/DD, HH:MM,LOC:EVENT_NUMBER,LOC:LATITUDE,LOC:LONGITUDE,LOC:STATION,Pressure:CTD [dbar],Temperature:CTD [deg_C_(ITS90)],Salinity:Practical:CTD [PSS-78],Sigma-t:CTD [kg/m^3],Transmissivity:CTD [*/m],Oxygen:Dissolved:CTD:Volume [ml/l],Oxygen:Dissolved:CTD:Mass [µmol/kg],Fluorescence:CTD [mg/m^3],PAR:CTD [µE/m^2/sec]
+,,,,,,,,,,,,,,,,
+2011-01-0001.ctd,UTC,09/02/2011, 03:04,1,48.59367,-123.5,SI03,1.3,7.4301,27.6022,21.5701,44.3,6.4,279.8,,0.5
+
+---------------------------------------------------------------------------------------------------,,,,,,,,,,,,,,,,,
+For details on the processing see processing report 2011-26-proc.pdf,,,,,,,,,,,,,,,,,
+---------------------------------------------------------------------------------------------------,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,
+File Name,Zone,FIL:START TIME YYYY/MM/DD, HH:MM,LOC:EVENT_NUMBER,LOC:LATITUDE,LOC:LONGITUDE,LOC:STATION,INS:LOCATION,Pressure:CTD [dbar],Temperature:CTD [deg_C_(ITS90)],Salinity:Practical:CTD [PSS-78],Sigma-t:CTD [kg/m^3],Transmissivity:CTD [*/m],Oxygen:Dissolved:CTD:Volume [ml/l],Oxygen:Dissolved:CTD:Mass [µmol/kg],Fluorescence:CTD [mg/m^3],PAR:CTD [µE/m^2/sec]
+,,,,,,,,,,,,,,,,,
+2011-26-0001.ctd,UTC,04/06/2011, 16:16,1,48.574,-125.50166,P1,Mid-ship,3.2,10.7837,30.6521,23.4551,24.9,7.02,306.2,5.393,650.5
+
+---------------------------------------------------------------------------------------------------,,,,,,,,,,,,,,,,,
+For details on the processing see processing report 2011-27-proc.pdf,,,,,,,,,,,,,,,,,
+---------------------------------------------------------------------------------------------------,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,
+File Name,Zone,FIL:START TIME YYYY/MM/DD, HH:MM,LOC:EVENT_NUMBER,LOC:LATITUDE,LOC:LONGITUDE,LOC:STATION,INS:LOCATION,Pressure:CTD [dbar],Temperature:CTD [deg_C_(ITS90)],Salinity:Practical:CTD [PSS-78],Sigma-t:CTD [kg/m^3],Transmissivity:CTD [*/m],Oxygen:Dissolved:CTD:Volume [ml/l],Oxygen:Dissolved:CTD:Mass [µmol/kg],Fluorescence:CTD [mg/m^3],PAR:CTD [µE/m^2/sec]
+,,,,,,,,,,,,,,,,,
+2011-27-0001.ctd,UTC,17/08/2011, 20:54,1,48.59383,-123.50034,SI03,Mid-ship,2.2,18.2395,27.6663,19.635,47.1,6.49,284.1,0.9,1480.4
+
+
+---------------------------------------------------------------------------------------------------,,,,,,,,,,,,,,,,,
+For details on the processing see processing report 2012-01-proc.pdf,,,,,,,,,,,,,,,,,
+---------------------------------------------------------------------------------------------------,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,
+File Name,Zone,FIL:START TIME YYYY/MM/DD, HH:MM,LOC:EVENT_NUMBER,LOC:LATITUDE,LOC:LONGITUDE,LOC:STATION,INS:LOCATION,Pressure:CTD [dbar],Temperature:CTD [deg_C_(ITS90)],Salinity:Practical:CTD [PSS-78],Sigma-t:CTD [kg/m^3],Transmissivity:CTD [*/m],Oxygen:Dissolved:CTD:Volume [ml/l],Oxygen:Dissolved:CTD:Mass [µmol/kg],Fluorescence:CTD [mg/m^3],PAR:CTD [µE/m^2/sec]
+,,,,,,,,,,,,,,,,,
+2012-01-0001.ctd,UTC,07/02/2012, 23:19,1,48.59283,-123.50217,SI03,Mid-ship,3.2,6.6971,25.0529,19.6547,21.7,7.29,319.3,6.338,121.3
+
+---------------------------------------------------------------------------------------------------,,,,,,,,,,,,,,,,,,
+For details on the processing see processing report 2012-12-proc.pdf,,,,,,,,,,,,,,,,,,
+---------------------------------------------------------------------------------------------------,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,
+File Name,Zone,FIL:START TIME YYYY/MM/DD, HH:MM,LOC:EVENT_NUMBER,LOC:LATITUDE,LOC:LONGITUDE,LOC:STATION,INS:LOCATION,Pressure:CTD [dbar],Temperature:CTD [deg_C_(ITS90)],Salinity:Practical:CTD [PSS-78],Sigma-t:CTD [kg/m^3],Transmissivity:CTD [*/m],Oxygen:Dissolved:CTD:Volume [ml/l],Oxygen:Dissolved:CTD:Mass [µmol/kg],Fluorescence:CTD:Seapoint [mg/m^3],Fluorescence:CTD:Wetlabs [mg/m^3],PAR:CTD [µE/m^2/sec]
+,,,,,,,,,,,,,,,,,,
+2012-12-0001.ctd,UTC,23/05/2012, 22:50,1,48.59283,-123.50134,SI03,Mid-ship,3.3,11.4483,27.7101,21.0565,43.8,9.12,398.7,1.229,2.211,324.7
+
+---------------------------------------------------------------------------------------------------,,,,,,,,,,,,,,,,,
+For details processing details see the processing report 2012-13-proc.pdf,,,,,,,,,,,,,,,,,
+---------------------------------------------------------------------------------------------------,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,
+File Name,Zone,FIL:START TIME YYYY/MM/DD, HH:MM,LOC:EVENT_NUMBER,LOC:LATITUDE,LOC:LONGITUDE,LOC:STATION,INS:LOCATION,Pressure:CTD [dbar],Temperature:CTD [deg_C_(ITS90)],Salinity:CTD [PSS-78],Sigma-t:CTD [kg/m^3],Transmissivity:CTD [*/m],Oxygen:Dissolved:CTD:Volume [ml/l],Oxygen:Dissolved:CTD:Mass [µmol/kg],Fluorescence:CTD:Seapoint [mg/m^3],PAR:CTD [µE/m^2/sec]
+,,,,,,,,,,,,,,,,,
+2012-13-0001.ctd,UTC,15-08-12, 21:33,1,48.59317,-123.49966,SI03,Mid-ship,3.1,16.8088,25.6253,18.4027,33,9.01,395,2.705,926.5
+
+
+
+---------------------------------------------------------------------------------------------------,,,,,,,,,,,,,,,,,
+For details processing details see the processing report 2013-01-proc.pdf,,,,,,,,,,,,,,,,,
+---------------------------------------------------------------------------------------------------,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,
+File Name,Zone,FIL:START TIME YYYY/MM/DD, HH:MM,LOC:EVENT_NUMBER,LOC:LATITUDE,LOC:LONGITUDE,LOC:STATION,INS:LOCATION,Pressure:CTD [dbar],Temperature:CTD [deg_C_(ITS90)],Salinity:CTD [PSS-78],Sigma-t:CTD [kg/m^3],Transmissivity:CTD [*/m],Oxygen:Dissolved:CTD:Volume [ml/l],Oxygen:Dissolved:CTD:Mass [µmol/kg],Fluorescence:CTD:Seapoint [mg/m^3],PAR:CTD [µE/m^2/sec]
+,,,,,,,,,,,,,,,,,
+2013-01-0001.ctd,UTC,06-02-13, 03:32,1,48.59333,-123.50034,SI03,Mid-ship,2,8.4351,29.3954,22.841,59.1,4.72,206.1,0.371,0.1
+
+---------------------------------------------------------------------------------------------------,,,,,,,,,,,,,,,,,
+For details processing details see the processing report 2013-17-proc.pdf,,,,,,,,,,,,,,,,,
+---------------------------------------------------------------------------------------------------,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,
+File Name,Zone,FIL:START TIME YYYY/MM/DD, HH:MM,LOC:EVENT_NUMBER,LOC:LATITUDE,LOC:LONGITUDE,LOC:STATION,INS:LOCATION,Pressure:CTD [dbar],Temperature:CTD [deg_C_(ITS90)],Salinity:CTD [PSS-78],Sigma-t:CTD [kg/m^3],Transmissivity:CTD [%/m],Oxygen:Dissolved:CTD:Volume [ml/l],Oxygen:Dissolved:CTD:Mass [µmol/kg],Fluorescence:CTD:Seapoint [mg/m^3],PAR:CTD [µE/m^2/sec]
+,,,,,,,,,,,,,,,,,
+2013-17-0001.ctd,UTC,08-06-13, 03:36,1,48.59483,-123.49817,SI03,Mid-ship,3,15.4114,27.2426,19.9417,14.8,9.77,427.4,2.98,62.9
+
+---------------------------------------------------------------------------------------------------,,,,,,,,,,,,,,,,,
+For details on the processing see the report 2013-18-proc.pdf,,,,,,,,,,,,,,,,,
+---------------------------------------------------------------------------------------------------,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,
+File Name,Zone,FIL:START TIME YYYY/MM/DD, HH:MM,LOC:EVENT_NUMBER,LOC:LATITUDE,LOC:LONGITUDE,LOC:STATION,INS:LOCATION,Pressure:CTD [dbar],Temperature:CTD [deg_C_(ITS90)],Salinity:CTD [PSS-78],Sigma-t:CTD [kg/m^3],Transmissivity:CTD [*/m],Oxygen:Dissolved:CTD:Volume [ml/l],Oxygen:Dissolved:CTD:Mass [µmol/kg],Fluorescence:CTD:Seapoint [mg/m^3],PAR:CTD [µE/m^2/sec]
+,,,,,,,,,,,,,,,,,
+2013-18-0001.ctd,UTC,21-08-13, 22:23,1,48.593,-123.4985,SI03,Mid-ship,3,12.6047,29.0739,21.9071,42.3,4.22,184.3,,1012.8
+
+
+---------------------------------------------------------------------------------------------------,,,,,,,,,,,,,,,,,
+For details on the processing see the report 2014-01-proc.pdf,,,,,,,,,,,,,,,,,
+---------------------------------------------------------------------------------------------------,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,
+File Name,Zone,FIL:START TIME YYYY/MM/DD, HH:MM,LOC:EVENT_NUMBER,LOC:LATITUDE,LOC:LONGITUDE,LOC:STATION,INS:LOCATION,Pressure:CTD [dbar],Temperature:CTD [deg_C_(ITS90)],Salinity:CTD [PSS-78],Sigma-t:CTD [kg/m^3],Transmissivity:CTD [*/m],Oxygen:Dissolved:CTD:Volume [ml/l],Oxygen:Dissolved:CTD:Mass [µmol/kg],Fluorescence:CTD:Wetlabs [mg/m^3],PAR:CTD [µE/m^2/sec]
+,,,,,,,,,,,,,,,,,
+2014-01-0001.ctd,UTC,11-02-14, 06:36,1,48.61833,-123.24834,HARO59,Mid-ship,1,7.2789,31.0395,24.2896,49.3,5.27,229.8,0.567,0.3
+
+---------------------------------------------------------------------------------------------------,,,,,,,,,,,,,,,,,
+For details on the processing see the report 2014-18-proc.pdf,,,,,,,,,,,,,,,,,
+---------------------------------------------------------------------------------------------------,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,
+File Name,Zone,FIL:START TIME YYYY/MM/DD, HH:MM,LOC:EVENT_NUMBER,LOC:LATITUDE,LOC:LONGITUDE,LOC:STATION,INS:LOCATION,Pressure:CTD [dbar],Temperature:CTD [deg_C_(ITS90)],Salinity:CTD [PSS-78],Sigma-t:CTD [kg/m^3],Transmissivity:CTD [*/m],Oxygen:Dissolved:CTD:Volume [ml/l],Oxygen:Dissolved:CTD:Mass [µmol/kg],Fluorescence:CTD:Seapoint [mg/m^3],PAR:CTD [µE/m^2/sec]
+,,,,,,,,,,,,,,,,,
+2014-18-0001.ctd,UTC,09/06/2014, 04:35,1,48.6145,-123.24817,HARO59,Mid-ship,3,12.7215,25.9659,19.483,33.7,6.63,290.4,3.749,0.3
+
+---------------------------------------------------------------------------------------------------,,,,,,,,,,,,,,,,,
+For details on the processing see the report 2014-19-proc.pdf,,,,,,,,,,,,,,,,,
+---------------------------------------------------------------------------------------------------,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,
+File Name,Zone,FIL:START TIME YYYY/MM/DD, HH:MM,LOC:EVENT_NUMBER,LOC:LATITUDE,LOC:LONGITUDE,LOC:STATION,INS:LOCATION,Pressure:CTD [dbar],Temperature:CTD [deg_C_(ITS90)],Salinity:CTD [PSS-78],Sigma-t:CTD [kg/m^3],Transmissivity:CTD [*/m],Oxygen:Dissolved:CTD:Volume [ml/l],Oxygen:Dissolved:CTD:Mass [µmol/kg],Fluorescence:CTD:Seapoint [mg/m^3],PAR:CTD [µE/m^2/sec]
+,,,,,,,,,,,,,,,,,
+2014-19-0003.ctd,UTC,20/08/2014, 16:52,3,48.613,-123.24767,HARO59,Mid-ship,2,12.5473,28.7443,21.6627,42.1,4.67,204.1,2.067,135.7
+
+
+---------------------------------------------------------------------------------------------------,,,,,,,,,,,,,,,,,
+For details on the processing see the report 2015-01-proc.pdf,,,,,,,,,,,,,,,,,
+---------------------------------------------------------------------------------------------------,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,
+File Name,Zone,FIL:START TIME YYYY/MM/DD, HH:MM,LOC:EVENT_NUMBER,LOC:LATITUDE,LOC:LONGITUDE,LOC:STATION,INS:LOCATION,Pressure:CTD [dbar],Temperature:CTD [deg_C_(ITS90)],Salinity:CTD [PSS-78],Sigma-t:CTD [kg/m^3],Transmissivity:CTD [*/m],Oxygen:Dissolved:CTD:Volume [ml/l],Oxygen:Dissolved:CTD:Mass [µmol/kg],Fluorescence:CTD:Seapoint,PAR:CTD [µE/m^2/sec]
+,,,,,,,,,,,,,,,,,
+2015-01-0003.ctd,UTC,11/02/2015, 05:18,3,48.61333,-123.24384,HARO59,Mid-ship,2,8.8648,29.706,23.0219,44.1,5.12,223.6,0.504,0.2
+
+---------------------------------------------------------------------------------------------------,,,,,,,,,,,,,,,,,
+For details on the processing see the report 2015-09-proc.pdf,,,,,,,,,,,,,,,,,
+---------------------------------------------------------------------------------------------------,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,
+File Name,Zone,FIL:START TIME YYYY/MM/DD, HH:MM,LOC:EVENT_NUMBER,LOC:LATITUDE,LOC:LONGITUDE,LOC:STATION,INS:LOCATION,Pressure:CTD [dbar],Temperature:CTD [deg_C_(ITS90)],Salinity:CTD [PSS-78],Sigma-t:CTD [kg/m^3],Transmissivity:CTD [*/m],Oxygen:Dissolved:CTD:Volume [ml/l],Oxygen:Dissolved:CTD:Mass [µmol/kg],Fluorescence:CTD:Seapoint [mg/m^3],PAR:CTD [µE/m^2/sec]
+,,,,,,,,,,,,,,,,,
+2015-09-0005.ctd,UTC,08-06-15, 17:05,5,48.57467,-125.49983,P1,Mid-ship,3,11.5981,32.2139,24.5259,17,7.34,320,9.806,854.6
+
+---------------------------------------------------------------------------------------------------,,,,,,,,,,,,,,,,,
+For details on the processing see the report 2015-10-proc.pdf,,,,,,,,,,,,,,,,,
+---------------------------------------------------------------------------------------------------,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,
+File Name,Zone,FIL:START TIME YYYY/MM/DD, HH:MM,LOC:EVENT_NUMBER,LOC:LATITUDE,LOC:LONGITUDE,LOC:STATION,INS:LOCATION,Pressure:CTD [dbar],Temperature:CTD [deg_C_(ITS90)],Salinity:CTD [PSS-78],Sigma-t:CTD [kg/m^3],Transmissivity:CTD [*/m],Oxygen:Dissolved:CTD:Volume [ml/l],Oxygen:Dissolved:CTD:Mass [µmol/kg],Fluorescence:CTD:Seapoint [mg/m^3],PAR:CTD [µE/m^2/sec]
+,,,,,,,,,,,,,,,,,
+2015-10-0002.ctd,UTC,20-08-15, 01:21,2,48.61467,-123.24783,HARO59,Mid-ship,3,13.2404,29.1807,21.8698,38.2,5.07,221.6,3.064,375.6
+
+
+
+---------------------------------------------------------------------------------------------------,,,,,,,,,,,,,,,,,
+For details on the processing see the report 2016-01-proc.pdf,,,,,,,,,,,,,,,,,
+---------------------------------------------------------------------------------------------------,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,
+File Name,Zone,FIL:START TIME YYYY/MM/DD, HH:MM,LOC:EVENT_NUMBER,LOC:LATITUDE,LOC:LONGITUDE,LOC:STATION,INS:LOCATION,Pressure:CTD [dbar],Temperature:CTD [deg_C_(ITS90)],Salinity:CTD [PSS-78],Sigma-t:CTD [kg/m^3],Transmissivity:CTD [*/m],Oxygen:Dissolved:CTD:Volume [ml/l],Oxygen:Dissolved:CTD:Mass [µmol/kg],Fluorescence:CTD:Seapoint [mg/m^3],PAR:CTD [µE/m^2/sec]
+,,,,,,,,,,,,,,,,,
+2016-01-0002.ctd,UTC,09-02-16, 07:40,2,48.61567,-123.2475,HARO59,Mid-ship,2.3,8.5781,29.8941,23.2109,,5.76,251.2,0.447,0.2
+
+---------------------------------------------------------------------------------------------------,,,,,,,,,,,,,,,,,
+For details on the processing see the report 2016-06-proc.pdf,,,,,,,,,,,,,,,,,
+---------------------------------------------------------------------------------------------------,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,
+File Name,Zone,FIL:START TIME YYYY/MM/DD, HH:MM,LOC:EVENT_NUMBER,LOC:LATITUDE,LOC:LONGITUDE,LOC:STATION,INS:LOCATION,Pressure:CTD [dbar],Temperature:CTD [deg_C_(ITS90)],Salinity:CTD [PSS-78],Sigma-t:CTD [kg/m^3],Transmissivity:CTD [*/m],Oxygen:Dissolved:CTD:Volume [ml/l],Oxygen:Dissolved:CTD:Mass [µmol/kg],Fluorescence:CTD:Seapoint [mg/m^3],PAR:CTD [µE/m^2/sec]
+,,,,,,,,,,,,,,,,,
+2016-06-0002.ctd,UTC,06-06-16, 04:11,2,48.6135,-123.2465,HARO59,Mid-ship,1.4,10.4444,29.8649,22.8992,34.1,5.04,219.9,2.571,6.9
+
+---------------------------------------------------------------------------------------------------,,,,,,,,,,,,,,,,,
+For details on the processing see the report 2016-08-proc.pdf,,,,,,,,,,,,,,,,,
+---------------------------------------------------------------------------------------------------,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,
+File Name,Zone,FIL:START TIME YYYY/MM/DD, HH:MM,LOC:EVENT_NUMBER,LOC:LATITUDE,LOC:LONGITUDE,LOC:STATION,INS:LOCATION,Pressure:CTD [dbar],Temperature:CTD [deg_C_(ITS90)],Salinity:CTD [PSS-78],Sigma-t:CTD [kg/m^3],Transmissivity:CTD [*/m],Oxygen:Dissolved:CTD:Volume [ml/l],Oxygen:Dissolved:CTD:Mass [µmol/kg],Fluorescence:CTD:Seapoint [mg/m^3],PAR:CTD [µE/m^2/sec]
+,,,,,,,,,,,,,,,,,
+2016-08-0001.ctd,UTC,17-08-16, 20:16,1,48.65983,-123.50367,SI,Mid-ship,3.1,17.1841,28.0057,20.1391,12,7.44,325.5,1.963,1202.6
+
+
+---------------------------------------------------------------------------------------------------,,,,,,,,,,,,,,,,,,
+For details on the processing see the report 2017-01-proc.pdf,,,,,,,,,,,,,,,,,,
+---------------------------------------------------------------------------------------------------,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,
+File Name,Zone,FIL:START TIME YYYY/MM/DD, HH:MM,LOC:EVENT_NUMBER,LOC:LATITUDE,LOC:LONGITUDE,LOC:STATION,INS:LOCATION,Pressure:CTD [dbar],Temperature:CTD [deg_C_(ITS90)],Salinity:CTD [PSS-78],Sigma-t:CTD [kg/m^3],Transmissivity:CTD [*/m],Oxygen:Dissolved:CTD:Volume [ml/l],Oxygen:Dissolved:CTD:Mass [µmol/kg],Fluorescence:CTD:Seapoint [mg/m^3],Fluorescence:CTD:Wetlabs [mg/m^3],PAR:CTD [µE/m^2/sec]
+,,,,,,,,,,,,,,,,,,
+2017-01-0001.ctd,UTC,06-02-17, 23:58,1,48.65883,-123.49934,SI,Mid-ship,1.1,6.6845,28.1863,22.1205,,,,1.186,,12.6
+
+
+---------------------------------------------------------------------------------------------------,,,,,,,,,,,,,,,,,
+For details on the processing see the report 2017-06-proc.pdf,,,,,,,,,,,,,,,,,
+---------------------------------------------------------------------------------------------------,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,
+File Name,Zone,FIL:START TIME YYYY/MM/DD, HH:MM,LOC:EVENT_NUMBER,LOC:LATITUDE,LOC:LONGITUDE,LOC:STATION,INS:LOCATION,Pressure:CTD [dbar],Temperature:CTD [deg_C_(ITS90)],Salinity:CTD [PSS-78],Sigma-t:CTD [kg/m^3],Transmissivity:CTD [*/m],Oxygen:Dissolved:CTD:Volume [ml/l],Oxygen:Dissolved:CTD:Mass [µmol/kg],Fluorescence:CTD:Seapoint [mg/m^3],PAR:CTD [µE/m^2/sec]
+,,,,,,,,,,,,,,,,,
+2017-06-0001.ctd,UTC,05-06-17, 04:25,1,48.61417,-123.24567,HARO59,Mid-ship,2.3,10.6308,29.3749,22.4871,37,5.73,250.1,3.369,1.2
+
+---------------------------------------------------------------------------------------------------,,,,,,,,,,,,,,,,,
+For details on the processing see the report 2017-08-proc.pdf,,,,,,,,,,,,,,,,,
+---------------------------------------------------------------------------------------------------,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,
+File Name,Zone,FIL:START TIME YYYY/MM/DD, HH:MM,LOC:EVENT_NUMBER,LOC:LATITUDE,LOC:LONGITUDE,LOC:STATION,INS:LOCATION,Pressure:CTD [dbar],Temperature:CTD [deg_C_(ITS90)],Salinity:CTD [PSS-78],Sigma-t:CTD [kg/m^3],Transmissivity:CTD [*/m],Oxygen:Dissolved:CTD:Volume [ml/l],Oxygen:Dissolved:CTD:Mass [µmol/kg],Fluorescence:CTD:Seapoint [mg/m^3],PAR:CTD [µE/m^2/sec]
+,,,,,,,,,,,,,,,,,
+2017-08-0001.ctd,UTC,16-08-17, 18:08,1,48.66033,-123.501,SI,Mid-ship,2,15.447,28.1547,20.6345,28.2,6.79,296.8,2.643,747
+
+
+---------------------------------------------------------------------------------------------------,,,,,,,,,,,,,,,,,
+For details on the processing see the report 2018-026-proc.pdf,,,,,,,,,,,,,,,,,
+---------------------------------------------------------------------------------------------------,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,
+File Name,Zone,FIL:START TIME YYYY/MM/DD, HH:MM,LOC:EVENT_NUMBER,LOC:LATITUDE,LOC:LONGITUDE,LOC:STATION,INS:LOCATION,Pressure:CTD [dbar],Temperature:CTD [deg_C_(ITS90)],Salinity:CTD [PSS-78],Sigma-t:CTD [kg/m^3],Transmissivity:CTD [*/m],Oxygen:Dissolved:CTD:Volume [ml/l],Oxygen:Dissolved:CTD:Mass [µmol/kg],Fluorescence:CTD:Seapoint [mg/m^3],PAR:CTD [µE/m^2/sec]
+,,,,,,,,,,,,,,,,,
+2018-026-0001.ctd,UTC,06-06-18, 16:25,1,48.65883,-123.49834,SI,Mid-ship,2.4,14.0456,26.937,19.9833,24.3,9.16,400.9,2.786,799.1
+
+
+---------------------------------------------------------------------------------------------------,,,,,,,,,,,,,,,,,
+For details on the processing see the report 2018-001-proc.pdf,,,,,,,,,,,,,,,,,
+---------------------------------------------------------------------------------------------------,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,
+File Name,Zone,FIL:START TIME YYYY/MM/DD, HH:MM,LOC:EVENT_NUMBER,LOC:LATITUDE,LOC:LONGITUDE,LOC:STATION,INS:LOCATION,Pressure:CTD [dbar],Temperature:CTD [deg_C_(ITS90)],Salinity:CTD [PSS-78],Sigma-t:CTD [kg/m^3],Transmissivity:CTD [*/m],Oxygen:Dissolved:CTD:Volume [ml/l],Oxygen:Dissolved:CTD:Mass [µmol/kg],Fluorescence:CTD:Seapoint [mg/m^3],PAR:CTD [µE/m^2/sec]
+,,,,,,,,,,,,,,,,,
+2018-001-0001.ctd,UTC,20-02-18, 01:08,1,48.66167,-123.49866,SI,Mid-ship,2.4,7.8983,28.8943,22.5226,40.7,5.13,224.2,1.004,24.6
+2018-001-0001.ctd,UTC,20-02-18, 
+
+
+

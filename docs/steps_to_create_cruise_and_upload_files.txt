@@ -1,0 +1,147 @@
+Steps to create cruise and upload files
+
+
+1) Create a new cruise
+
+Get cruise dates and information from cruise report.
+
+
+Example is new cruise: 2018-040
+
+Main page of all cruises: https://www.waterproperties.ca/linep/cruises.php
+
+Specific cruise page: https://www.waterproperties.ca/linep/2018-040/index.php
+
+Ship: John P Tully and start date: 2018-09-11
+
+for expocode = 18DD20180911
+
+
+a) cruise json file:
+
+{
+  "description": "",
+  "start_port": "",
+  "end_port": "",
+  "references": [
+    {
+      "organization": "",
+      "type": "link",
+      "value": "https://www.waterproperties.ca/linep/2018-040/index.php",
+      "properties": {}
+    }
+  ],
+  "expocode": "18DD20180911",
+  "collections": {
+    "woce_lines": [],
+    "programs": [
+      "Line P"
+    ],
+    "oceans": [
+      "pacific"
+    ],
+    "groups": [
+      "Line P"
+    ]
+  },
+  "ship": "John P. Tully",
+  "country": "CA",
+  "startDate": "2018-09-11",
+  "endDate": "2018-09-28",
+  "urls": [],
+  "participants": [
+    {
+      "role": "Chief Scientist",
+      "name": "Marie Robert",
+      "institution": "Institute of Ocean Sciences",
+      "email": "marie.robert@dfo-mpo.gc.ca",
+      "other": []
+    }
+  ],
+  "geometry": {
+    "track": {
+      "type": "LineString",
+      "coordinates": []
+    }
+  },
+  "notes": [
+    {
+      "name": "Lynne Merchant",
+      "data_type": "",
+      "action": "Create cruise entry from waterproperties.ca Line P Program",
+      "summary": "",
+      "date": "2019-05-21",
+      "body": []
+    }
+  ]
+}
+
+b) Submit cruise json with curl
+
+curl -i -X POST https://cchdo.ucsd.edu/api/v1/cruise -H "Content-Type: application/json" --data @cruise_form_18DD20180911.json
+
+
+2) Download cruise report and rename
+
+Example is new cruise: 2018-040
+
+a) Download cruise report from page: https://www.waterproperties.ca/linep/2018-040/index.php
+
+rename cruise report by prepending expocode, capitalize cruise report, and leave out cruise id:
+18DD20180911_Cruise_Report.pdf
+
+submission message: 
+Canadian Line P Cruise Report downloaded from https://www.waterproperties.ca/linep/2018-040/index.php on 2019-05-21 for cruise 18DD20180911. Renamed file to expocode_Cruise_Report.pdf
+
+b) Apply patch to move cruise report to dataset and change data type to documentation
+
+[
+  {
+    "op": "replace",
+    "path": "/role",
+    "value": "dataset"
+  },
+  {
+    "op": "replace",
+    "path": "/data_type",
+    "value": "documentation"
+  }
+]
+
+curl command: curl -i -X PATCH https://cchdo.ucsd.edu/api/v1/file/14450 -H "Content-Type: application/json" --data @file_patch_14450.json
+
+
+3) Download raw concatenated data file for whole cruise
+
+a) Download page: https://www.waterproperties.ca/linep/2018-040/index.php
+
+rename data file by prepending expocode: 18DD20180911_2018-040-ctd-cruise.csv
+
+submission message:
+Canadian Line P CTD data downloaded from https://www.waterproperties.ca/linep/2018-040 on 2019-05-21 for cruise 18DD20180911. Renamed file to prepend expocode to original filename.
+
+b) Apply patch to change role to unprocessed and type to ctd
+
+[
+  {
+    "op": "replace",
+    "path": "/role",
+    "value": "unprocessed"
+  },
+  {
+    "op": "replace",
+    "path": "/data_type",
+    "value": "ctd"
+  }
+]
+
+curl command: curl -i -X PATCH https://cchdo.ucsd.edu/api/v1/file/14451 -H "Content-Type: application/json" --data @file_patch_14451.json
+
+
+
+
+
+
+
+
+

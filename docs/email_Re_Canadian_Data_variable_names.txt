@@ -1,0 +1,60 @@
+From: sharon <sescher@ucsd.edu>
+Subject: Re: Canadian Data variable names
+Date: November 29, 2018 at 5:54:16 AM PST
+To: Lynne Merchant <lmerchant@ucsd.edu>
+Cc: Carolina Berys-Gonzalez <cberysgonzalez@ucsd.edu>, "Escher, Sharon" <sescher@ucsd.edu>, Karen Stocks <kstocks@ucsd.edu>
+
+Hi Lynne,       This is what I would do:
+
+									NAME  ,  UNIT
+Pressure:CTD [dbar],					CTDPRS  ,  DBAR
+Temperature:CTD [deg_C_(ITS90)],		CTDTMP ,   ITS-90
+Salinity:CTD [PSS-78],					CTDSAL ,  PSS-78
+Sigma-t:CTD [kg/m^3],					do not put in Exchange CTD file, it is a calculated value
+Transmissivity:CTD [*/m],				CTDBEAMCP , /METER
+Oxygen:Dissolved:CTD:Volume [ml/l],		do not put in Exchange CTD file,   it is not in CCHDO units and the correct units are provided.
+Oxygen:Dissolved:CTD:Mass [µmol/kg],	CTDOXY ,  UMOL/KG
+Fluorescence:CTD:Seapoint [mg/m^3],	 	if this is a chlorophyll fluorometer (check cruise report),  CTDFLUOR , MG/M^3. 
+Fluorescence:CTD:Wetlabs [mg/m^3],		if this is a chlorophyll fluorometer (check cruise report),   CTDFLUOR, MG/M^3
+PAR:CTD [µE/m^2/sec] 					PAR ,  UE/m^2/sec. 
+
+Fluorescence NOTES:    for several years,  CCHDO has discussed what to do  about multiple sensors on a rosette measuring the same thing.   Since nothing has been decided,   I have been making up parameter names.   If both sensors are chlorophyll fluorometers,   use CTDFLUOR1 and CTDFLUOR2.   If one sensor is NOT a chlorophyll fluorometer ( maybe a CDOM?) ,  call it CTDCDOMFL or keep it as Fluorescence.  
+
+
+PAR NOTES:  Due to a bug in JOA,   keep PAR as the parameter name instead of using CTDPAR.    Keep the units as is,  even though current CCHDO documentation say it should be unit-less.    A few months ago the CCHDO documentation said that the units were UE/M^2/S ( or something similar).
+
+Hope this helps,
+
+-sharon
+
+
+
+On Nov 28, 2018, at 7:11 PM, Lynne Merchant <lmerchant@ucsd.edu> wrote:
+Hi Sharon,
+
+Since you are the master of variable names, I wonder if you could help me out. I'm working with Canadian CTD data and putting it into exchange format. Could you tell me if and what I should rename everything to. And are the two types of Oxygen variables the same thing in different units? I'm also not sure what the difference in the Fluorescence variables would be. 
+
+Thanks for your help.
+
+
+Pressure:CTD [dbar],
+Temperature:CTD [deg_C_(ITS90)],
+Salinity:CTD [PSS-78],
+Sigma-t:CTD [kg/m^3],
+Transmissivity:CTD [*/m],
+Oxygen:Dissolved:CTD:Volume [ml/l],
+Oxygen:Dissolved:CTD:Mass [µmol/kg],
+Fluorescence:CTD:Seapoint [mg/m^3],
+Fluorescence:CTD:Wetlabs [mg/m^3],
+PAR:CTD [µE/m^2/sec] 
+
+
+Lynne
+
+
+
+Lynne Merchant
+lmerchant@ucsd.edu
+CCHDO/SIO
+
+

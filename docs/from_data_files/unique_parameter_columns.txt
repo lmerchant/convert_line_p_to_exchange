@@ -1,0 +1,58 @@
+Unique parameter columns
+
+
+params =[                             
+  {'whpname' : 'CTDPRS' , 'longname':'Pressure:CTD [dbar]', 'units' : 'DBAR'},
+  {'whpname' : 'CTDTMP' , 'longname':'Temperature:CTD [deg_C_(ITS90)]', 'units' : 'ITS-90'},
+  {'whpname' : 'CTDSAL' , 'longname':'Salinity:CTD [PSS-78]', 'units' : 'PSS-78'},
+  {'whpname' : 'CTDSAL' , 'longname':'Salinity:Practical:CTD [PSS-78]', 'units' : 'PSS-78'},
+  {'whpname' : 'CTDOXY' , 'longname':'Oxygen:Dissolved:CTD:Mass [µmol/kg]', 'units' : 'UMOL/KG'},   
+  {'whpname' : 'CTDXMISS' , 'longname':'Transmissivity:CTD [*/m]', 'units' : '/METER'},
+  {'whpname' : 'CTDXMISS' , 'longname':'Transmissivity:CTD [%/m]', 'units' : '/METER'},
+  {'whpname' : 'CTDFLUOR' , 'longname':'Fluorescence:CTD:Seapoint [mg/m^3]', 'units' : 'MG/M^3'},   
+  {'whpname' : 'CTDFLUOR', 'longname': 'Fluorescence:CTD:Seapoint', 'units' : 'MG/M^3'},
+  {'whpname' : 'CTDFLUOR', 'longname': 'Fluorescence:CTD [mg/m^3]', 'units' : 'MG/M^3'},
+  {'whpname' : 'CTDFLUOR_TSG' , 'longname':'Fluorescence:CTD:Wetlabs [mg/m^3]', 'units' : 'MG/M^3'},
+  {'whpname' : 'PAR' , 'longname':'PAR:CTD [µE/m^2/sec]', 'units' : 'UE/m^2/sec'}     
+]       
+
+
+
+Transmissivity:CTD [%/m]  (They usually use [*/m])
+-- it's for cruise 2013-17 18DD20130607  
+
+
+
+Extra columns skipping
+-------------------
+Sigma-t:CTD [kg/m^3]  (Skipping Sigma-t)
+Sigma-t:CTD {kg/m^3]
+
+Comments  (Nothing in comments column of 2010-01 18DD20100202)
+
+Oxygen:Dissolved:CTD:Volume [ml/l]  (Skipping the Volume oxygen)
+
+--------------------
+
+
+Pressure:CTD [dbar]
+
+Temperature:CTD [deg_C_(ITS90)]
+
+Salinity:CTD [PSS-78]
+Salinity:Practical:CTD [PSS-78]
+
+Oxygen:Dissolved:CTD:Mass [µmol/kg]
+
+Transmissivity:CTD [*/m]
+Transmissivity:CTD [%/m]  (looks to be a mistake on their part and should be [*/m])
+
+Fluorescence:CTD:Seapoint [mg/m^3]
+Fluorescence:CTD:Seapoint
+Fluorescence:CTD [mg/m^3]
+
+Fluorescence:CTD:Wetlabs [mg/m^3]
+
+PAR:CTD [µE/m^2/sec]
+
+
