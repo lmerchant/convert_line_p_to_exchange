@@ -49,8 +49,14 @@ def get_ctd_filename(directory, data_set):
     # can't use / as part of filename.
     if '/' in str_stnbr:
         str_stnbr = str_stnbr.replace('/', '-')
+
+
+    # TODO remove - in filename from stations like PA-001.
+
+
+    
  
-    # pad stnbr and castno so have 5 digit chars and prepend 0
+    # pad stnbr and castno so have 5 digit chars and prepend with 0
     str_stnbr = str_stnbr.zfill(5)
     str_castno = str_castno.zfill(5)
 
@@ -108,8 +114,7 @@ def get_individual_raw_file_header(url):
     count = 0
     for line in file_text:
 
-        #if '*END OF HEADER' not in line:
-        if 'For details on the processing' not in line:
+        if '*END OF HEADER' not in line:    
             # then line is a comment header
             # prepend a # sign
             line_comment = '#' + line
@@ -138,11 +143,15 @@ def choose_raw_file_header(url, comment_header, ctd_filename):
             # https://www.waterproperties.ca/linep/2009-09/index.php
             url = 'https://www.waterproperties.ca/linep/2009-09/donneesctddata/2009-09-0015.ctd'
 
+            raw_individual_comment_header = get_individual_raw_file_header(url)
+
         elif url == 'https://www.waterproperties.ca/linep/2009-09/donneesctddata/2009-09-0051.ctd':
             # Error in concatenated file using event 51 for P19 when web page
             # table says it should be event 52. So fixed for this special case
             # https://www.waterproperties.ca/linep/2009-09/index.php
             url = 'https://www.waterproperties.ca/linep/2009-09/donneesctddata/2009-09-0052.ctd'
+
+            raw_individual_comment_header = get_individual_raw_file_header(url)
         
         else:
             # Can't open raw individual comment header so use concatenated files header instead
@@ -200,6 +209,22 @@ def reformat_csv(ctd_filename, column_headers):
             f.write(row)       
 
 
+def replace_fill_values_in_df(data_columns_df):
+
+    # Convert data columns to string 
+    data_columns_df = data_columns_df.astype('str')
+
+
+    # replace -999.0 with -999 which is exchange fill value (has to be integer)
+    # replace -99.0 and -99 with -999
+    # replace -99 with -999 
+    data_columns_df.replace('-999.0', '-999', inplace=True)
+    data_columns_df.replace('-99.0', '-999', inplace=True)
+    data_columns_df.replace('-99', '-999', inplace=True)
+
+    return data_columns_df
+
+
 def write_dataframe_to_csv(data_columns_df, ctd_filename, start_line, end_line, raw_individual_comment_header, metadata_header, column_headers):
 
     # Write dataframe to csv file so data formatted properly by pandas.
@@ -207,15 +232,14 @@ def write_dataframe_to_csv(data_columns_df, ctd_filename, start_line, end_line, 
     # Will add header below.
     data_columns_df.to_csv(ctd_filename, sep=',', index=False, header=False, encoding='utf-8')
 
-
+    # reformat columns to have equal spacing for params and 1 space for flags
     reformat_csv(ctd_filename, column_headers)
-
-
 
     # Read in data from file just created from dataframe to
     # prepend and append lines
     with open(ctd_filename, 'r', encoding='utf-8') as original: 
         data = original.read()
+
 
     # Create concatenated string to prepend
     # Contains exchange start line, comments, and parameter column names
@@ -300,20 +324,13 @@ def write_data_to_file(station_castno_df_sets, comment_header, meta_params, data
         data_columns.update_flag_for_fill_99(data_columns_df, data_params)  
 
 
-
+        # Round the data
         data_columns_df = reformat_columns(data_columns_df)
 
-
-        # Convert data columns to string 
-        data_columns_df = data_columns_df.applymap(str)
-
-        # replace -999.0 with -999 which is exchange fill value (has to be integer)
-        # replace -99.0 and -99 with -999
-        # replace -99 with -999 
-        data_columns_df.replace('-999.0', '-999', inplace=True)
-        data_columns_df.replace('-99.0', '-999', inplace=True)
-        data_columns_df.replace('-99', '-999', inplace=True)
+        # Replace all fills to be -999
+        data_columns_df = replace_fill_values_in_df(data_columns_df)
 
 
         write_dataframe_to_csv(data_columns_df, ctd_filename, start_line, end_line, raw_individual_comment_header, metadata_header, column_headers)
+      
 
