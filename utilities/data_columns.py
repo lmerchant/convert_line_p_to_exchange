@@ -151,9 +151,6 @@ def reformat_date_column(df):
     # Files can have two different date formats
     # dd-mm-yy or dd/mm/yyyyy
 
-    # TODO: Fix to check for exact format and not just if - or / in date
-    # because they may change date to another format
-
     # check if date format of type 
     dash_pattern = r'(\d\d)-(\d\d)-(\d\d)'
     dash_regexp = re.compile(dash_pattern)    
@@ -192,8 +189,8 @@ def reformat_date_column(df):
         repl = r'\3\2\1'
 
     else:
-        print('Date pattern of dd-mm-yy or dd/mm/yyyy not found')
-        exit(1)
+        print('Date pattern of dd-mm-yy or dd/mm/yyyy not found. Check if in exchange format or not.')
+        print('If not in exchange format, create a new regexp to fix date format.')
 
     df['DATE'] = df['DATE'].str.replace(pattern, repl)
 
