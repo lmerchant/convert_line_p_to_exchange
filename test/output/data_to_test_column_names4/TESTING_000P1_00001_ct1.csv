@@ -1,0 +1,31 @@
+CTD,20190522CCHSIOLM
+#---------------------------------------------------------------------------------------------------,,,,,,,,,,,,,,,,,
+#Transmissivity - Fluorescence - PAR data are nominal and unedited except that some records were removed in editing temperature and salinity.,,,,,,,,,,,,,,,,,
+#---------------------------------------------------------------------------------------------------,,,,,,,,,,,,,,,,,
+#For details on how the transmissivity calibration parameters were calculated see the document Transmissivity_Calculation.pdf.,,,,,,,,,,,,,,,,,
+#---------------------------------------------------------------------------------------------------,,,,,,,,,,,,,,,,,
+#Oxygen:Dissolved:CTD was calibrated using the method described in the Sea-Bird Application Note #64-2 of June 2012 (Sea-Bird_64-2_Jun2012.pdf) except that a small offset in the fit was allowed.,,,,,,,,,,,,,,,,,
+#,,,,,,,,,,,,,,,,,
+#The Oxygen:Dissolved:CTD data are considered very roughly to be:,,,,,,,,,,,,,,,,,
+#      • ±0.5 ml/l from 0 to 100 dbar,,,,,,,,,,,,,,,,,
+#      • ±0.3 ml/l from 100 to 500 dbar,,,,,,,,,,,,,,,,,
+#      • ±0.05 ml/l below 500 dbar,,,,,,,,,,,,,,,,,
+#---------------------------------------------------------------------------------------------------,,,,,,,,,,,,,,,,,
+#For details on the processing see the report 2015-01-proc.pdf,,,,,,,,,,,,,,,,,
+#---------------------------------------------------------------------------------------------------,,,,,,,,,,,,,,,,,
+#,,,,,,,,,,,,,,,,,
+#File Name,Zone,FIL:START TIME YYYY/MM/DD, HH:MM,LOC:EVENT_NUMBER,LOC:LATITUDE,LOC:LONGITUDE,LOC:STATION,INS:LOCATION,Pressure:CTD [dbar],Temperature:CTD [deg_C_(ITS90)],Salinity:CTD [PSS-78],Sigma-t:CTD [kg/m^3],Transmissivity:CTD [*/m],Oxygen:Dissolved:CTD:Volume [ml/l],Oxygen:Dissolved:CTD:Mass [µmol/kg],Fluorescence:CTD:Seapoint,PAR:CTD [µE/m^2/sec]
+#,,,,,,,,,,,,,,,,,
+NUMBER_HEADERS = 8
+EXPOCODE = TESTING
+STNBR = P1
+CASTNO = 1
+DATE = 20150211
+TIME =  1918
+LATITUDE = 48.57617
+LONGITUDE = -125.50134
+CTDPRS,CTDPRS_FLAG_W,CTDTMP,CTDTMP_FLAG_W,CTDSAL,CTDSAL_FLAG_W,CTDOXY,CTDOXY_FLAG_W,CTDBEAMCP,CTDBEAMCP_FLAG_W,CTDFLUOR,CTDFLUOR_FLAG_W,PAR,PAR_FLAG_W
+DBAR,,ITS-90,,PSS-78,,UMOL/KG,,/METER,,MG/M^3,,UE/m^2/sec,
+         2,2,   11.1569,2,   32.0634,2,     274.1,2,      58.9,2,     0.625,2,     376.4,2
+         3,2,    11.157,2,   32.0639,2,     274.2,2,      58.8,2,     0.638,2,     308.1,2
+END_DATA
