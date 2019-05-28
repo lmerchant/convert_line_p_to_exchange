@@ -5,8 +5,7 @@ Create ctd exchange file for Canadian cruises from 2007-01 to 2018-026
 Have checked parameter names for this grouping of cruises and can't guarantee things 
 will be the same for other years.  So if run program for new cruises, check 
 parameter names and date format.  Currently there are two date formats. One is dd-mm-yy
-and the other is dd/mm/yyyy. I only check if date has a '-' or '/' in name and
-not by exact format. Should do this in the future.
+and the other is dd/mm/yyyy. 
 
 URL of cruise files that contain all cruise lines and their data
 As an example for 2017-01 cruise,
@@ -15,11 +14,10 @@ This file contains more than just Line P data. In this program, only the Line P 
 converted to exchange format. This is also a concatenated file of all individual
 station files.
 
-
 Read in all data lines into a data frame, then filter on P line and sort on station.
 Then group rows by station and its sequential event number to find castno
 
-For cruise list, need to have corresponding expocodes in corresponding order
+For cruise list, need to map corresponding expocodes to cruise id
 
 Files output to a top level folder defined as a global variable in data_files.py
 TOP_DATA_FOLDER = './exchange_line_p_data'. It assumes this folder exists.
@@ -91,8 +89,6 @@ def main():
         df, data_params = data_columns.insert_flag_colums(df, data_params)
 
         # Reformat date column to Exchange format
-        # TODO: Use regular expressions to check date format
-        # rather than looking for a - or /
         df = data_columns.reformat_date_column(df)
 
         # Reformat time column to Exchange format

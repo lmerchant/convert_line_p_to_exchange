@@ -17,12 +17,21 @@ def get_cruise_list():
     # year-identifier. Check website for values
     # https://www.waterproperties.ca/linep/cruises.php
 
+    # if cruise is 2009-03 with expocode 18DD20090127, it is 
+    # a special case. Will be using 2009-03 cruise file in testing folder 
+    # where the original file from the url has been corrected
+    # to delete the duplicate station column and shifting the column
+    # headers to the left. The original cruise file is then saved
+    # with the name 18DD20090127_2009-03-ctd-cruise.csv into the 
+    # testing folder 
+    # filename = "./test/data/18DD20090127_2009-03-ctd-cruise.csv"
+
 
     # line p year, cruise identifier, and corresponding expocode
     cruise_list = [
         ('2018', '040', '18DD20180911'),
         ('2018', '001', '18LU20180218'),
-        ('2018', '026', '18DD20180605'),
+        ('2018', '026', '18DD20180605'),       
         ('2017', '01', '18DD20170205'),
         ('2017', '06', '18DD20170604'),
         ('2017', '08', '18DD20170815'),
@@ -63,12 +72,6 @@ def get_cruise_list():
         # use dummy value for cruise list and expocode = 'TESTING'
         cruise_list = [('year', 'cruise_id', 'TESTING')]
 
-        # Only for ./test/data/18DD20090127_2009-03-ctd-cruise.csv
-        # Because hand removed extra ship column and shifted column 
-        # headers one column to left
-        #cruise_list = [('2009', '03', '18DD20090127')]
-
-
     return cruise_list        
 
 
@@ -91,10 +94,9 @@ def get_raw_csv(url):
         try:
             testing_output_folder = TOP_DATA_FOLDER + '/TESTING_ct1'
             shutil.rmtree(testing_output_folder)
+            print("Deleting previous testing folder")
         except:
-            print("Can't create testing folder")
-
-        # read csv file into a list
+            print("Testing folder will be created")
 
         # Create test files in windows-1252 with windows line endings
         
@@ -110,18 +112,17 @@ def get_raw_csv(url):
         #test_filename = "./test/data/data_to_test_column_names3.csv"
         #test_filename = "./test/data/data_to_test_column_names4.csv"
         #test_filename = "./test/data/data_to_test_column_names5.csv"
-        #test_filename = "./test/data/data_to_test_flag_values.csv"
-        test_filename = "./test/data/data_to_test_formatting.csv"
+        test_filename = "./test/data/data_to_test_flag_values.csv"
+        #test_filename = "./test/data/data_to_test_formatting.csv"
+        
         #test_filename = "./test/data/18DD20170205_2017-01-ctd-cruise.csv"
         #test_filename = "./test/data/18DD20090127_2009-03-ctd-cruise.csv"
-
 
         with open(test_filename, 'r', encoding='windows-1252') as f:
             decode_text = f.read()
 
         raw_csv = decode_text.split('\n')
 
-   
     elif url == 'https://www.waterproperties.ca/linep/2009-03/donneesctddata/2009-03-ctd-cruise.csv':
 
         # Open 2009-03 cruise file in testing folder where file has been corrected
@@ -136,7 +137,6 @@ def get_raw_csv(url):
             decode_text = f.read()
 
         raw_csv = decode_text.split('\n')
-
 
     else:
 
@@ -231,12 +231,18 @@ def insert_into_dataframe(column_names, data):
     # Station is imported as string because station name
     # starts with a letter. The rest becomes NaN or float
    
+    # use errors='ignore' rather than errors='coerce'
+    # because otherwise fails because have coerced string
+    # date into a bytes-like object which won't work when
+    # trying to use reg expression on a date
     df = df.apply(pd.to_numeric, errors='ignore')
 
 
     # Any columns with float values automatically convert to float.
     # because pandas can only have all integers or all floats in
-    # a column. 
+    # a column. For decimal precision of 4 or 5 digits, will need to
+    # round values to 4 or 5 places since float read in converted to
+    # too many digits.
 
     # If fill with -999 in a float column, it becomes -999.0  
     # Any -99 fill numbers in float columns are converted to -99.0 
