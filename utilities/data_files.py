@@ -47,16 +47,15 @@ def get_ctd_filename(directory, data_set):
 
     # if stnbr has a slash in name, replace with a dash because
     # can't use / as part of filename.
+    # e.g. is P1/B8 in 2015-09
     if '/' in str_stnbr:
         str_stnbr = str_stnbr.replace('/', '-')
 
-
-    # TODO remove - in filename from stations like PA-001.
-
-
-    
+    # Remove - in filename from stations like PA-001 so have 5 characters.
+    if '-' in str_stnbr:
+        str_stnbr = str_stnbr.replace('-', '')
  
-    # pad stnbr and castno so have 5 digit chars and prepend with 0
+    # pad stnbr and castno so have 5 characters. Prepend with 0
     str_stnbr = str_stnbr.zfill(5)
     str_castno = str_castno.zfill(5)
 
