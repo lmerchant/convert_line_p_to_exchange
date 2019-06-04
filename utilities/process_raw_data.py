@@ -203,7 +203,8 @@ def insert_into_dataframe(column_names, data):
 
     # Panda keeps greek characters in column names if there were any
     # Pandas imports all columns as string
-    df = pd.DataFrame(data,columns=column_names)
+    df = pd.DataFrame(data, columns=column_names)
+
 
     # drop any rows with empty cell values in Pressure:CTD column
     # Do this because data sets separated by empty rows
@@ -231,7 +232,12 @@ def insert_into_dataframe(column_names, data):
     # because otherwise fails because have coerced string
     # date into a bytes-like object which won't work when
     # trying to use reg expression on a date
-    df = df.apply(pd.to_numeric, errors='ignore')
+
+    # Don't convert to numeric. Keep as strings so numbers keep precision
+    #df = df.apply(pd.to_numeric, errors='ignore')
+
+    # Convert event column and pressure to numeric to sort on
+    df = df.astype({'LOC:EVENT_NUMBER': int, 'Pressure:CTD [dbar]': float})
 
 
     # Any columns with float values automatically convert to float.
