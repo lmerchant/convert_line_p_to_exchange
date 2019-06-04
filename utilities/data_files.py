@@ -7,10 +7,7 @@ import utilities.headers as headers
 import utilities.data_columns as data_columns
 import utilities.process_raw_data as process_raw_data
 
-
-
-# Top folder to save data folders in
-TOP_DATA_FOLDER = './exchange_line_p_data'
+from config_create_line_p import Config
 
 
 def create_start_end_lines():
@@ -226,6 +223,7 @@ def replace_fill_values_in_df(data_columns_df):
 
 def write_dataframe_to_csv(data_columns_df, ctd_filename, start_line, end_line, raw_individual_comment_header, metadata_header, column_headers):
 
+
     # Write dataframe to csv file so data formatted properly by pandas.
     # Don't write index column to file. 
     # Will add header below.
@@ -281,7 +279,7 @@ def write_data_to_file(station_castno_df_sets, comment_header, meta_params, data
     expocode = first_row['EXPOCODE']
 
     # Make sub directory in parent folder
-    directory = TOP_DATA_FOLDER + '/' + expocode + '_ct1/'
+    directory = Config.TOP_DATA_FOLDER + '/' + expocode + '_ct1/'
 
     if not os.path.exists(directory):
         os.makedirs(directory)
@@ -318,13 +316,20 @@ def write_data_to_file(station_castno_df_sets, comment_header, meta_params, data
         # Flag = 9 represents data not sampled
         data_columns.update_flag_for_fill_999(data_columns_df, data_params)
 
+        # For string columns
+        data_columns.update_flag_for_fill_999_str(data_columns_df, data_params)
+
+
         # Change flag from 2 to 5 if value in column to left of flag column is -99 or -99.0
         # Flag = 5 represents data not reported
         data_columns.update_flag_for_fill_99(data_columns_df, data_params)  
 
+        # For string columns
+        data_columns.update_flag_for_fill_99_str(data_columns_df, data_params) 
+
 
         # Round the data
-        data_columns_df = reformat_columns(data_columns_df)
+        #data_columns_df = reformat_columns(data_columns_df)
 
         # Replace all fills to be -999
         data_columns_df = replace_fill_values_in_df(data_columns_df)
