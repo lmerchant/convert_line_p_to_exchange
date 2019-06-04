@@ -1,6 +1,6 @@
 """
 
-Create ctd exchange file for Canadian cruises from 2007-01 to 2018-026
+Create ctd exchange files for Canadian Line P cruises for 2007 through 2018
 
 Have checked parameter names for this grouping of cruises and can't guarantee things 
 will be the same for other years.  So if run program for new cruises, check 
@@ -19,8 +19,8 @@ Then group rows by station and its sequential event number to find castno
 
 For cruise list, need to map corresponding expocodes to cruise id
 
-Files output to a top level folder defined as a global variable in data_files.py
-TOP_DATA_FOLDER = './exchange_line_p_data'. It assumes this folder exists.
+Files output to a top level folder defined in config_create_line_p.py. 
+It assumes this folder exists.
 
 
 ---------------------------------
@@ -35,8 +35,8 @@ Currently TOP_DATA_FOLDER='./exchange_line_p_data'
 
 Testing:
 --------
-To test the script, set TESTING to True in utilities/process_raw_data.py
-Set name of testing file to use.
+To test the script, set TESTING to True in config_create_line_p.py
+and uncomment name of testing file to use in in utilities/process_raw_data.py
 
 
 """
@@ -117,6 +117,7 @@ def main():
         # Breaks up station dataframe into subsets of unique station/castno
         # that will be saved to its own file
         station_castno_df_sets = data_columns.get_station_castno_df_sets(df, unique_station_castno_sets)
+
 
         # loop through sets and write each set to files in a folder
         data_files.write_data_to_file(station_castno_df_sets, comment_header, meta_params, data_params)
