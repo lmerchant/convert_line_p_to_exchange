@@ -1,4 +1,5 @@
 import re
+from pandas.api.types import is_string_dtype
 
 
 def rename_pline_columns(df, meta_params, data_params):
@@ -124,6 +125,32 @@ def update_flag_for_fill_999(df, data_params):
             df.loc[df[param_name] == -999.0, flag_name] = 9
 
 
+def update_flag_for_fill_999_str(df, data_params):
+    # If cell has fill -999 or -999.0, change corresponding flag cell to 9
+    # Flag = 9 means not sampled
+
+    # Go column by column
+
+    for param in data_params:
+
+        param_name = param['whpname']
+        flag_name = '{}_FLAG_W'.format(param_name)
+        param_loc = df.columns.get_loc(param_name)
+        flag_loc = param_loc + 1
+
+        "Can't compare numeric column with string value"
+        "So skip numeric columns"
+
+        if is_string_dtype(df[param_name]):
+            df_rows = df.loc[(df[param_name] == '-999') | (df[param_name] == '-999.0')]
+            number_of_rows = df.shape[0]
+
+            if not df_rows.empty:
+      
+                df.loc[df[param_name] == '-999', flag_name] = 9
+                df.loc[df[param_name] == '-999.0', flag_name] = 9
+
+
 def update_flag_for_fill_99(df, data_params):
     # If cell has fill -99 or -99.0, change corresponding flag cell to 5
     # Flag = 5 means Not reported
@@ -144,6 +171,33 @@ def update_flag_for_fill_99(df, data_params):
   
             df.loc[df[param_name] == -99, flag_name] = 5
             df.loc[df[param_name] == -99.0, flag_name] = 5
+
+
+def update_flag_for_fill_99_str(df, data_params):
+    # If cell has fill '-99' or '-99.0', change corresponding flag cell to 5
+    # Flag = 5 means Not reported
+
+    # Go column by column
+
+    for param in data_params:
+
+        param_name = param['whpname']
+        flag_name = '{}_FLAG_W'.format(param_name)
+        param_loc = df.columns.get_loc(param_name)
+        flag_loc = param_loc + 1
+
+        "Can't compare numeric column with string value"
+        "So skip numeric columns"
+
+        if is_string_dtype(df[param_name]):
+
+            df_rows = df.loc[(df[param_name] == '-99') | (df[param_name] == '-99.0')]
+            number_of_rows = df.shape[0]
+
+            if not df_rows.empty:
+      
+                df.loc[df[param_name] == '-99', flag_name] = 5
+                df.loc[df[param_name] == '-99.0', flag_name] = 5
 
 
 def reformat_date_column(df):
@@ -298,7 +352,6 @@ def insert_castno_column(df):
 
     # Now remap this incrementing event list to start at 1
     # and this will be the cast number
-
 
     # Sort by station and then event and reset index to match
     df.sort_values(by=['STATION','EVENT'],inplace=True)
