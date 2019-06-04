@@ -255,6 +255,11 @@ def insert_into_dataframe(column_names, data):
     # Replace any NaN cells with -999   
     df.fillna(-999, inplace=True)
 
+
+    # Replace any empty cells with '-999'
+    df = df.replace(r'^\s*$', '-999', regex=True)
+
+
     # Sort by station and then pressure and reset index to match new row order
     df.sort_values(by=['LOC:STATION','Pressure:CTD [dbar]'],inplace=True)
     df.reset_index(drop=True,inplace=True)
