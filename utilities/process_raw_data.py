@@ -7,23 +7,23 @@ from config_create_line_p import Config
 
 def get_cruise_list():
 
-    # list mapping Line P web files to expocodes
+    """Get list mapping Line P web files to expocodes"""
 
     # Canadian Line P cruise data of format
-    # year-identifier. Check website for values
+    # year-identifier. Check website for values to use at
     # https://www.waterproperties.ca/linep/cruises.php
 
-    # if cruise is 2009-03 with expocode 18DD20090127, it is 
+    # Special Case:
+    # If cruise is 2009-03 with expocode 18DD20090127, it is 
     # a special case. Will be using 2009-03 cruise file in testing folder 
     # where the original file from the url has been corrected
-    # to delete the duplicate station column and shifting the column
-    # headers to the left. The original cruise file is then saved
-    # with the name 18DD20090127_2009-03-ctd-cruise.csv into the 
-    # testing folder 
+    # to delete the duplicate station column. The original cruise 
+    # file is then saved with the name 
+    # 18DD20090127_2009-03-ctd-cruise.csv into the testing folder 
     # filename = "./test/data/18DD20090127_2009-03-ctd-cruise.csv"
 
 
-    # line p year, cruise identifier, and corresponding expocode
+    # line P year, cruise identifier, and corresponding expocode
     cruise_list = [
         ('2018', '040', '18DD20180911'),
         ('2018', '001', '18LU20180218'),
@@ -65,13 +65,14 @@ def get_cruise_list():
 
 
     if Config.TESTING:
-        # use dummy value for cruise list and expocode = 'TESTING'
+        # use dummy values for cruise with expocode = 'TESTING'
         cruise_list = [('year', 'cruise_id', 'TESTING')]
 
     return cruise_list        
 
 
 def build_url(year, cruise_id):
+    """Build url of file from year and cruise identifier"""
     url = 'https://www.waterproperties.ca/linep/' + year + '-' + cruise_id + '/donneesctddata/' + year + '-' + cruise_id + '-ctd-cruise.csv'
 
     return url
@@ -79,10 +80,14 @@ def build_url(year, cruise_id):
 
 def get_raw_csv(url):
 
-    # Read in csv file and split text on returns to get a list of lines
+    """
+    Read in csv data file with encoding windows-1252 and split text 
+    on returns to get a list of lines. If Config.TESTING = True,
+    csv files of encoding windows-1252 are located in testing folder ./test/data
+    """
 
     # Ran chardetect in terminal on cruise csv file downloaded from web page
-    # and returns encoding of windows-1252
+    # and it returned an encoding of windows-1252
 
     if Config.TESTING:
 
@@ -96,11 +101,11 @@ def get_raw_csv(url):
 
         # Create test files in windows-1252 with windows line endings
         
-        #test_filename = "./test/data/data_to_test_castno.csv"
+        test_filename = "./test/data/data_to_test_castno.csv"
         #test_filename = "./test/data/data_to_test_castno_one_pline.csv"
         #test_filename = "./test/data/data_to_test_fill_999.csv"
         #test_filename = "./test/data/data_to_test_fill_999_2.csv"
-        test_filename = "./test/data/data_to_test_fill_999_3.csv"
+        #test_filename = "./test/data/data_to_test_fill_999_3.csv"
         #test_filename = "./test/data/data_to_test_date_format_w_dash.csv"
         #test_filename = "./test/data/data_to_test_date_format_w_slash.csv"
         #test_filename = "./test/data/data_to_test_column_names1.csv"
@@ -146,13 +151,15 @@ def get_raw_csv(url):
 
 def get_headers_and_data(url):
 
-    # The url is a csv file
-    # This cruise csv file lists all lines from from ctd files and all stations
-    # Read in csv file, find header and save.
-    # Then read in all data lines and put into a data frame
-    # Filter data from for Line P stations, sort and return data frame
+    """
+    Get comment header, column names, and data lines from CTD csv file.
+
+    Assume column names and data lines have a comma separation line.
+    Assume data lines start when '.ctd' is in a line.
+    """
 
     # Sample file column names line, followed by empty line, and then first data line
+
     # File Name,Zone,FIL:START TIME YYYY/MM/DD, HH:MM,LOC:EVENT_NUMBER,LOC:LATITUDE,LOC:LONGITUDE,LOC:STATION,INS:LOCATION,Pressure:CTD [dbar],Temperature:CTD [deg_C_(ITS90)],Salinity:CTD [PSS-78],Sigma-t:CTD [kg/m^3],Transmissivity:CTD [*/m],Oxygen:Dissolved:CTD:Volume [ml/l],Oxygen:Dissolved:CTD:Mass [µmol/kg],Fluorescence:CTD:Seapoint [mg/m^3],Fluorescence:CTD:Wetlabs [mg/m^3],PAR:CTD [µE/m^2/sec]
     #,,,,,,,,,,,,,,,,,,
     #2017-01-0001.ctd,UTC,06-02-17, 23:58,1,48.65883,-123.49934,SI,Mid-ship,1.1,6.6845,28.1863,22.1205,,,,1.186,,12.6  
@@ -162,10 +169,6 @@ def get_headers_and_data(url):
     raw_csv = get_raw_csv(url)
 
 
-    # Find header and data lines containing values from ctd files.
-    # Save original comment header to write to output file later if needed.
-    # Want to skipp comment header to read in data to pandas
-
     comment_header = []
 
     count = 0
@@ -173,10 +176,10 @@ def get_headers_and_data(url):
 
         if '.ctd' not in line:
             # then line is a comment header
-            # prepend a # sign
+            # prepend with a # sign
             line_comment = '#' + line
             comment_header.append(line_comment)
-            count = count+1
+            count = count + 1
         else:
             # Found ctd data line
             break
@@ -187,7 +190,8 @@ def get_headers_and_data(url):
     # clean_csv contains all the data lines
     clean_csv = raw_csv[count:]
 
-    # Put data lines into a list
+    # Put data lines into a list. Split on comma to get
+    # data value into its own column. Get a list of lists.
     data = []
     for row in clean_csv:
         data.append(row.split(','))
@@ -197,64 +201,47 @@ def get_headers_and_data(url):
 
 def insert_into_dataframe(column_names, data):
 
-    # Import data lines into a data frame
-    
-    # column_names is list of all the column names
+    """
+    Insert data into pandas dataframe using column_names.
+    Data stored as strings except event and pressure which
+    are converted to numeric. This is for sorting.
+    Remove blank rows. Only keep data for stations starting with P.
+    Fill any blanks with a fill of -999.
+    """
 
-    # Panda keeps greek characters in column names if there were any
-    # Pandas imports all columns as string
+    # Panda keeps greek characters in column names if there were any.
+    # Here, Pandas imports all columns as type string.
+    # Empty cells interpreted as NaN.
     df = pd.DataFrame(data, columns=column_names)
 
-
-    # drop any rows with empty cell values in Pressure:CTD column
-    # Do this because data sets separated by empty rows
+    # drop any rows with NaN values in Pressure:CTD column
+    # Do this because want to drop last row in file that is empty.
     df.dropna(subset=['Pressure:CTD [dbar]'], inplace=True)
 
     # Get Line P Stations only.  These are Stations starting with P
     # Find rows starting with P in the LOC:STATION column
+    # This will also exclude all blank rows
     df = df[df['LOC:STATION'].str.startswith('P')]
 
-
-    # Column data are converted to either string or numeric
-    # with df.apply
-
-    # Convert any string numeric columns to numeric.
-    # String columns kept as dtype Object. 
-    # Any empty values will become NaN    
-
-    # Date, Time, and Station are kept as string.
-    # Time and date are kept as string because
-    # time includes a ':' and date includes a '/' or '-'.
-    # Station is imported as string because station name
-    # starts with a letter. The rest becomes NaN or float
-   
-    # use errors='ignore' rather than errors='coerce'
-    # because otherwise fails because have coerced string
-    # date into a bytes-like object which won't work when
-    # trying to use reg expression on a date
-
-    # Don't convert to numeric. Keep as strings so numbers keep precision
-    #df = df.apply(pd.to_numeric, errors='ignore')
-
-    # Convert event column and pressure to numeric to sort on
+    # Convert event column and pressure to numeric to sort on.
+    # Keep rest of data values as strings
     df = df.astype({'LOC:EVENT_NUMBER': int, 'Pressure:CTD [dbar]': float})
 
 
-    # Any columns with float values automatically convert to float.
-    # because pandas can only have all integers or all floats in
-    # a column. For decimal precision of 4 or 5 digits, will need to
-    # round values to 4 or 5 places since float read in converted to
-    # too many digits.
+    # Previously converted all columns to numeric but Pandas had
+    # trouble with numbers of 4 decimal place precision in that
+    # extra digits were added. So don't convert to numeric. 
+    # Keep as strings so numbers keep precision
+    # df = df.apply(pd.to_numeric, errors='ignore')
+
 
     # If fill with -999 in a float column, it becomes -999.0  
     # Any -99 fill numbers in float columns are converted to -99.0 
-
     # Later when the program is saved as a csv exchange file, 
     # any -999.0, -99.0, -99 fill values are set to -999 
 
     # Replace any NaN cells with -999   
     df.fillna(-999, inplace=True)
-
 
     # Replace any empty cells with '-999'
     df = df.replace(r'^\s*$', '-999', regex=True)
