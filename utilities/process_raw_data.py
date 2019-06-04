@@ -2,11 +2,7 @@ import shutil
 import pandas as pd
 from urllib.request import urlopen
 
-
-TESTING = False
-
-# Top folder to save data folders in
-TOP_DATA_FOLDER = './exchange_line_p_data'
+from config_create_line_p import Config
 
 
 def get_cruise_list():
@@ -68,7 +64,7 @@ def get_cruise_list():
     ]
 
 
-    if TESTING:
+    if Config.TESTING:
         # use dummy value for cruise list and expocode = 'TESTING'
         cruise_list = [('year', 'cruise_id', 'TESTING')]
 
@@ -88,11 +84,11 @@ def get_raw_csv(url):
     # Ran chardetect in terminal on cruise csv file downloaded from web page
     # and returns encoding of windows-1252
 
-    if TESTING:
+    if Config.TESTING:
 
         # Delete testing data output folder before writing more
         try:
-            testing_output_folder = TOP_DATA_FOLDER + '/TESTING_ct1'
+            testing_output_folder = Config.TOP_DATA_FOLDER + '/TESTING_ct1'
             shutil.rmtree(testing_output_folder)
             print("Deleting previous testing folder")
         except:
@@ -104,7 +100,7 @@ def get_raw_csv(url):
         #test_filename = "./test/data/data_to_test_castno_one_pline.csv"
         #test_filename = "./test/data/data_to_test_fill_999.csv"
         #test_filename = "./test/data/data_to_test_fill_999_2.csv"
-        #test_filename = "./test/data/data_to_test_fill_999_3.csv"
+        test_filename = "./test/data/data_to_test_fill_999_3.csv"
         #test_filename = "./test/data/data_to_test_date_format_w_dash.csv"
         #test_filename = "./test/data/data_to_test_date_format_w_slash.csv"
         #test_filename = "./test/data/data_to_test_column_names1.csv"
@@ -112,7 +108,7 @@ def get_raw_csv(url):
         #test_filename = "./test/data/data_to_test_column_names3.csv"
         #test_filename = "./test/data/data_to_test_column_names4.csv"
         #test_filename = "./test/data/data_to_test_column_names5.csv"
-        test_filename = "./test/data/data_to_test_flag_values.csv"
+        #test_filename = "./test/data/data_to_test_flag_values.csv"
         #test_filename = "./test/data/data_to_test_formatting.csv"
         
         #test_filename = "./test/data/18DD20170205_2017-01-ctd-cruise.csv"
