@@ -41,16 +41,22 @@ def create_metadata_header(data_set):
     # When pandas rounds, it rounds to max number of decimal
     # places in the column. So 125.458 stays as is and no
     # 0 padding is added at the end
-    latitude = first_row['LATITUDE'].round(5)
-    longitude = first_row['LONGITUDE'].round(5)
+
+    # Don't round lat and long since are strings now
+    #latitude = first_row['LATITUDE'].round(5)
+    #longitude = first_row['LONGITUDE'].round(5)
+
+    # CASTNO is an integer so cast to string
+
 
     metadata_header.append('EXPOCODE = ' + first_row['EXPOCODE'])
     metadata_header.append('STNBR = ' + first_row['STATION'])
     metadata_header.append('CASTNO = ' + str(first_row['CASTNO']))
     metadata_header.append('DATE = ' + first_row['DATE'])
     metadata_header.append('TIME = ' + first_row['TIME'])
-    metadata_header.append('LATITUDE = ' + str(latitude))
-    metadata_header.append('LONGITUDE = ' + str(longitude))
+    metadata_header.append('LATITUDE = ' + first_row['LATITUDE'])
+    metadata_header.append('LONGITUDE = ' + first_row['LONGITUDE'])
+
 
     # NUMBER_HEADERS counts all metadata values plus itself
     number_headers = len(metadata_header) + 1
