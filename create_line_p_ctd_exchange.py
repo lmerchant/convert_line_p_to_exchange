@@ -51,42 +51,41 @@ import utilities.data_files as data_files
 
 def main():
 
-    # To test with testing files, set global variable
-    # TESTING to True in utilities.process_raw_data.
-    # Otherwise, set TESTING to False.
-
-    # Get cruise list mapping Line P web files to expocodes
+    # Get cruise list which maps Line P cruise ids to expocodes
     cruise_list = raw_data.get_cruise_list()
 
     for cruise in cruise_list:
 
-        # Get URL of cruise information
+        # Get URL of cruise file which is concatenated file of all stations
         # e.g. url: https://www.waterproperties.ca/linep/2017-01/donneesctddata/2017-01-ctd-cruise.csv
         url = raw_data.build_url(cruise[0],cruise[1])
 
 
-        # Get headers and data from all Station P data lines
-
-        # Set TESTING variable in raw_data to True of False for
-        # for testing or processing web files
-        comment_header, parameter_header, data = raw_data.get_headers_and_data(url)
+        # Get comment header of the concatenated file. Originally used this
+        # in output Exchange file but now use individual header from data file
+        # of each station. 
+        comment_header, column_names, data = raw_data.get_headers_and_data(url)
 
         
-        # Insert data into a dataframe with column names from parameter_header.
-        # Only keep stations where station name starts with P
-        df = raw_data.insert_into_dataframe(parameter_header, data)
+        # Insert data into a dataframe with column names
+        # and only keep stations where station name starts with P
+        df = raw_data.insert_into_dataframe(column_names, data)
+
 
         # Get meta and data parameters with
         # mapping of line P names to WHP names
         meta_params = params.get_meta_params()
         data_params = params.get_data_params(df)
 
+
         # Rename all meta and data parameters to WHP format
         df = data_columns.rename_pline_columns(df, meta_params, data_params)
+
 
         # Insert flag columns for each data column since none exist.
         # Added flag columns to data_params
         df, data_params = data_columns.insert_flag_colums(df, data_params)
+
 
         # Reformat date column to Exchange format
         df = data_columns.reformat_date_column(df)
