@@ -1,6 +1,9 @@
 def get_meta_params():
 
-    # Mapping between pline names and WHP names for renaming columns
+    """
+    Create mapping between Line P file names and WHP names.
+    Will use later to rename columns to WHP name.
+    """
 
     # Space before HH:MM is required since space is in the line p column name
     
@@ -18,14 +21,14 @@ def get_meta_params():
 
 def get_all_data_params():
 
-    # List of all possible pline parameter names
+    """
+    Create mapping of all possible Line P parameter names to WHP names
+    for renaming columns. Also map units.
+    Put list in order want columns to appear in exchange output file.
 
-    # All choices of mapping between pline names and WHP names for renaming columns
-
-    # Put in list in order want columns to appear in exchange output file
-
-    # Some data files call CTDSAL, CTDBEAMCP, and CTDFLUOR with different names and units 
-    # so account for this when importing columns
+    Some data files call CTDSAL, CTDBEAMCP, and CTDFLUOR with different names and units 
+    so account for this when mapping columns.
+    """
 
     params =[                             
     {'whpname' : 'CTDPRS' , 'longname':'Pressure:CTD [dbar]', 'units' : 'DBAR'},
@@ -47,8 +50,14 @@ def get_all_data_params():
 
 def get_data_params(df):
 
-    # Get only pline parameter names in dataframe so can just rename these
-    # If try to rename pline parameter name not in dataframe, will get an error
+    """
+    Get data parameter names in the file. Not all parameter (column) names exist in 
+    each file so getting a subset from the parameter mapping dictionary. 
+    Subset will be in order of those listed in the parameter mapping dictionary.
+
+    Want subset of parameter names so know which columns to rename.
+    If try to rename a parameter not in the dataframe, will get an error.
+    """
 
     column_params = []
     
@@ -65,6 +74,8 @@ def get_data_params(df):
 
 
 def get_data_units(data_params):
+
+    """Get mapping of WHP name and units."""
 
     data_units_dict = {}
 
