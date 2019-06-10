@@ -4,11 +4,13 @@ from pandas.api.types import is_string_dtype
 
 def rename_pline_columns(df, meta_params, data_params):
 
-    # Rename all Line P metadata and parameter data column headers
+    """
+    Rename all Line P metadata and parameter data column headers
 
-    # meta_params and data_params are mapping dicts
-    # between Line P column names (longname) and 
-    # WHP column names (whpname)
+    meta_params and data_params are mapping dicts
+    between Line P column names (longname) and 
+    WHP column names (whpname)
+    """
 
     param_dict = {}
 
@@ -23,57 +25,61 @@ def rename_pline_columns(df, meta_params, data_params):
     return df
 
 
-def insert_flag_colums_ver2(df, data_params):
+# def insert_flag_colums_ver2(df, data_params):
 
-    # Will be adding flag columns to data_params and 
-    # having order of param, param_flag.
-    # Data params have order of column names to save,
-    # so order same with interleaving flag columns
+#     # Don't insert flag column for pressure and temperature
+#     # Not using since debate over whether to have flags or not
+#     # Current exchange files use flags.
 
-    # Don't add a flag for pressure and temperature
-    new_params = []
+#     # If use this script, need to test still if correct.
 
-    # Get location of column to insert flag column after.
-    # Insert flag column with value of 2
-    for param in data_params:
+#     # Will be adding flag columns to data_params and 
+#     # having order of param, param_flag.
+#     # Data params have order of column names to save,
+#     # so order same with interleaving flag columns
 
-        param_name = param['whpname']
+#     # Don't add a flag for pressure and temperature
+#     new_params = []
 
-        param_loc = df.columns.get_loc(param_name)
-        flag_name = '{}_FLAG_W'.format(param_name)
+#     # Get location of column to insert flag column after.
+#     # Insert flag column with value of 2
+#     for param in data_params:
 
-        if param_name is 'CTDPRS' or param_name is 'CTDTMP':
-            # no flag columns for pressure and temperature
-            new_params.append(param)
+#         param_name = param['whpname']
 
-        else:
+#         param_loc = df.columns.get_loc(param_name)
+#         flag_name = '{}_FLAG_W'.format(param_name)
 
-            # Insert in next column
-            # Will move all other columns to right
-            df.insert(param_loc + 1, flag_name, 2)
+#         if param_name is 'CTDPRS' or param_name is 'CTDTMP':
+#             # no flag columns for pressure and temperature
+#             new_params.append(param)
 
-            # Insert flag param dict into data_params list.
-            # Want this so know which columns to extract for saving output and
-            # keep order of newly inserted flag column after param column
-            param_insert = {}
-            param_insert['whpname'] = flag_name
-            param_insert['longname'] = flag_name
-            param_insert['units'] = ''
+#         else:
 
-            new_params.append(param)
-            new_params.append(param_insert)
+#             # Insert in next column
+#             # Will move all other columns to right
+#             df.insert(param_loc + 1, flag_name, 2)
 
-    return df, new_params
+#             # Insert flag param dict into data_params list.
+#             # Want this so know which columns to extract for saving output and
+#             # keep order of newly inserted flag column after param column
+#             param_insert = {}
+#             param_insert['whpname'] = flag_name
+#             param_insert['longname'] = flag_name
+#             param_insert['units'] = ''
+
+#             new_params.append(param)
+#             new_params.append(param_insert)
+
+#     return df, new_params
 
 
 def insert_flag_colums(df, data_params):
 
-    # Will be adding flag columns to data_params and 
-    # having order of param, param_flag.
-    # Data params have order of column names to save,
-    # so order same with interleaving flag columns
+    """
+    Add flag columns to data_params and with order of param, param_flag.
+    """
 
-    # Don't add a flag for pressure and temperature
     new_params = []
 
     # Get location of column to insert flag column after.
@@ -104,10 +110,13 @@ def insert_flag_colums(df, data_params):
 
 
 def update_flag_for_fill_999(df, data_params):
-    # If cell has fill -999 or -999.0, change corresponding flag cell to 9
-    # Flag = 9 means not sampled
 
-    # Go column by column
+    """
+    If cell has fill -999 or -999.0, change corresponding flag cell to 9
+    Flag = 9 means not sampled
+    """
+
+    # Go column by column. If flag column, no fill value, so will skip
 
     for param in data_params:
 
@@ -126,10 +135,13 @@ def update_flag_for_fill_999(df, data_params):
 
 
 def update_flag_for_fill_999_str(df, data_params):
-    # If cell has fill -999 or -999.0, change corresponding flag cell to 9
-    # Flag = 9 means not sampled
 
-    # Go column by column
+    """
+    If cell has string fill -999 or -999.0, change corresponding flag cell to 9
+    Flag = 9 means not sampled
+    """
+
+    # Go column by column. If flag column, no fill value, so will skip
 
     for param in data_params:
 
@@ -138,8 +150,8 @@ def update_flag_for_fill_999_str(df, data_params):
         param_loc = df.columns.get_loc(param_name)
         flag_loc = param_loc + 1
 
-        "Can't compare numeric column with string value"
-        "So skip numeric columns"
+        # Can't compare numeric column with string value
+        # So skip numeric columns
 
         if is_string_dtype(df[param_name]):
             df_rows = df.loc[(df[param_name] == '-999') | (df[param_name] == '-999.0')]
@@ -152,10 +164,13 @@ def update_flag_for_fill_999_str(df, data_params):
 
 
 def update_flag_for_fill_99(df, data_params):
-    # If cell has fill -99 or -99.0, change corresponding flag cell to 5
-    # Flag = 5 means Not reported
 
-    # Go column by column
+    """
+    If cell has numeric fill -99 or -99.0, change corresponding flag cell to 5
+    Flag = 5 means Not reported
+    """
+
+    # Go column by column. If flag column, no fill value, so will skip
 
     for param in data_params:
 
@@ -174,10 +189,13 @@ def update_flag_for_fill_99(df, data_params):
 
 
 def update_flag_for_fill_99_str(df, data_params):
-    # If cell has fill '-99' or '-99.0', change corresponding flag cell to 5
-    # Flag = 5 means Not reported
 
-    # Go column by column
+    """
+    If cell has string fill '-99' or '-99.0', change corresponding flag cell to 5
+    Flag = 5 means Not reported
+    """
+
+    # Go column by column. If flag column, no fill value, so will skip
 
     for param in data_params:
 
@@ -186,8 +204,8 @@ def update_flag_for_fill_99_str(df, data_params):
         param_loc = df.columns.get_loc(param_name)
         flag_loc = param_loc + 1
 
-        "Can't compare numeric column with string value"
-        "So skip numeric columns"
+        # Can't compare numeric column with string value
+        # So skip numeric columns
 
         if is_string_dtype(df[param_name]):
 
@@ -202,8 +220,16 @@ def update_flag_for_fill_99_str(df, data_params):
 
 def reformat_date_column(df):
 
-    # Files can have two different date formats
-    # dd-mm-yy or dd/mm/yyyyy
+    """
+    Convert to exchange format yyyymmdd
+
+    Files can have two different date formats
+    dd-mm-yy or dd/mm/yyyyy
+
+    In future, date format may be YYYY/MM/DD or YYYYMMDD
+    In that case, need to create regexp for that and convert
+
+    """
 
     # check if date format of type 
     dash_pattern = r'(\d\d)-(\d\d)-(\d\d)'
@@ -214,10 +240,7 @@ def reformat_date_column(df):
     slash_regexp = re.compile(slash_pattern)
     slash_match = slash_regexp.search(df['DATE'][0])
 
-    # In future, date format may be YYYY/MM/DD
 
-
-    #if '-' in df['DATE'][0]:
     if dash_match:
 
         # 1) Reformat DATE column from dd-mm-yy to yyyymmdd
@@ -235,7 +258,6 @@ def reformat_date_column(df):
         else:
             repl = r'19\3\2\1'
 
-    #elif '/' in df['DATE'][0]:
     elif slash_match:
 
         # 2) Reformat DATE column from dd/mm/yyyy to yyyymmdd
@@ -243,7 +265,8 @@ def reformat_date_column(df):
         repl = r'\3\2\1'
 
     else:
-        print('Date pattern of dd-mm-yy or dd/mm/yyyy not found. Check if in exchange format or not.')
+        print('Date pattern of dd-mm-yy or dd/mm/yyyy not found.') 
+        print('Check if in exchange format (yyyymmdd) or not.')
         print('If not in exchange format, create a new regexp to fix date format.')
 
     df['DATE'] = df['DATE'].str.replace(pattern, repl)
@@ -253,10 +276,12 @@ def reformat_date_column(df):
 
 def reformat_time_column(df):
 
-    # Reformat HH:MM to HHMM
-    if ':' in df['TIME'][0]:
+    """
+    # Reformat time column from HH:MM to HHMM
+    """
 
-        HH = df['TIME'][0][-2:]
+    # Only need to use first time value since all the same
+    if ':' in df['TIME'][0]:
 
         pattern = r'(\d\d):(\d\d)'
 
@@ -269,7 +294,9 @@ def reformat_time_column(df):
 
 def insert_expocode_column(df, expocode):
 
-    # Create EXPOCODE column
+    """
+    Create EXPOCODE column
+    """
 
     # Insert before STATION column
     STATION_LOC = df.columns.get_loc('STATION')
@@ -281,12 +308,14 @@ def insert_expocode_column(df, expocode):
 
 def populate_castno_one_station(df, station):
 
-    # Incoming df has been sorted on station and event number
+    """
+    Incoming df has been sorted on station and event number
 
-    # Want to get station subset and find all the unique event numbers
-    # used for that station. Then take these sorted event numbers and 
-    # map it to an increasing castno that starts at 1.
-    # Once have mapping of event numbers to castno, fill rows of castno column
+    Want to get station subset and find all the unique event numbers
+    used for that station. Then take these sorted event numbers and 
+    map it to an increasing castno that starts at 1.
+    Once have mapping of event numbers to castno, fill rows of castno column
+    """
 
     # Get dataframe subset for station
     df_subset = df.loc[df['STATION'] == station].copy()
@@ -317,14 +346,16 @@ def populate_castno_one_station(df, station):
 
 def insert_castno_column(df):
 
+    """
+    Creating castno from sorted list of unique event numbers
+    for each station.  Mapping increasing event number to 
+    increasing castno where castno starts at one and has increment of 1  
+    """  
+
     # Create CASTNO column and fill with dummy value
     # Insert after STATION column    
     STATION_LOC = df.columns.get_loc('STATION')
     df.insert(STATION_LOC + 1, 'CASTNO', 0)
-
-    # Creating castno from sorted list of unique event numbers
-    # for each station.  Mapping increasing event number to 
-    # increasing castno where castno starts at one and has increment of 1
 
     # Will be filling the CASTNO column station by station.
 
@@ -376,15 +407,23 @@ def insert_castno_column(df):
 
 def insert_station_castno_column(df):
 
-    # Create STATION_CASTNO column which is a combo of station and castno to 
-    # make it easy to sort and group on this value for each station to save
-    # each to a file
+    """
+    Create STATION_CASTNO column which is a combo of station and castno to 
+    make it easy to sort and group on this value for each station to save
+    each to a file
+    """
+
     df['STATION_CASTNO'] = df['STATION'].apply(str) + '_' + df['CASTNO'].apply(str)
 
     return df
 
 
 def get_data_columns(df, data_params):
+
+    """
+    Get subset of columns that are in listed in data_params.
+    Use whpname for columns
+    """
 
     # Get list of columns from params
     col_list = []
@@ -393,7 +432,7 @@ def get_data_columns(df, data_params):
 
         col_list.append(param['whpname'])
 
-    # Get params set of columns from df
+    # Get params set of columns from df (subset of columns)
     df = df[col_list].copy()
 
     return df
@@ -401,7 +440,10 @@ def get_data_columns(df, data_params):
 
 def get_unique_station_castno_sets(df):
 
-    # Get unique values of STATION_CASTNO column
+    """
+    Get unique values of STATION_CASTNO column
+    """
+
     station_castno_df = df['STATION_CASTNO'].copy()
     unique_station_castno_df = station_castno_df.drop_duplicates()
     unique_station_castno_df.reset_index(drop=True,inplace=True)
@@ -411,10 +453,12 @@ def get_unique_station_castno_sets(df):
 
 def get_station_castno_df_sets(df, unique_station_castno_df):
 
-    # From list of unique station_castno combinations, get that
-    # subset and append a list containing all these subsets.
-    # Breaks up station dataframe into subsets of unique station/castno
-    # that will be saved to its own file
+    """
+    From list of unique station_castno combinations, get that
+    subset and append a list containing all these subsets.
+    Breaks up station dataframe into subsets of unique station/castno
+    that will be saved to its own file
+    """
 
     station_df_sets = []
 
