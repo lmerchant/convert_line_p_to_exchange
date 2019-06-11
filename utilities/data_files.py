@@ -109,25 +109,6 @@ def write_dataframe_to_csv(data_columns_df, ctd_filename, start_line, end_line, 
         f.write("{}\n".format(end_line))
 
 
-def replace_fill_values_in_df(data_columns_df):
-
-    """
-    Replace any -99, -99.0, -999.0 values with exchange fill of -999
-    """
-
-    # Convert data columns to string
-    data_columns_df = data_columns_df.astype('str')
-
-
-    # replace -999.0 with -999 which is exchange fill value (has to be integer)
-    # replace -99.0 and -99 with -999
-    data_columns_df.replace('-999.0', '-999', inplace=True)
-    data_columns_df.replace('-99.0', '-999', inplace=True)
-    data_columns_df.replace('-99', '-999', inplace=True)
-
-    return data_columns_df
-
-
 def get_individual_raw_file_header(url):
 
     """
@@ -367,7 +348,7 @@ def write_data_to_file(station_castno_df_sets, comment_header, meta_params, data
         #data_columns_df = reformat_columns(data_columns_df)
 
         # Replace all fills to be -999 
-        data_columns_df = replace_fill_values_in_df(data_columns_df)
+        data_columns_df = data_columns.replace_fill_values_in_df(data_columns_df)
 
 
         # Finally, write dataframe to file

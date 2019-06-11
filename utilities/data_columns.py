@@ -218,6 +218,25 @@ def update_flag_for_fill_99_str(df, data_params):
                 df.loc[df[param_name] == '-99.0', flag_name] = 5
 
 
+def replace_fill_values_in_df(data_columns_df):
+
+    """
+    Replace any -99, -99.0, -999.0 values with exchange fill of -999
+    """
+
+    # Convert data columns to string
+    data_columns_df = data_columns_df.astype('str')
+
+
+    # replace -999.0 with -999 which is exchange fill value (has to be integer)
+    # replace -99.0 and -99 with -999
+    data_columns_df.replace('-999.0', '-999', inplace=True)
+    data_columns_df.replace('-99.0', '-999', inplace=True)
+    data_columns_df.replace('-99', '-999', inplace=True)
+
+    return data_columns_df                
+
+
 def reformat_date_column(df):
 
     """
