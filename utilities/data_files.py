@@ -10,169 +10,21 @@ import utilities.process_raw_data as process_raw_data
 from config_create_line_p import Config
 
 
-def create_start_end_lines():
-
-    # Create starting and ending lines for exchange format
-
-    now = datetime.datetime.now()
-
-    year = now.strftime('%Y')
-    month = now.strftime('%m')
-    day = now.strftime('%d')
-
-    start_line = "CTD,{}{}{}CCHSIOLM".format(year,month,day)
-
-    end_line = 'END_DATA'
-
-    return start_line, end_line
-
-
-def get_ctd_filename(directory, data_set):
-
-    # Create filename to store data to
-
-    # From first row, get expocode, stnbr, and castno
-    # needed to create filename
-    first_row = data_set.iloc[0]
-
-    expocode = first_row['EXPOCODE']
-    stnbr = first_row['STATION']
-    castno = first_row['CASTNO']
-
-    str_stnbr = str(stnbr)
-    str_castno = str(castno)
-
-    # if stnbr has a slash in name, replace with a dash because
-    # can't use / as part of filename.
-    # e.g. is P1/B8 in 2015-09
-    if '/' in str_stnbr:
-        str_stnbr = str_stnbr.replace('/', '-')
-
-    # Remove - in filename from stations like PA-001 so have 5 characters.
-    if '-' in str_stnbr:
-        str_stnbr = str_stnbr.replace('-', '')
- 
-    # pad stnbr and castno so have 5 characters. Prepend with 0
-    str_stnbr = str_stnbr.zfill(5)
-    str_castno = str_castno.zfill(5)
-
-    ctd_file = expocode + '_' + str_stnbr + '_' + str_castno + '_ct1.csv'
-
-    ctd_filename = directory + ctd_file
-
-    return ctd_filename
-
-
-def get_line_p_cruise_id(expocode, cruise_list):
-
-    # Find tuple for expocode
-    found_cruise = [cruise for cruise in cruise_list if cruise[2] == expocode]
-
-    line_p_year = found_cruise[0][0]
-    line_p_id = found_cruise[0][1]
-
-    return line_p_year, line_p_id
-
-
-def get_individual_raw_file(expocode, data_set):
-
-    # Get rows with unique event numbers
-    df_unique_events = data_set['EVENT'].unique()
-    unique_events = df_unique_events.tolist()
-
-
-    cruise_list = process_raw_data.get_cruise_list()
-
-
-    line_p_year, line_p_id = get_line_p_cruise_id(expocode, cruise_list)
-
-    for event in unique_events:
-        # Pad event number with leading 0
-        event = str(event).zfill(4)
-
-        filename = line_p_year + '-' + line_p_id + '-' + event + '.ctd'
-
-        url = 'https://www.waterproperties.ca/linep/' + line_p_year + '-' + line_p_id + '/donneesctddata/' + filename
-
-        return url
-
-
-def get_individual_raw_file_header(url):
-
-    txt = urlopen(url).read()
-    decode_txt = txt.decode('windows-1252')
-    file_text = decode_txt.split('\r\n')
-
-
-    # Get lines up to line *END OF HEADER
-    comment_header = []
-
-    count = 0
-    for line in file_text:
-
-        if '*END OF HEADER' not in line:    
-            # then line is a comment header
-            # prepend a # sign
-            line_comment = '#' + line
-            comment_header.append(line_comment)
-            count = count+1
-        else:
-            # Get one more line
-            # Get For details on the processing line
-            line_comment = '#' + line
-            comment_header.append(line_comment)         
-            break
-
-    return comment_header
-
-
-def choose_raw_file_header(url, comment_header, ctd_filename):
-
-    try:
-        raw_individual_comment_header = get_individual_raw_file_header(url)
-    
-    except:
-    
-        if url == 'https://www.waterproperties.ca/linep/2009-09/donneesctddata/2009-09-0014.ctd':
-            # Error in concatenated file using event 14 for P4 when web page
-            # table says it should be event 15. So fixed for this special case
-            # https://www.waterproperties.ca/linep/2009-09/index.php
-            url = 'https://www.waterproperties.ca/linep/2009-09/donneesctddata/2009-09-0015.ctd'
-
-            raw_individual_comment_header = get_individual_raw_file_header(url)
-
-        elif url == 'https://www.waterproperties.ca/linep/2009-09/donneesctddata/2009-09-0051.ctd':
-            # Error in concatenated file using event 51 for P19 when web page
-            # table says it should be event 52. So fixed for this special case
-            # https://www.waterproperties.ca/linep/2009-09/index.php
-            url = 'https://www.waterproperties.ca/linep/2009-09/donneesctddata/2009-09-0052.ctd'
-
-            raw_individual_comment_header = get_individual_raw_file_header(url)
-        
-        else:
-            # Can't open raw individual comment header so use concatenated files header instead
-            raw_individual_comment_header = comment_header
-            print("Can't find individual CTD file so using concatenated for file: " + ctd_filename)
-
-    return raw_individual_comment_header
-
 
 def reformat_columns(df):
 
-    df = df.round(4)
-
-    # or 
-    # https://stackoverflow.com/questions/42735541/customized-float-formatting-in-a-pandas-dataframe
-    #df = df.applymap(lambda x: (int(x)) if abs(x - int(x)) < 1e-6 else (round(x,4)))
-
-    #df.applymap(lambda x: str(int(x)) if abs(x - int(x)) < 1e-6 else str(round(x,4)))    
+    df = df.round(4)  
 
     return df
 
 
 def reformat_csv(ctd_filename, column_headers):
 
-    # Want data output in format (10 space columns) except for flags
+    """
+    Format data output to be 10 space columns except for flags which are 1 space
+    """
+    
+    # Sample output would be
     #          1,2,    0.4121,2,   33.6184,2,    320.82,1,     0.326,1,     97.69,1,      1.18,1
 
     column_headers_str = column_headers[0]
@@ -205,28 +57,15 @@ def reformat_csv(ctd_filename, column_headers):
             f.write(row)       
 
 
-def replace_fill_values_in_df(data_columns_df):
-
-    # Convert data columns to string 
-    data_columns_df = data_columns_df.astype('str')
-
-
-    # replace -999.0 with -999 which is exchange fill value (has to be integer)
-    # replace -99.0 and -99 with -999
-    # replace -99 with -999 
-    data_columns_df.replace('-999.0', '-999', inplace=True)
-    data_columns_df.replace('-99.0', '-999', inplace=True)
-    data_columns_df.replace('-99', '-999', inplace=True)
-
-    return data_columns_df
-
-
 def write_dataframe_to_csv(data_columns_df, ctd_filename, start_line, end_line, raw_individual_comment_header, metadata_header, column_headers):
 
+    """
+    Write dataframe to csv file with data formatted
+    """
 
-    # Write dataframe to csv file so data formatted properly by pandas.
     # Don't write index column to file. 
     # Will add header below.
+
     data_columns_df.to_csv(ctd_filename, sep=',', index=False, header=False, encoding='utf-8')
 
     # reformat columns to have equal spacing for params and 1 space for flags
@@ -270,9 +109,202 @@ def write_dataframe_to_csv(data_columns_df, ctd_filename, start_line, end_line, 
         f.write("{}\n".format(end_line))
 
 
+def replace_fill_values_in_df(data_columns_df):
+
+    """
+    Replace any -99, -99.0, -999.0 values with exchange fill of -999
+    """
+
+    # Convert data columns to string
+    data_columns_df = data_columns_df.astype('str')
+
+
+    # replace -999.0 with -999 which is exchange fill value (has to be integer)
+    # replace -99.0 and -99 with -999
+    data_columns_df.replace('-999.0', '-999', inplace=True)
+    data_columns_df.replace('-99.0', '-999', inplace=True)
+    data_columns_df.replace('-99', '-999', inplace=True)
+
+    return data_columns_df
+
+
+def get_individual_raw_file_header(url):
+
+    """
+    Get header from raw individual file
+    """
+
+    txt = urlopen(url).read()
+    decode_txt = txt.decode('windows-1252')
+    file_text = decode_txt.split('\r\n')
+
+
+    # Get lines up to line *END OF HEADER
+    comment_header = []
+
+    count = 0
+    for line in file_text:
+
+        if '*END OF HEADER' not in line:    
+            # then line is a comment header
+            # prepend a # sign
+            line_comment = '#' + line
+            comment_header.append(line_comment)
+            count = count + 1
+        else:
+            # Get one more line (The END OF HEADER line)
+            line_comment = '#' + line
+            comment_header.append(line_comment)         
+            break
+
+    return comment_header
+
+
+def choose_raw_file_header(url, comment_header, ctd_filename):
+
+    """
+    From url, extract comment header from raw individual file, but if
+    it doesn't exist, use comment_header from concatenated file
+    """
+
+    # Some raw individual files exist but not at url concatenated file said it 
+    # would be. In that case, use value listed in cruise web page table.
+
+    try:
+        raw_individual_comment_header = get_individual_raw_file_header(url)
+    
+    except:
+    
+        if url == 'https://www.waterproperties.ca/linep/2009-09/donneesctddata/2009-09-0014.ctd':
+            # Error in concatenated file using event 14 for P4 when web page
+            # table says it should be event 15. So fixed for this special case
+            # https://www.waterproperties.ca/linep/2009-09/index.php
+            url = 'https://www.waterproperties.ca/linep/2009-09/donneesctddata/2009-09-0015.ctd'
+
+            raw_individual_comment_header = get_individual_raw_file_header(url)
+
+        elif url == 'https://www.waterproperties.ca/linep/2009-09/donneesctddata/2009-09-0051.ctd':
+            # Error in concatenated file using event 51 for P19 when web page
+            # table says it should be event 52. So fixed for this special case
+            # https://www.waterproperties.ca/linep/2009-09/index.php
+            url = 'https://www.waterproperties.ca/linep/2009-09/donneesctddata/2009-09-0052.ctd'
+
+            raw_individual_comment_header = get_individual_raw_file_header(url)
+        
+        else:
+            # Can't open raw individual comment header so use concatenated files header instead
+            raw_individual_comment_header = comment_header
+            print("Can't find individual CTD file so using concatenated for file: " + ctd_filename)
+
+    return raw_individual_comment_header
+
+
+def get_line_p_cruise_id(expocode, cruise_list):
+
+    """
+    Get cruise year and id given an expocode
+    """
+
+    # Find tuple for expocode
+
+    found_cruise = [cruise for cruise in cruise_list if cruise[2] == expocode]
+
+    line_p_year = found_cruise[0][0]
+    line_p_id = found_cruise[0][1]
+
+    return line_p_year, line_p_id
+
+
+def get_individual_raw_file(expocode, data_set):
+
+    """
+    Get url of individual raw file
+    """
+
+    # Get rows with unique event numbers
+    df_unique_events = data_set['EVENT'].unique()
+    unique_events = df_unique_events.tolist()
+
+    # Get cruise list mapping of cruise ids to expocodes
+    cruise_list = process_raw_data.get_cruise_list()
+
+    line_p_year, line_p_id = get_line_p_cruise_id(expocode, cruise_list)
+
+
+    for event in unique_events:
+
+        # Pad event number with leading 0
+        event = str(event).zfill(4)
+
+        filename = line_p_year + '-' + line_p_id + '-' + event + '.ctd'
+
+        url = 'https://www.waterproperties.ca/linep/' + line_p_year + '-' + line_p_id + '/donneesctddata/' + filename
+
+        return url
+
+
+def get_ctd_filename(directory, data_set):
+
+    """
+    Create filename to store data to
+    """
+
+    # From first row, get expocode, stnbr, and castno
+    # needed to create filename
+    first_row = data_set.iloc[0]
+
+    expocode = first_row['EXPOCODE']
+    stnbr = first_row['STATION']
+    castno = first_row['CASTNO']
+
+    str_stnbr = str(stnbr)
+    str_castno = str(castno)
+
+    # if stnbr has a slash in name, replace with a dash because
+    # can't use / as part of filename.
+    # e.g. is P1/B8 in 2015-09
+    if '/' in str_stnbr:
+        str_stnbr = str_stnbr.replace('/', '-')
+
+    # Remove - in filename from stations like PA-001 so have 5 characters.
+    if '-' in str_stnbr:
+        str_stnbr = str_stnbr.replace('-', '')
+ 
+    # pad stnbr and castno so have 5 characters. Prepend with 0
+    str_stnbr = str_stnbr.zfill(5)
+    str_castno = str_castno.zfill(5)
+
+    ctd_file = expocode + '_' + str_stnbr + '_' + str_castno + '_ct1.csv'
+
+    ctd_filename = directory + ctd_file
+
+    return ctd_filename
+
+
+def create_start_end_lines():
+
+    """
+    Create starting and ending lines for exchange format
+    """
+
+    now = datetime.datetime.now()
+
+    year = now.strftime('%Y')
+    month = now.strftime('%m')
+    day = now.strftime('%d')
+
+    start_line = "CTD,{}{}{}CCHSIOLM".format(year,month,day)
+
+    end_line = 'END_DATA'
+
+    return start_line, end_line
+
+
 def write_data_to_file(station_castno_df_sets, comment_header, meta_params, data_params):
 
-    # Write data sets to files
+    """
+    Write data sets to files
+    """
 
     # Get expocode to make directory for files
     first_row = station_castno_df_sets[0].iloc[0]
@@ -286,7 +318,6 @@ def write_data_to_file(station_castno_df_sets, comment_header, meta_params, data
 
 
     # Get file start and end lines
-    #start_line, end_line = create_start_end_lines(station_castno_df_sets[0])
     start_line, end_line = create_start_end_lines()
 
     # Create column and data units lines
@@ -306,6 +337,8 @@ def write_data_to_file(station_castno_df_sets, comment_header, meta_params, data
         # Get filename of individal raw file to get header
         url = get_individual_raw_file(expocode, data_set)
 
+        # If raw file found, use that header, else use comment_header from 
+        # concatenated file
         raw_individual_comment_header = choose_raw_file_header(url, comment_header, ctd_filename)        
 
         # Get data columns
@@ -328,13 +361,16 @@ def write_data_to_file(station_castno_df_sets, comment_header, meta_params, data
         data_columns.update_flag_for_fill_99_str(data_columns_df, data_params) 
 
 
-        # Round the data
+        # Round the data (When had converted input file columns to numbers)
+        # But if keep columns as string, don't need to fix pandas reading in
+        # 4 decimal place numbers as more than 4 decimal places
         #data_columns_df = reformat_columns(data_columns_df)
 
-        # Replace all fills to be -999
+        # Replace all fills to be -999 
         data_columns_df = replace_fill_values_in_df(data_columns_df)
 
 
+        # Finally, write dataframe to file
         write_dataframe_to_csv(data_columns_df, ctd_filename, start_line, end_line, raw_individual_comment_header, metadata_header, column_headers)
       
 
