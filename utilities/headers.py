@@ -3,8 +3,10 @@ import utilities.parameters as params
 
 def create_column_headers(data_params):
 
-    # column headers are two lines
-    # Column names in one line followed by corresponding units in next line
+    """
+    Create column headers which are two lines
+    Column names in one line followed by corresponding units in next line
+    """
 
     column_headers = []
 
@@ -30,24 +32,17 @@ def create_column_headers(data_params):
 
 def create_metadata_header(data_set):
 
+    """
+    Create metadata header using values in first row of dataframe
+    """
+
     metadata_header = []
 
     # Since metadata same in all rows, pick first row to get values from
     first_row = data_set.iloc[0]
 
 
-    # round latitude and longitude because float of 5 decimal places
-    # is leading to too many decimal places
-    # When pandas rounds, it rounds to max number of decimal
-    # places in the column. So 125.458 stays as is and no
-    # 0 padding is added at the end
-
-    # Don't round lat and long since are strings now
-    #latitude = first_row['LATITUDE'].round(5)
-    #longitude = first_row['LONGITUDE'].round(5)
-
     # CASTNO is an integer so cast to string
-
 
     metadata_header.append('EXPOCODE = ' + first_row['EXPOCODE'])
     metadata_header.append('STNBR = ' + first_row['STATION'])
