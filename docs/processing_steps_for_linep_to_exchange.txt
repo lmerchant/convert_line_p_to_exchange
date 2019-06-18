@@ -251,7 +251,7 @@ STNBR is P1/B8
 
 
 
-13) Included header lines from original file as comments in exchange ctd files
+13) Include header lines from individual file as comments in exchange ctd files
 
 
 14) 18DD20090127_2009-03-ctd-cruise.csv
@@ -275,14 +275,14 @@ For P19, concatenated file says event 51 but table on website says should be eve
 For P4, concatenated file says event 14 but table on website says should be event 15
 
 
-17) Round the data to at most 4 decimal places
+17) Import pressure as a float to sort on.
 
 
-18) What if file name has PA-006. More than 5 characters long to use in output
-ctd filename.
+18) If file name has PA-006. More than 5 characters long to use in output
+ctd filename.  So take out the hyphen in the name.
 
 
-19)  Columns wrong for 18DD20090127 which is 2009-03
+19)  Columns wrong for 18DD20090127 which is cruise 2009-03
 
 all have station number where should be pressure
 
@@ -299,6 +299,11 @@ Example line from 2009-03 concatenated cruise file
 2009-03-0001.ctd,UTC,28/01/2009, 23:04,1,48.59117,-123.50066,SIO3,SIO3,2.3,6.9224,28.2974,22.1793,33.5,5.54,241.9,2.123,84.5
 
 
+So import into Excel, remove extra column and make sure headers are for correct columns.
+
+Place in test folder to call program using that file.
+
+Should I replace file on CCHDO with corrected file of removing extra columns?
 
 
 
