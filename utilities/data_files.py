@@ -27,6 +27,7 @@ def reformat_csv(ctd_filename, column_headers):
     # Sample output would be
     #          1,2,    0.4121,2,   33.6184,2,    320.82,1,     0.326,1,     97.69,1,      1.18,1
 
+    # Get column names
     column_headers_str = column_headers[0]
     columns = column_headers_str.split(',')
 
@@ -49,6 +50,7 @@ def reformat_csv(ctd_filename, column_headers):
                     new_row = new_row + ',' + new_column
 
             
+            # skip first blank string and comma and add line return
             new_row = new_row[1:] + '\n'
             new_rows.append(new_row)
 
@@ -281,10 +283,10 @@ def create_start_end_lines():
     return start_line, end_line
 
 
-def write_data_to_file(station_castno_df_sets, comment_header, meta_params, data_params):
+def write_data_to_file(station_castno_df_sets, comment_header, data_params):
 
     """
-    Write data sets to files
+    Write data sets to files. 
     """
 
     # Get expocode to make directory for files
@@ -301,7 +303,7 @@ def write_data_to_file(station_castno_df_sets, comment_header, meta_params, data
     # Get file start and end lines
     start_line, end_line = create_start_end_lines()
 
-    # Create column and data units lines
+    # Create column names and data units lines
     column_headers = headers.create_column_headers(data_params)
 
     # Loop over row sets (STATION and CASTNO) and save each to a file      
@@ -311,23 +313,25 @@ def write_data_to_file(station_castno_df_sets, comment_header, meta_params, data
         ctd_filename = get_ctd_filename(directory, data_set)
 
 
-        # Create metadata headers using info from data_set
+        # Create metadata headers using info from data_set.
         metadata_header = headers.create_metadata_header(data_set)  
 
 
-        # Get filename of individal raw file to get header
+        # Get url of individal raw file to get header
         url = get_individual_raw_file(expocode, data_set)
 
         # If raw file found, use that header, else use comment_header from 
         # concatenated file
         raw_individual_comment_header = choose_raw_file_header(url, comment_header, ctd_filename)        
 
-        # Get data columns
+        # Get data columns from dataframe
         data_columns_df = data_columns.get_data_columns(data_set, data_params)
 
 
         # Change flag from 2 to 9 if value in column to left of flag column is -999 or -999.0
-        # Flag = 9 represents data not sampled
+        # Flag = 9 represents data not sampled.
+        # Used this before when had converted all columns to numeric values.
+        # Only numeric column left to search for fill would be pressure column.
         data_columns.update_flag_for_fill_999(data_columns_df, data_params)
 
         # For string columns
@@ -335,7 +339,9 @@ def write_data_to_file(station_castno_df_sets, comment_header, meta_params, data
 
 
         # Change flag from 2 to 5 if value in column to left of flag column is -99 or -99.0
-        # Flag = 5 represents data not reported
+        # Flag = 5 represents data not reported.
+        # Used this before when had converted all columns to numeric values.
+        # Only numeric column left to search for fill would be pressure column.        
         data_columns.update_flag_for_fill_99(data_columns_df, data_params)  
 
         # For string columns

@@ -99,11 +99,11 @@ def get_raw_csv(url):
         except:
             print("Testing folder will be created")
 
-        # Create test files in windows-1252 with windows line endings
+        # Create test files in windows-1252 encoding with windows line endings
         
-        test_filename = "./test/data/data_to_test_castno.csv"
+        #test_filename = "./test/data/data_to_test_castno.csv"
         #test_filename = "./test/data/data_to_test_castno_one_pline.csv"
-        #test_filename = "./test/data/data_to_test_fill_999.csv"
+        test_filename = "./test/data/data_to_test_fill_999.csv"
         #test_filename = "./test/data/data_to_test_fill_999_2.csv"
         #test_filename = "./test/data/data_to_test_fill_999_3.csv"
         #test_filename = "./test/data/data_to_test_date_format_w_dash.csv"
@@ -116,7 +116,6 @@ def get_raw_csv(url):
         #test_filename = "./test/data/data_to_test_flag_values.csv"
         #test_filename = "./test/data/data_to_test_formatting.csv"
         
-        #test_filename = "./test/data/18DD20170205_2017-01-ctd-cruise.csv"
         #test_filename = "./test/data/18DD20090127_2009-03-ctd-cruise.csv"
 
         with open(test_filename, 'r', encoding='windows-1252') as f:
@@ -127,10 +126,9 @@ def get_raw_csv(url):
     elif url == 'https://www.waterproperties.ca/linep/2009-03/donneesctddata/2009-03-ctd-cruise.csv':
 
         # Open 2009-03 cruise file in testing folder where file has been corrected
-        # to delete the duplicate station column and shifting the column
-        # headers to the left. The original cruise file is then saved
-        # with the name 18DD20090127_2009-03-ctd-cruise.csv into the 
-        # testing folder 
+        # to delete the duplicate station column.
+        # The original cruise file is then saved with the name
+        # 18DD20090127_2009-03-ctd-cruise.csv into the testing folder.
 
         filename = "./test/data/18DD20090127_2009-03-ctd-cruise.csv"
 
@@ -185,6 +183,8 @@ def get_headers_and_data(url):
             break
 
     # Get column names above comma separation line
+    # count is start of data line so go up two lines for
+    # column names
     column_names = raw_csv[count-2].split(',')
 
     # clean_csv contains all the data lines
@@ -216,11 +216,12 @@ def insert_into_dataframe(column_names, data):
 
     # drop any rows with NaN values in Pressure:CTD column
     # Do this because want to drop last row in file that is empty.
+    # subset is those columns to inspect for NaNs.
     df.dropna(subset=['Pressure:CTD [dbar]'], inplace=True)
 
     # Get Line P Stations only.  These are Stations starting with P
     # Find rows starting with P in the LOC:STATION column
-    # This will also exclude all blank rows
+    # This will also exclude all blank rows separating events
     df = df[df['LOC:STATION'].str.startswith('P')]
 
     # Convert event column and pressure to numeric to sort on.
@@ -235,15 +236,10 @@ def insert_into_dataframe(column_names, data):
     # df = df.apply(pd.to_numeric, errors='ignore')
 
 
-    # If fill with -999 in a float column, it becomes -999.0  
-    # Any -99 fill numbers in float columns are converted to -99.0 
-    # Later when the program is saved as a csv exchange file, 
-    # any -999.0, -99.0, -99 fill values are set to -999 
-
-    # Replace any NaN cells with -999   
+    # Replace any NaN cells with -999 (exchange fill value)  
     df.fillna(-999, inplace=True)
 
-    # Replace any empty cells with '-999'
+    # Replace any empty cells with '-999' (exchange fill value)
     df = df.replace(r'^\s*$', '-999', regex=True)
 
 

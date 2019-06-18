@@ -77,7 +77,7 @@ def rename_pline_columns(df, meta_params, data_params):
 def insert_flag_colums(df, data_params):
 
     """
-    Add flag columns to data_params and with order of param, param_flag.
+    Add flag columns to data_params with order of param, param_flag.
     """
 
     new_params = []
@@ -246,18 +246,24 @@ def reformat_date_column(df):
     dd-mm-yy or dd/mm/yyyyy
 
     In future, date format may be YYYY/MM/DD or YYYYMMDD
-    In that case, need to create regexp for that and convert
+    In that case, create new test case and check regexp
 
     """
 
-    # check if date format of type 
+    # check if date format of type (dd-mm-yy)
     dash_pattern = r'(\d\d)-(\d\d)-(\d\d)'
     dash_regexp = re.compile(dash_pattern)    
     dash_match = dash_regexp.search(df['DATE'][0])
 
+    # check if date format of type (dd/mm/yyyy)
     slash_pattern = r'(\d\d)/(\d\d)/(\d\d\d\d)'
     slash_regexp = re.compile(slash_pattern)
     slash_match = slash_regexp.search(df['DATE'][0])
+
+    # check if date format of type (yyyy/mm/dd)
+    slash_pattern2 = r'(\d\d\d\d)/(\d\d)/(\d\d)'
+    slash_regexp = re.compile(slash_pattern2)
+    slash_match2 = slash_regexp.search(df['DATE'][0])
 
 
     if dash_match:
@@ -283,8 +289,14 @@ def reformat_date_column(df):
         pattern = r'(\d\d)/(\d\d)/(\d\d\d\d)'
         repl = r'\3\2\1'
 
+    elif slash_match2:
+
+        # 3) Reformat DATE column from yyyy/mm/dd to yyyymmdd
+        pattern = r'(\d\d\d\d)/(\d\d)/(\d\d)'
+        repl = r'\1\2\3'        
+
     else:
-        print('Date pattern of dd-mm-yy or dd/mm/yyyy not found.') 
+        print('Date pattern of dd-mm-yy, dd/mm/yyyy, or yyyy/mm/dd not found.') 
         print('Check if in exchange format (yyyymmdd) or not.')
         print('If not in exchange format, create a new regexp to fix date format.')
 

@@ -51,7 +51,7 @@ import utilities.data_files as data_files
 
 def main():
 
-    # Get cruise list which maps Line P cruise ids to expocodes
+    # Get cruise list which maps Line P file identifiers to expocodes
     cruise_list = raw_data.get_cruise_list()
 
     for cruise in cruise_list:
@@ -63,7 +63,7 @@ def main():
 
         # Get comment header of the concatenated file. Originally used this
         # in output Exchange file but now use individual header from data file
-        # of each station. 
+        # of each station. Get header in case want to use it in future.
         comment_header, column_names, data = raw_data.get_headers_and_data(url)
 
         
@@ -72,8 +72,8 @@ def main():
         df = raw_data.insert_into_dataframe(column_names, data)
 
 
-        # Get meta and data parameters with
-        # mapping of line P names to WHP names
+        # Get meta and data parameters mapping
+        # of raw data column name to WHP name
         meta_params = params.get_meta_params()
         data_params = params.get_data_params(df)
 
@@ -83,7 +83,9 @@ def main():
 
 
         # Insert flag columns for each data column since none exist.
-        # Added flag columns to data_params
+        # For now, all flags = 2. Will modify flag later according to
+        # fill value of -99 or -999.
+        # Also add flag columns to data_params
         df, data_params = data_columns.insert_flag_colums(df, data_params)
 
 
@@ -112,14 +114,18 @@ def main():
         # Get unique station_castno sets so can have list of station_castno data sets to save
         unique_station_castno_sets = data_columns.get_unique_station_castno_sets(df)
 
-        # Get data sets from dataframe for unique station and castno
+        # Get dataframe sets for unique station and castno.
         # Breaks up station dataframe into subsets of unique station/castno
         # that will be saved to its own file
         station_castno_df_sets = data_columns.get_station_castno_df_sets(df, unique_station_castno_sets)
 
 
-        # loop through sets and write each set to files in a folder
-        data_files.write_data_to_file(station_castno_df_sets, comment_header, meta_params, data_params)
+        # Loop through sets and write each set to files in a folder given in config file.
+        # Will write data, metadata and use column names (data_params)
+        # The comment header is for the concatenated file and if exists a 
+        # comment header for an individual file for an event number, will write
+        # that header to the file instead.
+        data_files.write_data_to_file(station_castno_df_sets, comment_header, data_params)
 
         print("Completed " + expocode)
 
