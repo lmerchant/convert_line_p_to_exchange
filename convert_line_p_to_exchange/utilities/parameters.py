@@ -1,3 +1,6 @@
+from collections import OrderedDict
+
+
 def get_meta_params():
 
     """
@@ -76,10 +79,12 @@ def get_data_params(df):
 def get_data_units(data_params):
 
     """Get mapping of WHP name and units to create units line in output file"""
-
-    data_units_dict = {}
+    # For python 3.6 and up, get ordered dict returned. But for 3.5 and below, use OrderedDict
+    #data_units_dict = {}
+    data_units_dict = OrderedDict()
 
     for param in data_params:
         data_units_dict[param['whpname']] = param['units']
+
 
     return data_units_dict        
