@@ -11,6 +11,7 @@ setup(
     author='Lynne Merchant',
     author_email='lmerchant@ucsd.edu',
     url='https://github.com/lmerchant/convert_line_p_to_exchange',
+    python_requires='>3.5.0',
     keywords='Exchange Format',
     packages=find_packages(),
     classifiers=[
