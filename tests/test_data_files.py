@@ -92,12 +92,12 @@ def test_get_individual_raw_file(monkeypatch):
     def mock_get_cruise_list():
         return [('<line_p_year>', '<line_p_id>', '<expocode>')]
 
-    monkeypatch.setattr(utilities.process_raw_data, 'get_cruise_list', mock_get_cruise_list)
+    monkeypatch.setattr(convert_line_p_to_exchange.utilities.process_raw_data, 'get_cruise_list', mock_get_cruise_list)
 
     def mock_get_ids(expocode, cruise_list):
         return '<line_p_year>', '<line_p_id>'
 
-    monkeypatch.setattr(utilities.data_files,'get_line_p_cruise_id', mock_get_ids)
+    monkeypatch.setattr(convert_line_p_to_exchange.utilities.data_files,'get_line_p_cruise_id', mock_get_ids)
 
     expected_url = 'https://www.waterproperties.ca/linep/<line_p_year>-<line_p_id>/donneesctddata/<line_p_year>-<line_p_id>-0018.ctd'
 
@@ -144,7 +144,7 @@ def test_get_individual_raw_file_header(monkeypatch):
     def mock_get_file_text(url):
         return testing_header
 
-    monkeypatch.setattr(utilities.data_files, 'get_file_text', mock_get_file_text)
+    monkeypatch.setattr(convert_line_p_to_exchange.utilities.data_files, 'get_file_text', mock_get_file_text)
 
     url = 'https://...'
 
@@ -164,7 +164,7 @@ def test_choose_raw_file_header(monkeypatch, EXCEPTION_FLAG):
         else:
             return ['# Comment Header Line 1', '# Comment Header Line 2']
 
-    monkeypatch.setattr(utilities.data_files, 'get_individual_raw_file_header', mock_get_file_header)
+    monkeypatch.setattr(convert_line_p_to_exchange.utilities.data_files, 'get_individual_raw_file_header', mock_get_file_header)
 
     # url either of individual file by event number, a corrected individ file, or no individ file found
     url1 = "https://individual_file"

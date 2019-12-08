@@ -7,7 +7,7 @@ import numpy as np
 from convert_line_p_to_exchange.utilities.process_raw_data import *
 import convert_line_p_to_exchange.utilities
 
-from config import Config
+from convert_line_p_to_exchange.config import Config
 
 
 SKIP_URL_DOWNLOAD = True
@@ -57,7 +57,7 @@ def test_get_headers_and_data(data_with_one_row, comment_column_names_data_from_
     def mock_get_raw_csv(url):
         return data_with_one_row
 
-    monkeypatch.setattr(utilities.process_raw_data, 'get_raw_csv', mock_get_raw_csv)
+    monkeypatch.setattr(convert_line_p_to_exchange.utilities.process_raw_data, 'get_raw_csv', mock_get_raw_csv)
 
     url = 'http://...'
 
