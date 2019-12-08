@@ -4,8 +4,8 @@ import pandas as pd
 from pandas.util.testing import assert_frame_equal
 import numpy as np
 
-from convert_line_p_data_to_exchange.utilities.process_raw_data import *
-import convert_line_p_data_to_exchange.utilities
+from convert_line_p_to_exchange.utilities.process_raw_data import *
+import convert_line_p_to_exchange.utilities
 
 from config import Config
 

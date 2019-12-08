@@ -1,7 +1,7 @@
 import pytest
 import pandas as pd
 
-from convert_line_p_data_to_exchange.utilities.parameters import *
+from convert_line_p_to_exchange.utilities.parameters import *
 
 
 

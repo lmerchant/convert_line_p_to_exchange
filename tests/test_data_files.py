@@ -1,8 +1,8 @@
 import pytest
 import pandas as pd
 
-from convert_line_p_data_to_exchange.utilities.data_files import *
-import convert_line_p_data_to_exchange.utilities.process_raw_data
+from convert_line_p_to_exchange.utilities.data_files import *
+import convert_line_p_to_exchange.utilities.process_raw_data
 
 
 def test_create_start_end_lines(monkeypatch):

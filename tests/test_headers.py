@@ -1,6 +1,6 @@
 import pandas as pd
 
-from convert_line_p_data_to_exchange.utilities.headers import *
+from convert_line_p_to_exchange.utilities.headers import *
 
 
 def test_create_column_headers():

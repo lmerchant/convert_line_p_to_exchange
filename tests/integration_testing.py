@@ -7,7 +7,7 @@
 import pathlib
 import os
 
-from convert_line_p_data_to_exchange.create_line_p_ctd_exchange import main as ctd
+from convert_line_p_to_exchange.convert_line_p_to_exchange import main as ctd
 
 
 def main():

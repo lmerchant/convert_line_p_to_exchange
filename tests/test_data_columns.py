@@ -2,7 +2,7 @@ import pytest
 import pandas as pd
 from pandas.util.testing import assert_frame_equal, assert_series_equal
 
-from convert_line_p_data_to_exchange.utilities.data_columns import *
+from convert_line_p_to_exchange.utilities.data_columns import *
 
 
 def test_rename_pline_columns(comment_column_names_data_from_data_with_one_row):
