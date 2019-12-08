@@ -24,14 +24,12 @@ def test_create_column_headers():
         {'whpname' : 'PAR_FLAG_W', 'longname': 'PAR_FLAG_W', 'units' : ''}
         ]   
 
-
     expected_header = ['CTDPRS,CTDPRS_FLAG_W,CTDTMP,CTDTMP_FLAG_W,CTDSAL,CTDSAL_FLAG_W,CTDOXY,CTDOXY_FLAG_W,CTDBEAMCP,CTDBEAMCP_FLAG_W,CTDFLUOR,CTDFLUOR_FLAG_W,CTDFLUOR_TSG,CTDFLUOR_TSG_FLAG_W,PAR,PAR_FLAG_W',
     'DBAR,,ITS-90,,PSS-78,,UMOL/KG,,/METER,,MG/M^3,,MG/M^3,,UE/m^2/sec,']
 
     real_header = create_column_headers(testing_data_params)
 
     assert real_header == expected_header
-
 
 
 def test_create_metadata_header():
