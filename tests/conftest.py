@@ -7,7 +7,7 @@ import pandas as pd
 def data_with_one_row():
     filepath = Path(__file__).parents[0] / 'data' / 'data_to_test_one_row.csv'
 
-    with open(filepath, 'r', encoding='windows-1252') as f:
+    with open(str(filepath), 'r', encoding='windows-1252') as f:
         decode_text = f.read()
 
     raw_csv = decode_text.split('\n')  
