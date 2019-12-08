@@ -1,3 +1,4 @@
 exchange_line_p_data/
 __pycache__/
 .DS_Store
+.pytest_cache
