@@ -5,7 +5,7 @@ long_description='Convert Canadian Line P data into Exchange format. Data '\
                  'found at https://www.waterproperties.ca/linep/cruises.php' 
 
 setup(
-    name='Canadian Line P data to Exchange',
+    name='convertToExchange',
     version='1.0',
     description='Convert Canadian Line P data into exchange format.',
     author='Lynne Merchant',
