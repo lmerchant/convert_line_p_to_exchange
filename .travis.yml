@@ -14,4 +14,4 @@ install:
 script:
   - pytest
 env:
-  - PYTHONPATH=$PYTHONPATH:$TRAVIS_BUILD_DIR:$TRAVIS_BUILD_DIR/convert_line_p_to_exchange
+  - PYTHONPATH=$PYTHONPATH:$TRAVIS_BUILD_DIR:$TRAVIS_BUILD_DIR/convert_line_p_to_exchange:./convert_line_p_to_exchange:./tests
