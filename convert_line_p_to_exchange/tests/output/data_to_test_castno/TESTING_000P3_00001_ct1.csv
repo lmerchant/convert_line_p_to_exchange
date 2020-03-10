@@ -1,0 +1,27 @@
+CTD,20191203CCHSIOLM
+#,,,,,,,,,,,,,,,,,,
+#Downcast (CTD files) Oxygen:Dissolved:CTD data are considered very roughly to be:,,,,,,,,,,,,,,,,,,
+#      • ±0.25 ml/l from 0 to 125 dbar,,,,,,,,,,,,,,,,,,
+#      • ±0.2 ml/l from 125 to 400 dbar,,,,,,,,,,,,,,,,,,
+#      • ±0.1 ml/l from 400 to 600 dbar,,,,,,,,,,,,,,,,,,
+#      • ±0.05 ml/l from 600 to 1500 dbar,,,,,,,,,,,,,,,,,,
+#      • Low by up to 0.08 ml/l below 1500 dbar,,,,,,,,,,,,,,,,,,
+#---------------------------------------------------------------------------------------------------,,,,,,,,,,,,,,,,,,
+#For details on the processing see the report 2017-01-proc.pdf,,,,,,,,,,,,,,,,,,
+#---------------------------------------------------------------------------------------------------,,,,,,,,,,,,,,,,,,
+#,,,,,,,,,,,,,,,,,,
+#File Name,Zone,FIL:START TIME YYYY/MM/DD, HH:MM,LOC:EVENT_NUMBER,LOC:LATITUDE,LOC:LONGITUDE,LOC:STATION,INS:LOCATION,Pressure:CTD [dbar],Temperature:CTD [deg_C_(ITS90)],Salinity:CTD [PSS-78],Sigma-t:CTD [kg/m^3],Transmissivity:CTD [*/m],Oxygen:Dissolved:CTD:Volume [ml/l],Oxygen:Dissolved:CTD:Mass [µmol/kg],Fluorescence:CTD:Seapoint [mg/m^3],Fluorescence:CTD:Wetlabs [mg/m^3],PAR:CTD [µE/m^2/sec]
+#,,,,,,,,,,,,,,,,,,
+NUMBER_HEADERS = 8
+EXPOCODE = TESTING
+STNBR = P3
+CASTNO = 1
+DATE = 20170207
+TIME = 1451
+LATITUDE = 48.6245
+LONGITUDE = -126.334
+CTDPRS,CTDPRS_FLAG_W,CTDTMP,CTDTMP_FLAG_W,CTDSAL,CTDSAL_FLAG_W,CTDOXY,CTDOXY_FLAG_W,CTDBEAMCP,CTDBEAMCP_FLAG_W,CTDFLUOR,CTDFLUOR_FLAG_W,CTDFLUOR_TSG,CTDFLUOR_TSG_FLAG_W,PAR,PAR_FLAG_W
+DBAR,,ITS-90,,PSS-78,,UMOL/KG,,/METER,,MG/M^3,,MG/M^3,,UE/m^2/sec,
+       1.3,2,    9.1383,2,    32.541,2,      -999,9,      -999,9,     0.748,2,      -999,9,       0.1,2
+       1.9,2,    9.1463,2,   32.5413,2,      -999,9,      -999,9,      0.77,2,      -999,9,       0.1,2
+END_DATA

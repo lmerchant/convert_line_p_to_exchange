@@ -1,0 +1,31 @@
+CTD,20191203CCHSIOLM
+#---------------------------------------------------------------------,,,,,,,,,,,,,,,,
+#Transmissivity - fluorescence and PAR data are nominal and unedited except that some records were removed in editing temperature and salinity.,,,,,,,,,,,,,,,,
+#,,,,,,,,,,,,,,,,
+#The Oxygen:Dissolved:CTD data in the CTD files should be considered:,,,,,,,,,,,,,,,,
+#± 0.8 ml/l from 0 to 250 dbar.,,,,,,,,,,,,,,,,
+#± 0.2 ml/l below 250 dbar.,,,,,,,,,,,,,,,,
+#Data below 1200 dbar are considered unreliable by the manufacturer.,,,,,,,,,,,,,,,,
+#---------------------------------------------------------------------,,,,,,,,,,,,,,,,
+#For details on the processing see processing report: 2007-01-proc.pdf,,,,,,,,,,,,,,,,
+#---------------------------------------------------------------------,,,,,,,,,,,,,,,,
+#,,,,,,,,,,,,,,,,
+#File Name,Zone,FIL:START TIME YYYY/MM/DD, HH:MM,LOC:EVENT_NUMBER,LOC:LATITUDE,LOC:LONGITUDE,LOC:STATION,Pressure:CTD [dbar],Temperature:CTD [deg_C_(ITS90)],Salinity:CTD [PSS-78],Sigma-t:CTD [kg/m^3],Transmissivity:CTD [*/m],Oxygen:Dissolved:CTD:Volume [ml/l],Oxygen:Dissolved:CTD:Mass [µmol/kg],Fluorescence:CTD:Seapoint [mg/m^3],PAR:CTD [µE/m^2/sec]
+#,,,,,,,,,,,,,,,,
+NUMBER_HEADERS = 8
+EXPOCODE = TESTING
+STNBR = P21
+CASTNO = 1
+DATE = 20070213
+TIME = 2227
+LATITUDE = 49.63167
+LONGITUDE = -139.66933
+CTDPRS,CTDPRS_FLAG_W,CTDTMP,CTDTMP_FLAG_W,CTDSAL,CTDSAL_FLAG_W,CTDOXY,CTDOXY_FLAG_W,CTDBEAMCP,CTDBEAMCP_FLAG_W,CTDFLUOR,CTDFLUOR_FLAG_W,PAR,PAR_FLAG_W
+DBAR,,ITS-90,,PSS-78,,UMOL/KG,,/METER,,MG/M^3,,UE/m^2/sec,
+       3.5,2,    6.4708,2,   32.5191,2,     299.8,2,      45.7,2,     0.491,2,      -999,9
+       4.0,2,    6.4702,2,   32.5189,2,     299.8,2,        48,2,     0.485,2,      -999,9
+       5.0,2,    6.4685,2,   32.5188,2,     299.8,2,      51.5,2,     0.481,2,      -999,9
+       6.0,2,    6.4686,2,   32.5191,2,     299.8,2,      51.6,2,     0.507,2,      -999,9
+       7.0,2,      6.47,2,   32.5193,2,     299.8,2,      51.6,2,     0.574,2,      -999,9
+       8.0,2,    6.4707,2,   32.5189,2,     299.7,2,      51.6,2,     0.571,2,      -999,9
+END_DATA
