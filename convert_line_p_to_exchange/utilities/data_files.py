@@ -311,7 +311,9 @@ def write_data_to_file(station_castno_df_sets, comment_header, data_params):
     else:
 
         # Make sub directory in parent folder
-        directory = './exchange_line_p_data/' + expocode + '_ct1/'
+        #directory = './exchange_line_p_data/' + expocode + '_ct1/'
+
+        directory = Config.OUTPUT_DATA_FOLDER + '/' + expocode + '_ct1/'
 
 
     if not os.path.exists(directory):
