@@ -15,7 +15,7 @@ converted to exchange format. This is also a concatenated file of all individual
 station files.
 
 Read in all data lines into a data frame, then filter on P line and sort on station.
-Then group rows by station and its sequential event number to find castno
+Then group rows by station and its increasing event number to find castno
 
 For cruise list, need to map corresponding expocodes to cruise id
 
@@ -29,12 +29,6 @@ To run:
 -------------
 
 Run as python3 
-
-In config file, set folder to save all the sets to
-Currently TOP_DATA_FOLDER='./exchange_line_p_data'
-
-and whether Testing or not
-
 
 
 Testing:
