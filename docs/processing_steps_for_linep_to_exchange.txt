@@ -124,8 +124,8 @@ Oxygen:Dissolved:CTD:Volume [ml/l]
 Skip 
 Sigma-t:CTD [kg/m^3] and Sigma-t:CTD {kg/m^3]
 
-Skip comments column in 2010-01
 
+Skip comments column in 2010-01
 
 List columns to save and map to WHP name.
 
@@ -205,18 +205,19 @@ Fluorescence:CTD:Wetlabs [mg/m^3],
 PAR:CTD [µE/m^2/sec]
 
 
+7) Insert WHP flag columns for each data column
 
-7) Any -99 fill values and empty values will be converted to the -999 exchange format and a flag of 5.
+Set all flags initially to value of 2 
 
-8) Insert WHP flag columns for each data column
+Fill empty cells with -999.
 
-Set all flags to value of 2 
-
-Exceptions are if no value present, flag = 9
+If no value present (fill -999), flag = 9
 If value present and -99, flag = 5
 
 Flag = 5 represents 'Not reported'
 Flag = 9 represents 'Not sampled'
+
+8) Change -99 fills to -999 which is Exchange fill value
 
 9) Map event numbers to cast number
 
@@ -232,8 +233,6 @@ P20       event 18   1
 P20       event 19   2
 P20       event 26   3
 
-
-10) Convert all data columns to floats except flags of -999
 
 11) Rename files to Exchange format
 
@@ -301,9 +300,9 @@ Example line from 2009-03 concatenated cruise file
 
 So import into Excel, remove extra column and make sure headers are for correct columns.
 
-Place in test folder to call program using that file.
+Place in adjusted_data folder to call program using that file.
 
-Should I replace file on CCHDO with corrected file of removing extra columns?
+Should I replace file on CCHDO with corrected file of removing extra columns? No.
 
 
 
