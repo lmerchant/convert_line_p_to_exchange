@@ -224,9 +224,9 @@ def reformat_df(df):
 
     # Previously converted all columns to numeric but Pandas had
     # trouble with numbers of 4 decimal place precision in that
-    # extra digits were added. So don't convert to numeric. 
-    # Keep as strings so numbers keep precision
+    # extra precision digits were added. So don't convert to numeric. 
     # df = df.apply(pd.to_numeric, errors='ignore')
+    # Keep as strings so numbers keep precision of original.
 
     df = replace_nan_or_empty_cells_with_999(df)
 

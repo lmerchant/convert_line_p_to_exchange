@@ -141,7 +141,7 @@ def update_flag_for_fill_999_str(df, data_params):
     Flag = 9 means not sampled
     """
 
-    # Go column by column. If flag column, no fill value, so will skip
+    # Go column by column. If it's a flag column, no fill value, so will skip
 
     for param in data_params:
 
@@ -197,7 +197,7 @@ def update_flag_for_fill_99_str(df, data_params):
     Flag = 5 means Not reported
     """
 
-    # Go column by column. If flag column, no fill value, so will skip
+    # Go column by column. If it's a flag column, no fill value, so will skip
 
     for param in data_params:
 

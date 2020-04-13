@@ -11,14 +11,6 @@ import utilities.process_raw_data as process_raw_data
 from config import Config
 
 
-
-# def reformat_columns(df):
-
-#     df = df.round(4)  
-
-#     return df
-
-
 def reformat_csv(ctd_filename, column_headers):
 
     """
@@ -350,30 +342,22 @@ def write_data_to_file(station_castno_df_sets, comment_header, data_params):
 
         # Change flag from 2 to 9 if value in column to left of flag column is -999 or -999.0
         # Flag = 9 represents data not sampled.
-        # Used this before when had converted all columns to numeric values.
+        # Used -999.0 before when had converted all columns to numeric values.
+        # But then decided to keep all as strings except pressure column.
         # Only numeric column left to search for fill would be pressure column.
-        # TODO: Comment this out since all values except pressure, and event are numeric
-        #data_columns.update_flag_for_fill_999(data_columns_df, data_params)
 
-        # For string columns (Add returned value to function)
+        # For string columns with fill of -999
         data_columns_df = data_columns.update_flag_for_fill_999_str(data_columns_df, data_params)
 
 
         # Change flag from 2 to 5 if value in column to left of flag column is -99 or -99.0
         # Flag = 5 represents data not reported.
-        # Used this before when had converted all columns to numeric values.
+        # Used -99.0 before when had converted all columns to numeric values.
         # Only numeric column left to search for fill would be pressure column.  
-        # TODO comment following out since looking for string values      
-        #data_columns.update_flag_for_fill_99(data_columns_df, data_params)  
-
-        # For string columns. Added return value
+ 
+        # For string columns with fill of -99
         data_columns_df = data_columns.update_flag_for_fill_99_str(data_columns_df, data_params) 
 
-
-        # Round the data (When had converted input file columns to numbers)
-        # But if keep columns as string, don't need to fix pandas reading in
-        # 4 decimal place numbers as more than 4 decimal places
-        #data_columns_df = reformat_columns(data_columns_df)
 
         # Replace all fills to be -999 
         data_columns_df = data_columns.replace_fill_values_in_df(data_columns_df)
