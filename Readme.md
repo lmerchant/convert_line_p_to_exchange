@@ -7,7 +7,7 @@ This program takes raw data from cruises listed at https://www.waterproperties.c
 
 The code takes a concatenated file composed of individual ctd files, identified by event numbers and station id, and converts each station to Exchange format with cast id, coming from incrementing event number, and station number.
 
-Have mapped parameter names in individual files to Exchange parameters and converted date format for this grouping to Exchange format for cruises 2007-2018. Due to parameter names possibly changing and any date formats changing, can't guarantee things will be the same for other years. 
+I have mapped parameter names in individual files to Exchange parameters and converted date format for this grouping to Exchange format for cruises 2007-2018. Due to parameter names possibly changing and any date formats changing, I can't guarantee this program will work for other years. 
 
 ## Location and type of data processed
 
@@ -58,7 +58,7 @@ TIME
 LATITUDE
 LONGITUDE
 
-NUMBER_HEADERS is the number of meta data variables plus one for the NUMBER_HEADERS line. The expocode was from the mapped cruise id. LOC:STATION became STNBR and LOC:EVENT_NUMBER was used to create CASTNO. And DATE and TIME were extracted from FIL:START TIME YYYY/MM/DD and HH:MM.  
+NUMBER_HEADERS is the number of meta data variables plus one for the NUMBER_HEADERS line. The expocode was from the mapped cruise id. LOC:STATION became STNBR and LOC:EVENT_NUMBER was used to create CASTNO. DATE and TIME were extracted from FIL:START TIME YYYY/MM/DD and HH:MM.  
 Only a subset of the data was saved to the Exchange file and columns were renamed. The following columns are saved if they exist in the file:
 
 CTDPRS, CTDTMP, CTDSAL, CTDOXY, CTDBEAMCP, CTDFLUOR, CTDFLUOR_TSG
@@ -69,7 +69,7 @@ Sigma-t:CTD [kg/m^3] and Sigma-t:CTD {kg/m^3]
 
 There was a comments column for the 2010 cruise with id 01, and this was skipped.
 
-Some data files call CTDSAL, CTDXMISS, and CTDFLUOR with different names and units so account for this when importing columns. In the raw concatenated file, the units are included in the column header name. These are split out to create the Exchange file.
+Some data files call CTDSAL, CTDXMISS, and CTDFLUOR with different names and units, so account for this when importing columns. In the raw concatenated file, the units are included in the column header name. These are split out to create the Exchange file.
                            
   'whpname' : 'CTDPRS' , 'longname':'Pressure:CTD [dbar]', 'units' : 'DBAR'
 
