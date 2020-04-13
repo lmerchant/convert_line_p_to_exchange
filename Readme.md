@@ -3,9 +3,11 @@
 
 ## Purpose of program
 
-This program takes raw data from cruises listed at https://www.waterproperties.ca/linep/cruises.php and processes the data into the Exchange data format.
+This program takes raw data from cruises listed at https://www.waterproperties.ca/linep/cruises.php and processes the data into the Exchange format. What I call raw data is the original data as is before any transformation to Exchange format.
 
-The code takes a concatenated file of many raw individual ctd files which are listed by event numbers for each station and converts each station to exchange format with cast id and station number.
+The code takes a concatenated file composed of individual ctd files, identified by event numbers and station id, and converts each station to Exchange format with cast id, coming from incrementing event number, and station number.
+
+Have mapped parameter names in individual files to Exchange parameters and converted date format for this grouping to Exchange format for cruises 2007-2018. Due to parameter names possibly changing and any date formats changing, can't guarantee things will be the same for other years. 
 
 ## Location and type of data processed
 
@@ -177,8 +179,10 @@ python -m pytest
 from the command line. Set environment variable. PYTHON=.
 
 
-## Integration Tests
-Change TESTING variable in config.py to True. Then run program either as convertLinePtoExchange if installed as a package or as python3 convert_line_p_to_exchange.py if installed in an environment. This will use input testing files in folder tests/data and the output is saved into tests/output. List things checking for ....
+## Integration Tests (Fix documentation of these)
+Change TESTING variable in config.py to True. Then run program either as convertLinePtoExchange if installed as a package or as python3 convert_line_p_to_exchange.py if installed in an environment. This will use input testing files in folder tests/data and the output is saved into tests/output. 
+
+List things checking for ....
 
 python tests/integration_testing.py (does this take place of using testing flag = True?)
 
@@ -265,13 +269,13 @@ For 2009 cruise with identifier 03, the menu reports dates from Jan 28 to Feb 8,
 
 ## Errors listing event number in concatenated file
 
-Error for expocode 18DD20090606 with cruise year 2009 and identifier 09
+Error for expocode 18DD20090606 with cruise year 2009 and identifier 09.
 For P4, concatenated file says event 14 but table on website says should be event 15.
 
 Error for expocode 18DD20090606 with cruise year 2009 and identifier 09.
 For P19, concatenated file says event 51 but table on website says should be event 52.
 
-This didn't affect increasing event number translated to cast number, but it does affect looking for the individual file so the header can be extracted so I added code to use the files listed in the table.
+This didn't affect increasing event number translated to cast number, but it does affect looking for the individual file so the header can be extracted. So I added code to search for these exceptions and use the proper files listed in the table.
 
 
 ## Incorrect column names for one concatenated file
