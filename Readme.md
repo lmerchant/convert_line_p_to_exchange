@@ -29,11 +29,13 @@ On a cruise page, there is a "Table of stations and sampling done" listing colum
 In this program, I used an alternate method of getting the data. A listing of ctd files exists for each cruise. The concatenated file of individual files is found at 'https://www.waterproperties.ca/linep/<year>-<cruise_id>/donneesctddata/<year>-<cruise_id>-ctd-cruise.csv'. Which for an example data set would be https://www.waterproperties.ca/linep/2007-01/donneesctddata/2007-01-ctd-cruise.csv. The link https://www.waterproperties.ca/linep/2017-01/donneesctddata/ lists links to multiple ctd files including the individual ctd files. 
 
 
-## Data Processing Steps
+# Data Processing Steps
 
 The concatenated form of the data is used for processing, which includes all stations for the cruise. The data is read into a Pandas dataframe. Line P stations specifically are selected to be converted to Exchange format and other stations are excluded. Line P stations are stations starting with 'P'. Pressure was imported as a float to sort on and all other columns were imported as strings.
 
 Line P cruise IDs were mapped to expocodes using the start date and ship name found in the cruise report.
+
+## Metadata
 
 To extract the metadata used in the Exchange format, the following columns were used. 
 
@@ -59,6 +61,9 @@ LATITUDE
 LONGITUDE
 
 NUMBER_HEADERS is the number of meta data variables plus one for the NUMBER_HEADERS line. The expocode was from the mapped cruise id. LOC:STATION became STNBR and LOC:EVENT_NUMBER was used to create CASTNO. DATE and TIME were extracted from FIL:START TIME YYYY/MM/DD and HH:MM.  
+
+## Parameters
+
 Only a subset of the data was saved to the Exchange file and columns were renamed. The following columns are saved if they exist in the file:
 
 CTDPRS, CTDTMP, CTDSAL, CTDOXY, CTDBEAMCP, CTDFLUOR, CTDFLUOR_TSG
@@ -96,13 +101,15 @@ Some data files call CTDSAL, CTDXMISS, and CTDFLUOR with different names and uni
   'whpname' : 'PAR' , 'longname':'PAR:CTD [µE/m^2/sec]', 'units' : 'UE/
     m^2/sec'
 
+## Add flags
+
 Add WHP flag columns with values for each data column. First, all flags are initially set to a value of 2. If there is no value in the data cell, fill with -999 and change flag to be 9. If a value is present in the data cell and equal to -99, change flag to be 5. Then change the -99 value to -999 which is the Exchange fill value for non-data values.
 
 Flag = 5 represents 'Not reported'
 Flag = 9 represents 'Not sampled'
 
 
-Map event number to cast number.
+## Map event number to cast number.
 
 Each station number has multiple event numbers representing when data was taken. The data are grouped by event number and station name and then regrouped as cast number and station number. Cast number is determined from the increasing event number for each station. So map event numbers to a sequential cast number starting at 1 for each station.
 
@@ -113,9 +120,11 @@ P20       event 18   1
 P20       event 19   2
 P20       event 26   3
 
-Add headers.
+## Add headers
 
 Include header lines from individual raw file as comments in exchange ctd files. Each individual raw file has an event number so each cast number uses that corresponding header.
+
+## Saving Exchange data
 
 Data are saved by cast number and station number into a folder named as the ExpoCode and station number which is then zipped for each station number. 
 
@@ -127,64 +136,6 @@ P1/B8 which I converted to P1-B8 for filename. In exchange file,
 STNBR is P1/B8
 
   Save files in folder with name <EXPOCODE>_<P_STATION> and then zip this folder.
-
-
-## Setup environment
-
-Using python 3.7.5
-
-1) To Install as a package
-pip3 install convertLinePtoExchange
-
-2) To use in an environment
-
-Can use pyenv to use different versions of python
-
-https://github.com/pyenv/pyenv
-
-pyenv local python3.7.5
-
-python -m virtualenv env
-
-
-## Packages used
-
-Main packages used are numpy and pandas
-
-
-## Config file
-
-A config file is required to identify if integration testing to be run or run main program to create files. An output folder name is required and cruise list to map canadian line p cruise id to expocode. Config file CRUISE_LIST defines which raw files are processed. Match cruise id to expocode id. Use cruise report dates to create expocode want to upload data to.
-
-Config file config.py must be in same folder 
-
-Make sure TESTING is set to False
-
-
-# To run the code
-
-Activate the environment with the command 'source env/bin/activate' and run the following at the command line,
-
-python3 convert_line_p_to_exchange.py
-
-
-# To test the code
-
-
-## Unit Tests
-Change into main folder with tests folder. Run 
-'''
-python -m pytest
-'''
-from the command line. Set environment variable. PYTHON=.
-
-
-## Integration Tests (Fix documentation of these)
-Change TESTING variable in config.py to True. Then run program either as convertLinePtoExchange if installed as a package or as python3 convert_line_p_to_exchange.py if installed in an environment. This will use input testing files in folder tests/data and the output is saved into tests/output. 
-
-List things checking for ....
-
-python tests/integration_testing.py (does this take place of using testing flag = True?)
 
 
 # Station number variations
@@ -255,17 +206,22 @@ For FIL:START TIME YYYY/MM/DD, use two different versions for date
 Time has : in value, HH:MM, and will be converted to exchange format HHMM
 
 
-# Data pattern exceptions
+# Exceptions and errors in original data
 
+## Data pattern exceptions
+
+### Dates
 Dates are different than column reports. Sometimes / separated and others - separated.
 
+### Parameters
 Files had different column names and units for same exchange column
 
+### File names
 If station number has slash in it, replace name with a dash
 
-Some files had errors in mapping event number when compared to individual files and the concatenated file.
-
+### Cruise date
 For 2009 cruise with identifier 03, the menu reports dates from Jan 28 to Feb 8, 2009, but the cruise report has dates Jan 27 to Feb 10, 2009. I created expocode using cruise report dates
+
 
 ## Errors listing event number in concatenated file
 
@@ -301,10 +257,7 @@ Place in adjusted_data folder to call program using that file.
 I did not replace the raw concatenated file uploaded to CCHDO with corrected file of removing extra columns
 
 
-## Parameter names translated to Exchange
-
-Files with all the column name variations
-
+## Selected files showing the column name variations
 
   2007-13
   Pressure:CTD [dbar],
@@ -357,11 +310,11 @@ Files with all the column name variations
   PAR:CTD [µE/m^2/sec]
 
 
-## File Naming
+# File Naming
 
 Rename files to Exchange format
 
-  <EXPOCODE>_<P_STAION>_<CASTNO>_ct1 for file
+  <EXPOCODE>_<P_STATION>_<CASTNO>_ct1 for file
 
   and folder <EXPOCODE>_<P_STATION> for folder
 
@@ -374,6 +327,58 @@ e.g. expocode 18DD20150607
 
 P1/B8 which I converted to P1-B8 for filename. In exchange file,
 STNBR is P1/B8
+
+
+# Setup and running the code
+
+## Setup environment
+
+Using python 3.7.5
+
+1) To Install as a package
+pip3 install convertLinePtoExchange
+
+2) To use in an environment
+python -m virtualenv env
+
+
+## Packages used
+
+Main packages used are numpy and pandas
+
+
+## Config file
+
+A config file is required to identify if integration testing to be run or run main program to create files. An output folder name is required and cruise list to map canadian line p cruise id to expocode. Config file CRUISE_LIST defines which raw files are processed. Match cruise id to expocode id. Use cruise report dates to create expocode want to upload data to.
+
+Config file config.py must be in same folder 
+
+Make sure TESTING is set to False
+
+
+## Running the code
+
+Activate the environment with the command 'source env/bin/activate' and run the following at the command line,
+
+python3 convert_line_p_to_exchange.py
+
+
+# To test the code
+
+## Unit Tests
+Change into main folder containing tests folder. Run 
+'''
+python -m pytest
+'''
+from the command line. Set environment variable: PYTHON=.
+
+
+## Integration Tests (Fix documentation of these)
+Change TESTING variable in config.py to True. Then run program either as convertLinePtoExchange if installed as a package or as python3 convert_line_p_to_exchange.py if installed in an environment. This will use input testing files in folder tests/data and the output is saved into tests/output. 
+
+List things checking for ....
+
+python tests/integration_testing.py (does this take place of using testing flag = True?)
 
 
 
