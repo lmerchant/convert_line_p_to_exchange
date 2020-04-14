@@ -17,15 +17,6 @@ def get_cruise_list():
     # lists the Canadian Line P program cruise links.
     # e.g. 
 
-    # Special Case:
-    # If cruise is 2009-03 with expocode 18DD20090127, it is 
-    # a special case. Will be using 2009-03 cruise file in testing folder 
-    # where the original file from the url has been corrected
-    # to delete the duplicate station column. The original cruise 
-    # file is then saved with the name 
-    # 18DD20090127_2009-03-ctd-cruise.csv into the testing folder 
-    # filename = "./test/data/18DD20090127_2009-03-ctd-cruise.csv"
-
 
     # line P year, cruise identifier, and corresponding expocode
 
@@ -77,12 +68,23 @@ def get_raw_csv(url):
 
     """
     Read in csv data file with encoding windows-1252 and split text 
-    on returns to get a list of lines. If Config.TESTING = True,
-    csv files of encoding windows-1252 are located in testing folder ./test/data
-    """
+    on returns to get a list of lines. 
 
-    # Ran chardetect in terminal on cruise csv file downloaded from web page
-    # and it returned an encoding of windows-1252
+    Ran chardetect in terminal on cruise csv file 
+    downloaded from web page
+    and it returned an encoding of windows-1252    
+
+    If Config.TESTING = True,
+    csv files of encoding windows-1252 are located in testing folder ./tests/data
+
+    Special Case:
+    If cruise is 2009-03 with expocode 18DD20090127, it is 
+    a special case. Will be using 2009-03 cruise file in 
+    adjusted_data folder where the original file from the 
+    url has been corrected to delete the duplicate station 
+    column and column names adjusted for proper columns.
+
+    """
 
     if Config.TESTING:
 
@@ -91,11 +93,6 @@ def get_raw_csv(url):
         raw_csv = get_raw_csv_from_testing()
 
     elif url == 'https://www.waterproperties.ca/linep/2009-03/donneesctddata/2009-03-ctd-cruise.csv':
-
-        # Open 2009-03 cruise file in testing folder where file has been corrected
-        # to delete the duplicate station column.
-        # The original cruise file is then saved with the name
-        # 18DD20090127_2009-03-ctd-cruise.csv into the testing folder.
 
         filename = "./adjusted_data/18DD20090127_2009-03-ctd-cruise.csv"
 
