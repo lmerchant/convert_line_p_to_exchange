@@ -211,7 +211,7 @@ Time has : in value, HH:MM, and will be converted to exchange format HHMM
 ## Data pattern exceptions
 
 ### Dates
-Dates are different than column reports. Sometimes / separated and others - separated.
+Dates are different than column reports. Sometimes / separated and others - separated. 
 
 ### Parameters
 Files had different column names and units for same exchange column
@@ -366,19 +366,115 @@ python3 convert_line_p_to_exchange.py
 # To test the code
 
 ## Unit Tests
+Set environment variable: PYTHON=.
+
 Change into main folder containing tests folder. Run 
 '''
 python -m pytest
 '''
-from the command line. Set environment variable: PYTHON=.
+from the command line. 
 
 
 ## Integration Tests (Fix documentation of these)
-Change TESTING variable in config.py to True. Then run program either as convertLinePtoExchange if installed as a package or as python3 convert_line_p_to_exchange.py if installed in an environment. This will use input testing files in folder tests/data and the output is saved into tests/output. 
 
-List things checking for ....
+### Data output testing
 
-python tests/integration_testing.py (does this take place of using testing flag = True?)
+1) file: data_to_test_castno.csv
+   Testing: 
+   Check castno created from event numbers and multiple line P ship 
+   identifiers and one non line P ship identifier.
+   Check it is skipping non line P stations.
+
+2) file: data_to_test_castno_one_pline.csv
+   Testing: 
+   Check castno created from event numbers and one line P ship identifier
+   and one non line P ship identifier.
+   Check it is skipping non line P stations.
+
+3) file: data_to_test_column_names1.csv
+   Testing: 
+   Unique pattern of line P parameter names chosen.
+   Check column names converted to Exchange names.
+   
+4) file: data_to_test_column_names2.csv
+   Testing: 
+   Unique pattern of line P parameter names chosen.
+   Check column names converted to Exchange names.
+
+5) file: data_to_test_column_names3.csv
+   Testing: 
+   Unique pattern of line P parameter names chosen.
+   Check column names converted to Exchange names.
+
+6) file: data_to_test_column_names4.csv
+   Testing: 
+   Unique pattern of line P parameter names chosen.
+   Check column names converted to Exchange names.
+
+7) file: data_to_test_column_names5.csv
+   Testing: 
+   Unique pattern of line P parameter names chosen.
+   Check column names converted to Exchange names.
+
+8) file: data_to_test_date_format_w_dash.csv
+   Testing: 
+   Check dates with format with a dash: DD-MM-YY converted
+   to Exchange format of YYYY-MM-DD
+
+9) file: data_to_test_date_format_w_slash.csv
+   Testing: 
+   Check dates with format with a slash: DD/MM/YYYY converted
+   to Exchange format of YYYY-MM-DD
+
+10) file: data_to_test_fill_999.csv
+   Testing: 
+   Version with single line P identifier
+   Check -99 line P data fill and empty entries converted to
+   Exchange format fill of -999 and that -99 entries have
+   a flag of 5 and empty entries have a flag of 9
+
+11) file: data_to_test_fill_999_2.csv
+   Testing: 
+   Another version with multiple line P ship identifiers
+   Check -99 line P data fill and empty entries converted to
+   Exchange format fill of -999 and that -99 entries have
+   a flag of 5 and empty entries have a flag of 9   
+
+12) file: data_to_test_fill_999_3.csv
+   Testing: 
+   Another version with single line with single line P ship identifier.
+   Check -99 line P data fill and empty entries converted to
+   Exchange format fill of -999 and that -99 entries have
+   a flag of 5 and empty entries have a flag of 9
+
+13) file: data_to_test_flag_values.csv
+   Testing: 
+   Check that flags are value 5 for -99 fills and 
+   flags are value 9 for empty entries (fill -999)
+
+14) file: data_to_test_formatting.csv
+   Testing: 
+   Checking format spacing lines up same as original file.
+   Preserves spacing between values when extra flag columns added
+
+15) file: data_to_test_one_row.csv
+   Testing: Check one line with line P ship identifier,
+   empty values, and set of unique parameter names
+
+
+16) file: data_to_test_stnbr_with_dash.csv
+   Testing: 
+   Check file name of stnbr with a slash in names is converted
+   to replace slash with a dash in file name.
+
+
+### To run integration tests
+Change TESTING variable in config.py to True. 
+
+Run
+'''
+python tests/integration_testing.py
+'''
 
 
 
