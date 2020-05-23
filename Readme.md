@@ -128,7 +128,7 @@ Include header lines from individual raw file as comments in exchange ctd files.
 
 Data are saved by cast number and station number into a folder named as the ExpoCode and station number which is then zipped for each station number. 
 
-  Rename files to Exchange format of  <EXPOCODE>_<P_STAION>_<CASTNO>_ct1
+  Rename files to Exchange format of  <EXPOCODE>_<P_STATION>_<CASTNO>_ct1
 
 If stnbr has a slash in it, for file name, I replaced / with -
 
