@@ -1,0 +1,14 @@
+#
+# Please cite data downloaded from CCHDO as: 
+# [Data providers of the parameter(s) used]. [Year of file access]. [CTD/Bottle] data from cruise [expocode], [format version used]. Accessed from CCHDO [url of cruise data page]. Access date [date of download]. [Applicable CCHDO cruise DOI if provided].
+#
+# For example: Swift, J. and Becker, S. 2019. CTD data from Cruise I09N, exchange version. Accessed from CCHDO https://cchdo.ucsd.edu/cruise/33RR20160321. Access date 2019-08-21. CCHDO cruise DOI: 10.7942/C2008W
+#
+# Information on the scientists who provided the different parameters can be found 
+# in the cruise report. Additionally, for US GO-SHIP cruises, this information is 
+# usually in the comments section in the text headers of the Exchange bottle files.
+#
+# Users are also encouraged to acknowledge the funding program that supported the 
+# data collection in their publication. For US GO-SHIP data this is the 
+# NSF/NOAA funded U.S Repeat Hydrography Program.
+#
