@@ -52,7 +52,7 @@ def reformat_csv(ctd_filename, column_headers):
             f.write(row)       
 
 
-def write_dataframe_to_csv(data_columns_df, ctd_filename, start_line, end_line, raw_individual_comment_header, metadata_header, column_headers):
+def write_dataframe_to_csv(data_columns_df, ctd_filename, start_line, end_line, header_comments, metadata_header, column_headers):
 
     """
     Write dataframe to csv file with data formatted
@@ -81,7 +81,7 @@ def write_dataframe_to_csv(data_columns_df, ctd_filename, start_line, end_line, 
     start_line_str = start_line + '\n'
 
 
-    for line in raw_individual_comment_header:
+    for line in header_comments:
         comment_header_string = comment_header_string + line + '\n'
 
     for line in metadata_header:
@@ -101,6 +101,48 @@ def write_dataframe_to_csv(data_columns_df, ctd_filename, start_line, end_line, 
     # Append ctd file with end line
     with open(ctd_filename, 'a', encoding='utf-8') as f:
         f.write("{}\n".format(end_line))
+
+
+def create_header(header_comments, citation_text, url):
+    
+    comments = citation_text
+
+    castno_text = []
+
+    castno_text.append("#")
+    castno_text.append("# The ORIGINATOR supplied an event number instead of a CASTNO, so")
+    castno_text.append("# CCHDO assigned a CASTNO to each STNNBR by starting the CASTNO at 1 for the ")    
+    castno_text.append("# first event number and incrementing by 1 for each sequential event number.")
+    castno_text.append('#')
+
+    url_text = []
+    url_text.append("# The following header comments are from the file ")
+    url_text.append(url)
+    url_text.append("# Not all parameters were used in the conversion to Exchange format.")
+    url_text.append("#")
+    url_text.append("#")
+
+    comments_start_text = []
+    comments_start_text.append("# Start of ORIGINATOR file comment header")
+    comments_start_text.append("#")
+
+    comments.extend(castno_text)
+    comments.extend(url_text)
+    comments.extend(comments_start_text)
+    comments.extend(header_comments)
+    comments.append("#")
+
+    return comments
+
+
+def get_citation_text():
+
+    filename = 'citation.txt'
+
+    with open(filename, 'r') as f:
+        citation_text = f.read().splitlines()
+
+    return citation_text
 
 
 def get_file_text(url):
@@ -141,7 +183,7 @@ def get_individual_raw_file_header(url):
     return comment_header
 
 
-def choose_raw_file_header(url, comment_header, ctd_filename):
+def choose_raw_file_header(url, concat_comment_header, ctd_filename):
 
     """
     From url, extract comment header from raw individual file, but if
@@ -152,7 +194,7 @@ def choose_raw_file_header(url, comment_header, ctd_filename):
     # would be. In that case, use value listed in cruise web page table.
 
     try:
-        raw_individual_comment_header = get_individual_raw_file_header(url)
+        header_comments = get_individual_raw_file_header(url)
     
     except:
     
@@ -162,7 +204,7 @@ def choose_raw_file_header(url, comment_header, ctd_filename):
             # https://www.waterproperties.ca/linep/2009-09/index.php
             url = 'https://www.waterproperties.ca/linep/2009-09/donneesctddata/2009-09-0015.ctd'
 
-            raw_individual_comment_header = get_individual_raw_file_header(url)
+            header_comments = get_individual_raw_file_header(url)
 
         elif url == 'https://www.waterproperties.ca/linep/2009-09/donneesctddata/2009-09-0051.ctd':
             # Error in concatenated file using event 51 for P19 when web page
@@ -170,14 +212,14 @@ def choose_raw_file_header(url, comment_header, ctd_filename):
             # https://www.waterproperties.ca/linep/2009-09/index.php
             url = 'https://www.waterproperties.ca/linep/2009-09/donneesctddata/2009-09-0052.ctd'
 
-            raw_individual_comment_header = get_individual_raw_file_header(url)
+            header_comments = get_individual_raw_file_header(url)
         
         else:
             # Can't open raw individual comment header so use concatenated files header instead
-            raw_individual_comment_header = comment_header
+            header_comments = concat_comment_header
             print("Can't find individual CTD file so using concatenated for file: " + ctd_filename)
 
-    return raw_individual_comment_header
+    return header_comments
 
 
 def get_line_p_cruise_id(expocode, cruise_list):
@@ -211,17 +253,16 @@ def get_individual_raw_file(expocode, data_set):
 
     line_p_year, line_p_id = get_line_p_cruise_id(expocode, cruise_list)
 
+    event = unique_events[0]
 
-    for event in unique_events:
+    # Pad event number with leading 0
+    event = str(event).zfill(4)
 
-        # Pad event number with leading 0
-        event = str(event).zfill(4)
+    filename = line_p_year + '-' + line_p_id + '-' + event + '.ctd'
 
-        filename = line_p_year + '-' + line_p_id + '-' + event + '.ctd'
+    url = 'https://www.waterproperties.ca/linep/' + line_p_year + '-' + line_p_id + '/donneesctddata/' + filename
 
-        url = 'https://www.waterproperties.ca/linep/' + line_p_year + '-' + line_p_id + '/donneesctddata/' + filename
-
-        return url
+    return url
 
 
 def get_ctd_filename(directory, data_set):
@@ -314,6 +355,8 @@ def write_data_to_file(station_castno_df_sets, comment_header, data_params):
 
     # Get file start and end lines
     start_line, end_line = create_start_end_lines()
+    
+    citation_text = get_citation_text()
 
     # Create column names and data units lines
     column_headers = headers.create_column_headers(data_params)
@@ -334,7 +377,9 @@ def write_data_to_file(station_castno_df_sets, comment_header, data_params):
 
         # If raw file found, use that header, else use comment_header from 
         # concatenated file
-        raw_individual_comment_header = choose_raw_file_header(url, comment_header, ctd_filename)        
+        header_comments = choose_raw_file_header(url, comment_header, ctd_filename)
+
+        header_comments = create_header(header_comments, citation_text, url)
 
         # Get data columns from dataframe
         data_columns_df = data_columns.get_data_columns(data_set, data_params)
@@ -364,6 +409,6 @@ def write_data_to_file(station_castno_df_sets, comment_header, data_params):
 
 
         # Finally, write dataframe to file
-        write_dataframe_to_csv(data_columns_df, ctd_filename, start_line, end_line, raw_individual_comment_header, metadata_header, column_headers)
+        write_dataframe_to_csv(data_columns_df, ctd_filename, start_line, end_line, header_comments, metadata_header, column_headers)
       
 
