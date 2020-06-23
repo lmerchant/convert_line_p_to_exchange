@@ -1,0 +1,13 @@
+#!/bin/bash
+
+shopt -s expand_aliases
+
+alias hydro_check='docker run --rm -e LIBCCHDO_MERGER_DIVISION=CCH -e LIBCCHDO_MERGER_INITIALS=LMM -e LIBCCHDO_MERGER_INSTITUTION=SIO -v $(pwd):/context cchdo/libcchdo check any'
+
+for file in *.zip; do
+    [ -f "$file" ] || continue
+    echo $file
+    hydro_check $file > out.txt 2>&1
+
+    perl -pe 's/\e\[[0-9;]*m//g' out.txt > "uow_$file.txt"
+done
