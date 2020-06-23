@@ -107,27 +107,32 @@ def create_header(header_comments, citation_text, url):
     
     comments = citation_text
 
-    castno_text = []
+    # The individual file is for one STNNBR and one EVENT NUMBER
 
-    castno_text.append("#")
-    castno_text.append("# The ORIGINATOR supplied an event number instead of a CASTNO, so")
-    castno_text.append("# CCHDO assigned a CASTNO to each STNNBR by starting the CASTNO at 1 for the ")    
-    castno_text.append("# first event number and incrementing by 1 for each sequential event number.")
-    castno_text.append('#')
+    castno_text = "#\n# Exchange data files were created by using an ORIGINATOR supplied\n# concatenated file of all the individual STNBRs and EVENT NUMBERs.\n# The ORIGINATOR used EVENT NUMBERS instead of a CASTNO, so CCHDO assigned\n# a CASTNO in place of an EVENT NUMBER to each STNBR by starting the \n# CASTNO at 1 for the first EVENT NUMBER of a STNBR and incrementing\n# by 1 for each sequential EVENT NUMBER.\n#"
 
-    url_text = []
-    url_text.append("# The following header comments are from the file ")
-    url_text.append(url)
-    url_text.append("# Not all parameters were used in the conversion to Exchange format.")
-    url_text.append("#")
-    url_text.append("#")
+    castno_text = castno_text.split('\n')
 
-    comments_start_text = []
-    comments_start_text.append("# Start of ORIGINATOR file comment header")
-    comments_start_text.append("#")
+    url_text = "# The following header comments are from the individual file \n# " + url + "\n# This file is for one STNBR and the corresponding EVENT NUMBER.\n# The CASTNO in this Exchange format file corresponds to this EVENT NUMBER.\n#"
+
+    url_text = url_text.split('\n')
+
+
+    # Explain how rename parameters and redo units
+
+    parameter_text = "# Not all parameters were used in the conversion to Exchange format.\n# The following parameters were used and renamed for the Exchange format \n# where orignal_name is the starting name and exchange_name is \n# the Exchange format name used: \n# exchange_name: CTDPRS, original_name: Pressure:CTD,\n# exchange_name: CTDTMP, original_name: Temperature:CTD,\n# exchange_name: CTDSAL, original_name:Salinity:CTD,\n# exchange_name: CTDSAL, original_name: Salinity:Practical:CTD,\n# exchange_name: CTDOXY, original_name: Oxygen:Dissolved:CTD:Mass,\n# exchange_name: CTDBEAMCP, original_name: Transmissivity:CTD,\n# exchange_name: CTDFLUOR, original_name:  Fluorescence:CTD:Seapoint,\n# exchange_name: CTDFLUOR, original_name: Fluorescence:CTD,\n# exchange_name: CTDFLUOR_TSG, original_name:Fluorescence:CTD:Wetlabs,\n# exchange_name: PAR, original_name: PAR:CTD\n#"
+
+
+    parameter_text = parameter_text.split('\n')
+
+
+    comments_start_text = "# Start of ORIGINATOR file comment header\n#"
+
+    comments_start_text = comments_start_text.split('\n')
 
     comments.extend(castno_text)
     comments.extend(url_text)
+    comments.extend(parameter_text)
     comments.extend(comments_start_text)
     comments.extend(header_comments)
     comments.append("#")
