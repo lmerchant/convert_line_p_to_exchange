@@ -75,6 +75,11 @@ Sigma-t:CTD [kg/m^3] and Sigma-t:CTD {kg/m^3]
 There was a comments column for the 2010 cruise with id 01, and this was skipped.
 
 Some data files call CTDSAL, CTDXMISS, and CTDFLUOR with different names and units, so account for this when importing columns. In the raw concatenated file, the units are included in the column header name. These are split out to create the Exchange file.
+
+Did not rename PAR to CTDPAR because it can cause problems when using JOA.
+That's because JOA searches for pressure by checking if name includes CTDP and
+unfortunally, CTDPAR would be seen as pressure. At a future date, this
+may change and PAR would be renamed CTDPAR in the exchange files.
                            
   'whpname' : 'CTDPRS' , 'longname':'Pressure:CTD [dbar]', 'units' : 'DBAR'
 
@@ -335,11 +340,12 @@ STNBR is P1/B8
 
 Using python 3.7.5
 
-1) To Install as a package
-pip3 install convertLinePtoExchange
+Create virtual environment first
 
-2) To use in an environment
-python -m virtualenv env
+followed by installing dependencies
+''' 
+pip3 install -r requirements.txt 
+'''
 
 
 ## Packages used
@@ -351,16 +357,44 @@ Main packages used are numpy and pandas
 
 A config file is required to identify if integration testing to be run or run main program to create files. An output folder name is required and cruise list to map canadian line p cruise id to expocode. Config file CRUISE_LIST defines which raw files are processed. Match cruise id to expocode id. Use cruise report dates to create expocode want to upload data to.
 
-Config file config.py must be in same folder 
+Configuration file config.py must be in same folder as the program
 
-Make sure TESTING is set to False
+Make sure TESTING is set to False. This is a flag used when running
+integration tests
 
 
 ## Running the code
 
-Activate the environment with the command 'source env/bin/activate' and run the following at the command line,
 
+With the program installed (see "Setup environment"), run the following at the command line:
+
+With the program installed (see "Setup environment"), activate the 
+virtual environment and run the following at the command line,
+'''
 python3 convert_line_p_to_exchange.py
+'''
+
+
+# zip files up for each line for submitting to CCHDO
+
+From within the data output folder exchange_line_p_data, run the zip job
+'''
+./zip_folders.job
+'''
+
+This will create zipped archives of each line
+
+
+# Test the Exchange data format of output
+
+Check Exchange format of output files using uow (A command internal to CCHDO)
+
+From within the data output folder exchange_line_p_data, run the uow job
+'''
+./uow_check.job
+'''
+
+This will produce uow output files to manually check if any errors.
 
 
 # To test the code
@@ -375,9 +409,15 @@ python -m pytest
 from the command line. 
 
 
-## Integration Tests (Fix documentation of these)
+## Integration Tests
 
-### Data output testing
+### Input and output data for integration testing 
+
+Input data files for integration testing are in folder tests/data
+
+Output data files from integration testing are in folder tests/output
+
+#### Input data files for integration testing
 
 1) file: data_to_test_castno.csv
    Testing: 
@@ -468,12 +508,21 @@ from the command line.
    to replace slash with a dash in file name.
 
 
+#### Output data files for integration testing
+
+Output files of tests/data are in the folder tests/output
+
+They are in the Exchange format and are checked by eye that
+the conversion satisfys that being tested.
+
+
 ### To run integration tests
-Change TESTING variable in config.py to True. 
+
+Change TESTING flag variable in config.py to True. 
 
 Run
 '''
-python tests/integration_testing.py
+python3 tests/integration_testing.py
 '''
 
 
