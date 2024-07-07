@@ -3,6 +3,7 @@ import datetime
 import csv
 from urllib.request import urlopen
 import pathlib
+from datetime import date
 
 import utilities.headers as headers
 import utilities.data_columns as data_columns
@@ -103,9 +104,75 @@ def write_dataframe_to_csv(data_columns_df, ctd_filename, start_line, end_line, 
         f.write("{}\n".format(end_line))
 
 
+def get_citation_text():
+
+    filename = 'citation.txt'
+
+    with open(filename, 'r') as f:
+        citation_text = f.read().splitlines()
+
+    return citation_text
+
+
+def get_cchdo_header_text():
+
+    filename = 'cchdo_header.txt'
+
+    with open(filename, 'r') as f:
+        citation_text = f.read().splitlines()
+
+    return citation_text
+
+
+def get_originator_file_date(header_comments):
+
+    originator_file_date = header_comments[0]
+
+    # strip off #* from front and keep yyyy/mm/dd part
+    file_date = originator_file_date[2:12]
+
+    # Convert to format yyyy-mm-dd
+    file_date = datetime.datetime.strptime(file_date, '%Y/%m/%d').strftime('%Y-%m-%d')
+
+    return file_date
+
+
+def get_concatenated_file_url(cruise_identifier):
+
+    #https://www.waterproperties.ca/linep/2017-01/donneesctddata/2017-01-ctd-cruise.csv
+
+    url = f"https://www.waterproperties.ca/linep/{cruise_identifier}/donneesctddata/{cruise_identifier}-ctd-cruise.csv"
+
+    return url
+
+
+def get_linep_cruise_page_url(cruise_identifier):
+
+    #https://www.waterproperties.ca/linep/2018-026/index.php
+
+    url = f"https://www.waterproperties.ca/linep/{cruise_identifier}/index.php"
+
+    return url
+
+
+def get_cchdo_cruise_page_url(expocode):
+
+    url = f"https://cchdo.ucsd.edu/cruise/{expocode}"
+
+    return url
+
+
+def replace_string_in_list(starting_list, str_to_find, str_to_replace):
+
+    ending_list = list(map(lambda str_line: str.replace(str_line, str_to_find, str_to_replace), starting_list)) 
+
+    return ending_list
+
+
 def create_header(header_comments, citation_text, url):
-    
-    comments = citation_text
+
+    comments = []
+
 
     # The individual file is for one STNNBR and one EVENT NUMBER
 
@@ -130,24 +197,53 @@ def create_header(header_comments, citation_text, url):
 
     comments_start_text = comments_start_text.split('\n')
 
-    comments.extend(castno_text)
+
+    comments.extend(citation_text)
+    comments.extend(castno_text) 
     comments.extend(url_text)
     comments.extend(parameter_text)
     comments.extend(comments_start_text)
     comments.extend(header_comments)
     comments.append("#")
 
+
     return comments
 
 
-def get_citation_text():
+def create_header2(header_comments, citation_text, cchdo_header_text, url_individual, url_concatenated, url_linep_cruise_page, expocode, cruise_identifier):
 
-    filename = 'citation.txt'
+    comments = []
 
-    with open(filename, 'r') as f:
-        citation_text = f.read().splitlines()
+    # Replace text holders
 
-    return citation_text
+    originator_file_date = get_originator_file_date(header_comments)
+
+    today = date.today()
+    cchdo_obtained_date = d1 = today.strftime("%Y-%m-%d")
+
+    # TODO get dfo creation date from individual file
+    citation_text = replace_string_in_list(citation_text, '<DFO CREATION DATE>',
+        originator_file_date)    
+
+    citation_text = replace_string_in_list(citation_text, '<EXPOCODE>', expocode)
+
+
+    cchdo_header_text = replace_string_in_list(cchdo_header_text, '<CONCATENATED_FILE_LINK>', url_concatenated)   
+
+
+    cchdo_header_text = replace_string_in_list(cchdo_header_text, '<CRUISE_IDENTIFIER>', cruise_identifier)
+
+    cchdo_header_text = replace_string_in_list(cchdo_header_text, '<CRUISE_PAGE_LINK>', url_linep_cruise_page) 
+
+    cchdo_header_text = replace_string_in_list(cchdo_header_text, '<INDIVIDUAL_FILE_LINK>', url_individual)    
+
+
+    comments.extend(citation_text)
+    comments.extend(cchdo_header_text)
+    comments.extend(header_comments)
+    comments.append("#")
+
+    return comments
 
 
 def get_file_text(url):
@@ -243,7 +339,7 @@ def get_line_p_cruise_id(expocode, cruise_list):
     return line_p_year, line_p_id
 
 
-def get_individual_raw_file(expocode, data_set):
+def get_individual_raw_file_url(expocode, data_set):
 
     """
     Get url of individual raw file
@@ -363,6 +459,19 @@ def write_data_to_file(station_castno_df_sets, comment_header, data_params):
     
     citation_text = get_citation_text()
 
+    cchdo_header_text = get_cchdo_header_text()
+
+    # Get cruise list mapping of cruise ids to expocodes
+    cruise_list = process_raw_data.get_cruise_list()
+    cruise_identifier_tuple = get_line_p_cruise_id(expocode, cruise_list)
+    cruise_identifier = '-'.join(cruise_identifier_tuple)
+
+    url_concatenated = get_concatenated_file_url(cruise_identifier)
+
+    url_linep_cruise_page = get_linep_cruise_page_url(cruise_identifier)
+
+    #url_cchdo_cruise_page = get_cchdo_cruise_page_url(expocode)
+
     # Create column names and data units lines
     column_headers = headers.create_column_headers(data_params)
 
@@ -378,13 +487,14 @@ def write_data_to_file(station_castno_df_sets, comment_header, data_params):
 
 
         # Get url of individal raw file to get header
-        url = get_individual_raw_file(expocode, data_set)
+        url_individual = get_individual_raw_file_url(expocode, data_set)
 
         # If raw file found, use that header, else use comment_header from 
         # concatenated file
-        header_comments = choose_raw_file_header(url, comment_header, ctd_filename)
+        header_comments1 = choose_raw_file_header(url_individual, comment_header, ctd_filename)
 
-        header_comments = create_header(header_comments, citation_text, url)
+        #header_comments = create_header(header_comments1, citation_text, url)
+        header_comments = create_header2(header_comments1, citation_text, cchdo_header_text, url_individual, url_concatenated, url_linep_cruise_page,expocode, cruise_identifier)
 
         # Get data columns from dataframe
         data_columns_df = data_columns.get_data_columns(data_set, data_params)
