@@ -40,7 +40,7 @@ def test_create_metadata_header():
 
     testing_df = pd.DataFrame(data, columns = column_names)
 
-    expected_header = ['NUMBER_HEADERS = 8', 'EXPOCODE = <expocode>','STNBR = P4','CASTNO = P4_2','DATE = 20170207','TIME = 1640','LATITUDE = 48.6485', 'LONGITUDE = -126.667'] 
+    expected_header = ['NUMBER_HEADERS = 8', 'EXPOCODE = <expocode>','STNNBR = P4','CASTNO = P4_2','DATE = 20170207','TIME = 1640','LATITUDE = 48.6485', 'LONGITUDE = -126.667', 'EVENT_NUMBER = 18'] 
 
     real_header = create_metadata_header(testing_df)
 

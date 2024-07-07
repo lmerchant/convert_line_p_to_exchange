@@ -81,10 +81,11 @@ def test_get_ctd_filename(station_variation_sets):
     assert real_filename3 == expected_filename3
 
 
-def test_get_individual_raw_file(monkeypatch):
+def test_get_individual_raw_file_url(monkeypatch):
 
     column_names = ['File Name', 'Zone', 'DATE', 'TIME', 'EVENT', 'LATITUDE', 'LONGITUDE', 'EXPOCODE', 'STATION', 'CASTNO', 'INS:LOCATION', 'CTDPRS']
 
+    # Sample data has event # = 18
     data = [['2017-01-0017.ctd', 'UTC', '20170207', '1640', '18', '48.6485', '-126.667', '<expocode>', 'P4', '10', 'Mid-ship', '2'], ['2017-01-0017.ctd', 'UTC', '20170207', '1640', '18', '48.6485', '-126.667', '<expocode>', 'P4', '10', 'Mid-ship', '2']]
 
     testing_df1 = pd.DataFrame(data, columns = column_names)
@@ -103,7 +104,7 @@ def test_get_individual_raw_file(monkeypatch):
 
     expocode = '<expocode>'
 
-    real_url = get_individual_raw_file(expocode, testing_df1)
+    real_url = get_individual_raw_file_url(expocode, testing_df1)
 
     assert real_url == expected_url
 
