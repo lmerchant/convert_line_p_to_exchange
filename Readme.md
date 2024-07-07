@@ -197,7 +197,8 @@ Look at format of data sets and find out date and time
 formats and which need to be converted to exchange format.
 
 Dates use both / and - in dates. File says dates of form YYYY/MM/DD but
-really of form DD-MM-YY or DD/MM/YYYY. Will be converted to exchange YYYYMMDD
+really of form DD-MM-YY, DD-MM-YYY or DD/MM/YYYY. 
+Will be converted to exchange YYYYMMDD
 
 For FIL:START TIME YYYY/MM/DD, use two different versions for date
 
@@ -217,6 +218,7 @@ Time has : in value, HH:MM, and will be converted to exchange format HHMM
 
 ### Dates
 Dates are different than column reports. Sometimes / separated and others - separated. 
+And some use 2 digit year and other 4 digit year
 
 ### Parameters
 Files had different column names and units for same exchange column
