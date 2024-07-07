@@ -43,14 +43,16 @@ def create_metadata_header(data_set):
 
 
     # CASTNO is an integer so cast to string
+    # EVENT_NUMBER is and integer so cast to string
 
     metadata_header.append('EXPOCODE = ' + first_row['EXPOCODE'])
-    metadata_header.append('STNBR = ' + first_row['STATION'])
+    metadata_header.append('STNNBR = ' + first_row['STATION'])
     metadata_header.append('CASTNO = ' + str(first_row['CASTNO']))
     metadata_header.append('DATE = ' + first_row['DATE'])
     metadata_header.append('TIME = ' + first_row['TIME'])
     metadata_header.append('LATITUDE = ' + first_row['LATITUDE'])
     metadata_header.append('LONGITUDE = ' + first_row['LONGITUDE'])
+    metadata_header.append('EVENT_NUMBER = ' + str(first_row['EVENT']))
 
 
     # NUMBER_HEADERS counts all metadata values plus itself
