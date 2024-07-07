@@ -91,13 +91,15 @@ def insert_flag_colums(df, data_params):
         param_loc = df.columns.get_loc(param_name)
         flag_name = '{}_FLAG_W'.format(param_name)
 
+        # Insert flag param dict into data_params list.
+        # Want this so know which columns to extract for saving output and
+        # keep order of newly inserted flag column after param column
+
         # Insert in next column
         # Will move all other columns to right
         df.insert(param_loc + 1, flag_name, 2)
 
-        # Insert flag param dict into data_params list.
-        # Want this so know which columns to extract for saving output and
-        # keep order of newly inserted flag column after param column
+        # Now insert flag values into params dict
         param_insert = {}
         param_insert['whpname'] = flag_name
         param_insert['longname'] = flag_name
@@ -255,23 +257,36 @@ def reformat_date_column(df):
 
     """
 
+    # check if date format of type (dd-mm-yyyy)
+    dash_pattern_4yr = r'(\d\d)-(\d\d)-(\d\d\d\d)'
+    dash_regexp_4yr = re.compile(dash_pattern_4yr)    
+    dash_match_4yr = dash_regexp_4yr.search(df['DATE'][0])
+
     # check if date format of type (dd-mm-yy)
-    dash_pattern = r'(\d\d)-(\d\d)-(\d\d)'
-    dash_regexp = re.compile(dash_pattern)    
-    dash_match = dash_regexp.search(df['DATE'][0])
+    dash_pattern_2yr = r'(\d\d)-(\d\d)-(\d\d)'
+    dash_regexp_2yr = re.compile(dash_pattern_2yr)    
+    dash_match_2yr = dash_regexp_2yr.search(df['DATE'][0])
 
     # check if date format of type (dd/mm/yyyy)
-    slash_pattern = r'(\d\d)/(\d\d)/(\d\d\d\d)'
-    slash_regexp = re.compile(slash_pattern)
-    slash_match = slash_regexp.search(df['DATE'][0])
+    slash_pattern1 = r'(\d\d)/(\d\d)/(\d\d\d\d)'
+    slash_regexp1 = re.compile(slash_pattern1)
+    slash_match1 = slash_regexp1.search(df['DATE'][0])
 
     # check if date format of type (yyyy/mm/dd)
     slash_pattern2 = r'(\d\d\d\d)/(\d\d)/(\d\d)'
-    slash_regexp = re.compile(slash_pattern2)
-    slash_match2 = slash_regexp.search(df['DATE'][0])
+    slash_regexp2 = re.compile(slash_pattern2)
+    slash_match2 = slash_regexp2.search(df['DATE'][0])
 
 
-    if dash_match:
+    if dash_match_4yr:
+
+        # 1) Reformat DATE column from dd-mm-yyyy to yyyymmdd
+
+        pattern = dash_pattern_4yr
+
+        repl = r'\3\2\1'
+
+    elif dash_match_2yr:
 
         # 1) Reformat DATE column from dd-mm-yy to yyyymmdd
 
@@ -281,27 +296,27 @@ def reformat_date_column(df):
 
         year = df['DATE'][0][-2:]
 
-        pattern = r'(\d\d)-(\d\d)-(\d\d)'
+        pattern = dash_pattern_2yr
 
         if int(year) < 40:
             repl = r'20\3\2\1'
         else:
             repl = r'19\3\2\1'
 
-    elif slash_match:
+    elif slash_match1:
 
         # 2) Reformat DATE column from dd/mm/yyyy to yyyymmdd
-        pattern = r'(\d\d)/(\d\d)/(\d\d\d\d)'
+        pattern = slash_pattern1
         repl = r'\3\2\1'
 
     elif slash_match2:
 
         # 3) Reformat DATE column from yyyy/mm/dd to yyyymmdd
-        pattern = r'(\d\d\d\d)/(\d\d)/(\d\d)'
+        pattern = slash_pattern2
         repl = r'\1\2\3'        
 
     else:
-        print('Date pattern of dd-mm-yy, dd/mm/yyyy, or yyyy/mm/dd not found.') 
+        print('Date pattern of dd-mm-yy, dd-mm-yyyy, dd/mm/yyyy, or yyyy/mm/dd not found.') 
         print('Check if in exchange format (yyyymmdd) or not.')
         print('If not in exchange format, create a new regexp to fix date format.')
 
